@@ -106,6 +106,18 @@
     <Image Include="assets\water.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\ColTex.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\player_anims.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\player_idle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\terrain_ss.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2dRPG.rc">
