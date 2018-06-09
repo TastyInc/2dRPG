@@ -22,8 +22,8 @@ public:
 	void render();
 	void clean();
 	
-	const int WINDOW_WIDTH = 800;
-	const int WINDOW_HEIGHT = 640;
+	const static int WINDOW_WIDTH = 1600;
+	const static int WINDOW_HEIGHT = 1120;
 
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
