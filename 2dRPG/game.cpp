@@ -1,9 +1,11 @@
-#include "game.hpp"
+#include "Game.hpp"
 #include "TextureManager.hpp"
 #include "Map.hpp"
 #include "Components.hpp"
 #include "Vector2D.hpp"
 #include "Collision.hpp"
+#include "AssetManager.hpp"
+#include <sstream>
 
 Map* map;
 Manager manager;
@@ -12,6 +14,8 @@ SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
 SDL_Rect Game::camera = { 0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH };
+
+AssetManager* Game::assets = new AssetManager(&manager);
 
 bool Game::isRunning = false;
 
@@ -52,12 +56,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	map = new Map("assets/terrain_ss.png", 3, 32);
+	assets->AddTexture("terrain", "assets/terrain_ss.png");
+	assets->AddTexture("player", "assets/player_anims.png");
+
+	map = new Map("terrain", 3, 32);
 
 	map->LoadMap("assets/map.map", 25, 20);
 
 	player.addComponent<TransformComponent>(4);
-	player.addComponent<SpriteComponent>("assets/player_anims.png", true);
+	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
