@@ -66,7 +66,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<TransformComponent>(4);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
-	player.addComponent<ColliderComponent>("player");
+	player.addComponent<ColliderComponent>("player", 0, 0, 64, 32, true);
 	player.addGroup(groupPlayers);
 }
 
@@ -90,6 +90,7 @@ void Game::handleEvents() {
 void Game::update() { 
 	
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
+	std::cout << playerCol.h << "\t" << playerCol.w << "\t" << playerCol.x << "\t" << playerCol.y << std::endl;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
 
 	manager.refresh();

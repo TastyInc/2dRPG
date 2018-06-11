@@ -16,6 +16,8 @@ public:
 
 	TransformComponent* transform;
 
+	bool fixedSize = false;
+
 	ColliderComponent(std::string t) {
 		tag = t;
 	}
@@ -25,6 +27,16 @@ public:
 		collider.x = xpos;
 		collider.y = ypos;
 		collider.h = collider.w = size;
+	}
+
+	//player, enemies etc. with collider != sprite
+	ColliderComponent(std::string t, int xpos, int ypos, int w, int h, bool fS) {
+		tag = t;
+		collider.x = xpos;
+		collider.y = ypos;
+		collider.h = h;
+		collider.w = w;
+		fixedSize = fS;
 	}
 
 	void init() override {
@@ -46,8 +58,10 @@ public:
 		if (tag != "terrain") {
 			collider.x = static_cast<int>(transform->position.x);
 			collider.y = static_cast<int>(transform->position.y);
-			collider.w = transform->width * transform->scale;
-			collider.h = transform->height * transform->scale;
+			if (!fixedSize) {
+				collider.w = transform->width * transform->scale;
+				collider.h = transform->height * transform->scale;
+			}
 		}
 
 		destR.x = collider.x - Game::camera.x;
