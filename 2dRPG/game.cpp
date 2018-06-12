@@ -58,6 +58,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	assets->AddTexture("terrain", "assets/terrain_beach.png");
 	assets->AddTexture("player", "assets/player_anims.png");
+	assets->AddTexture("projectile", "assets/proj.png");
 
 	map = new Map("terrain", 3, 32);
 
@@ -69,14 +70,18 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
 	player.addGroup(groupPlayers);
 
+	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 0), 300, 2, "projectile");
+
 	//WRONG
 	camera.h = 35 * 32 * 3;
 	camera.w = 60 * 32 * 3;
 }
 
+//list of all entities for updating
 auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
+auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 void Game::handleEvents() {
 
@@ -123,6 +128,13 @@ void Game::update() {
 		}
 	}
 
+	for (auto& p : projectiles) {
+		if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider)) {
+			//health etc. here
+			p->destroy();
+		}
+	}
+
 	camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - WINDOW_WIDTH / 2);
 	camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - WINDOW_HEIGHT / 2);
 
@@ -152,6 +164,10 @@ void Game::render() {
 	}
 
 	for (auto& p : players) { //for each T in tiles
+		p->draw();
+	}
+
+	for (auto& p : projectiles) {
 		p->draw();
 	}
 

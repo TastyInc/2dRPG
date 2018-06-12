@@ -168,6 +168,7 @@
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="KeyboardController.hpp" />
     <ClInclude Include="Map.hpp" />
+    <ClInclude Include="ProjectileComponent.hpp" />
     <ClInclude Include="TileComponent.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
     <ClInclude Include="resource.h" />

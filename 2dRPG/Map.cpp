@@ -34,7 +34,6 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY) {
 			AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
 			mapFile.ignore();
 
-			std::cout << srcX << " " << srcY << std::endl;
 		}
 	}
 
