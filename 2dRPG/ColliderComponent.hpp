@@ -17,6 +17,8 @@ public:
 	TransformComponent* transform;
 
 	bool fixedSize = false;
+	int xOffset = 0;
+	int yOffset = 0;
 
 	ColliderComponent(std::string t) {
 		tag = t;
@@ -30,10 +32,10 @@ public:
 	}
 
 	//player, enemies etc. with collider != sprite
-	ColliderComponent(std::string t, int xpos, int ypos, int w, int h, bool fS) {
+	ColliderComponent(std::string t, int xOff, int yOff, int w, int h, bool fS) {
 		tag = t;
-		collider.x = xpos;
-		collider.y = ypos;
+		xOffset = xOff;
+		yOffset = yOff;
 		collider.h = h;
 		collider.w = w;
 		fixedSize = fS;
@@ -56,8 +58,9 @@ public:
 
 		//Collider only works on layers "above" the terrain
 		if (tag != "terrain") {
-			collider.x = static_cast<int>(transform->position.x);
-			collider.y = static_cast<int>(transform->position.y);
+			collider.x = static_cast<int>(transform->position.x) + xOffset;
+			collider.y = static_cast<int>(transform->position.y) + yOffset;
+
 			if (!fixedSize) {
 				collider.w = transform->width * transform->scale;
 				collider.h = transform->height * transform->scale;

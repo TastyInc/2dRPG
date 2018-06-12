@@ -46,7 +46,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			
 			renderer = SDL_CreateRenderer(window, -1, 0);
 			if (renderer) {
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 5);
 				std::cout << "Renderer created!" << std::endl;
 
 				isRunning = true;
@@ -56,18 +56,22 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	assets->AddTexture("terrain", "assets/terrain_ss.png");
+	assets->AddTexture("terrain", "assets/terrain_beach.png");
 	assets->AddTexture("player", "assets/player_anims.png");
 
 	map = new Map("terrain", 3, 32);
 
-	map->LoadMap("assets/map.map", 25, 20);
+	map->LoadMap("assets/map_beach.map", 60, 35);
 
 	player.addComponent<TransformComponent>(4);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
-	player.addComponent<ColliderComponent>("player", 0, 0, 64, 32, true);
+	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
 	player.addGroup(groupPlayers);
+
+	//WRONG
+	camera.h = 35 * 32 * 3;
+	camera.w = 60 * 32 * 3;
 }
 
 auto& tiles(manager.getGroup(Game::groupMap));
@@ -90,7 +94,6 @@ void Game::handleEvents() {
 void Game::update() { 
 	
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
-	std::cout << playerCol.h << "\t" << playerCol.w << "\t" << playerCol.x << "\t" << playerCol.y << std::endl;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
 
 	manager.refresh();
@@ -99,26 +102,42 @@ void Game::update() {
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-		if (Collision::AABB(cCol, playerCol)) {
-			player.getComponent<TransformComponent>().position = playerPos;
+
+		switch (Collision::AABBxy(cCol, playerCol)){
+			case 0:
+				break;
+			case 1:
+				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 1.0f;
+				break;
+			case 3:
+				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 1.0f;
+				break;
+			case 2:
+				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset + 1.0f;
+				break;
+			case 4:
+				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 1.0f;
+				break;
+			default:
+				break;
 		}
 	}
 
 	camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - WINDOW_WIDTH / 2);
 	camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - WINDOW_HEIGHT / 2);
 
-	if  (camera.x < 0) 
-		{camera.x = 0;}
-	if  (camera.y < 0) 
-		{camera.y = 0;}
-	if	(camera.x > camera.w) 
-		{camera.x = camera.w; }
-	if  (camera.y > camera.h) 
-		{camera.y = camera.h; }
-
-	//for (auto cc : colliders) {
-	//	Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
-	//}
+	if (camera.x < 0){
+		camera.x = 0;
+	}
+	if (camera.y < 0){
+		camera.y = 0;
+	}
+	if (camera.x > camera.w){
+		camera.x = camera.w;
+	}
+	if (camera.y > camera.h){
+		camera.y = camera.h;
+	}
 }
 
 void Game::render() {

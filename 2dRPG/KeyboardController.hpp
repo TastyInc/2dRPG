@@ -31,9 +31,12 @@ public:
 				break;
 			case SDLK_a:
 				aPressed = true;
+				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 				break;
 			case SDLK_d:
+
 				dPressed = true;
+				sprite->spriteFlip = SDL_FLIP_NONE;
 				break;
 			default:
 				break;

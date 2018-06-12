@@ -28,8 +28,8 @@ public:
 	static bool isRunning;
 	static SDL_Rect camera;
 
-	const static int WINDOW_WIDTH = 1600;
-	const static int WINDOW_HEIGHT = 1120;
+	const static int WINDOW_WIDTH = 1280;
+	const static int WINDOW_HEIGHT = 864;
 
 	enum groupLabels : std::size_t {
 		groupMap,

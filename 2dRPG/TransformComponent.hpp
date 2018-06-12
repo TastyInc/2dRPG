@@ -23,9 +23,10 @@ public:
 		position.Zero();
 	}
 
+	//init pos für player. de speter no endere für enemies etc
 	TransformComponent(int sc) {
-		position.x = 400;
-		position.y = 320;
+		position.x = 900;
+		position.y = 700;
 		scale = sc;
 	}
 

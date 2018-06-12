@@ -22,6 +22,8 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY) {
 
 	int srcX, srcY;
 
+
+
 	for (int y = 0; y < sizeY; y++) {
 		for (int x = 0; x < sizeX; x++) {
 
@@ -31,6 +33,8 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY) {
 			srcX = atoi(&c) * tileSize;
 			AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
 			mapFile.ignore();
+
+			std::cout << srcX << " " << srcY << std::endl;
 		}
 	}
 
