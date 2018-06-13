@@ -20,6 +20,8 @@ AssetManager* Game::assets = new AssetManager(&manager);
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
+auto& label(manager.addEntity());
+
 
 Game::Game() {
 
@@ -56,9 +58,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
+	if (TTF_Init() == -1) {
+		std::cout << "ERROR: SDL_TTF" << std::endl;
+	}
+
 	assets->AddTexture("terrain", "assets/terrain_beach.png");
 	assets->AddTexture("player", "assets/player_anims.png");
 	assets->AddTexture("projectile", "assets/proj.png");
+
+	assets->AddFont("arial", "assets/arial.ttf", 30);
 
 	map = new Map("terrain", 3, 32);
 
@@ -70,11 +78,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
 	player.addGroup(groupPlayers);
 
+	SDL_Color white = { 255, 255, 255, 255 };
+	label.addComponent<UILable>(10, 10, "test string", "arial", white);
+
+	//ADD PROJECTILES HERE
 	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 0), 300, 2, "projectile");
 
-	//WRONG
-	camera.h = 35 * 32 * 3;
-	camera.w = 60 * 32 * 3;
+	camera.h = 35 * 32 * 3 - WINDOW_HEIGHT;
+	camera.w = 60 * 32 * 3 - WINDOW_WIDTH;
 }
 
 //list of all entities for updating
@@ -100,6 +111,12 @@ void Game::update() {
 	
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
+	
+	std::stringstream strstr;
+
+	strstr << "Player Position: " << playerPos;
+
+	label.getComponent<UILable>().SetLableText(strstr.str(), "arial");
 
 	manager.refresh();
 	manager.update();
@@ -112,16 +129,16 @@ void Game::update() {
 			case 0:
 				break;
 			case 1:
-				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 1.0f;
+				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 2.0f;
 				break;
 			case 3:
-				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 1.0f;
+				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 2.0f;
 				break;
 			case 2:
-				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset + 1.0f;
+				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset + 2.0f;
 				break;
 			case 4:
-				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 1.0f;
+				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 2.0f;
 				break;
 			default:
 				break;
@@ -170,6 +187,8 @@ void Game::render() {
 	for (auto& p : projectiles) {
 		p->draw();
 	}
+
+	label.draw();
 
 	SDL_RenderPresent(renderer);
 }

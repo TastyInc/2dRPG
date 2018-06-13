@@ -22,8 +22,6 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY) {
 
 	int srcX, srcY;
 
-
-
 	for (int y = 0; y < sizeY; y++) {
 		for (int x = 0; x < sizeX; x++) {
 
