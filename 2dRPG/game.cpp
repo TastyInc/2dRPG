@@ -62,15 +62,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		std::cout << "ERROR: SDL_TTF" << std::endl;
 	}
 
-	assets->AddTexture("terrain", "assets/terrain_beach.png");
 	assets->AddTexture("player", "assets/player_anims.png");
 	assets->AddTexture("projectile", "assets/proj.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 30);
 
-	map = new Map("terrain", 3, 32);
+	map = new Map();
 
-	map->LoadMap("assets/map_beach.map", 60, 35);
+	map->LoadMap(1, 1);
 
 	player.addComponent<TransformComponent>(4);
 	player.addComponent<SpriteComponent>("player", true);
@@ -112,11 +111,11 @@ void Game::update() {
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
 	
-	std::stringstream strstr;
+	//std::stringstream strstr;
 
-	strstr << "Player Position: " << playerPos;
+	//strstr << "Player Position: " << playerPos;
 
-	label.getComponent<UILable>().SetLableText(strstr.str(), "arial");
+	label.getComponent<UILable>().SetLableText("NIGGER", "arial");
 
 	manager.refresh();
 	manager.update();
@@ -140,11 +139,13 @@ void Game::update() {
 			case 4:
 				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 2.0f;
 				break;
+
 			default:
 				break;
 		}
 	}
 
+	//collision projectiles
 	for (auto& p : projectiles) {
 		if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider)) {
 			//health etc. here

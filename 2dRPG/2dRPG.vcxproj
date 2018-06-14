@@ -155,6 +155,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="ProjectileComponent.hpp" />
     <ClInclude Include="TileComponent.hpp" />
+    <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="TransformComponent.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SpriteComponent.hpp" />

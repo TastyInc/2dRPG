@@ -24,19 +24,16 @@ public:
 		if (Game::event.type == SDL_KEYDOWN) {
 			switch (Game::event.key.keysym.sym)	{
 			case SDLK_w:
-				wPressed = true;
+				transform->velocity.y = -1;
 				break;
 			case SDLK_s:
-				sPressed = true;
+				transform->velocity.y = 1;
 				break;
 			case SDLK_a:
-				aPressed = true;
-				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+				transform->velocity.x = -1;
 				break;
 			case SDLK_d:
-
-				dPressed = true;
-				sprite->spriteFlip = SDL_FLIP_NONE;
+				transform->velocity.x = 1;
 				break;
 			default:
 				break;
@@ -46,16 +43,16 @@ public:
 		if (Game::event.type == SDL_KEYUP) {
 			switch (Game::event.key.keysym.sym) {
 			case SDLK_w:
-				wPressed = false;
+				transform->velocity.y = 0;
 				break;
 			case SDLK_s:
-				sPressed = false;
+				transform->velocity.y = 0;
 				break;
 			case SDLK_a:
-				aPressed = false;
+				transform->velocity.x = 0;
 				break;
 			case SDLK_d:
-				dPressed = false;
+				transform->velocity.x = 0;
 				break;
 			case SDLK_ESCAPE:
 				Game::isRunning = false;
@@ -65,34 +62,5 @@ public:
 			}
 		}
 
-		if (dPressed || aPressed || sPressed || wPressed) {
-			sprite->Play("Walk");
-
-			if (wPressed) {
-				transform->velocity.y = -1;
-			}
-
-			if (sPressed) {
-				transform->velocity.y = 1;
-			}
-
-			if (aPressed) {
-				transform->velocity.x = -1;
-			}
-
-			if (dPressed) {
-				transform->velocity.x = 1;
-			}
-		} else {
-			sprite->Play("Idle");
-		}
-
-		if (dPressed == false && aPressed == false) {
-			transform->velocity.x = 0;
-		}
-
-		if (wPressed == false && sPressed == false) {
-			transform->velocity.y = 0;
-		}
 	}
 };

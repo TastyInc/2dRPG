@@ -12,6 +12,16 @@ int Collision::AABBxy(const SDL_Rect& recA, const SDL_Rect& recB) {
 
 		double angle = atan2((recB.y + recB.h / 2) - (recA.y + recA.h / 2), (recB.x + recB.w / 2) - (recA.x + recA.w / 2)) * 180 / s_PI;
 
+		if (angle == 45.0f) {
+			return 5;
+		} else if (angle == 135.0f) {
+			return 5;
+		} else if (angle == -45.0f) {
+			return 5;
+		} else if (angle == -135.0f) {
+			return 5;
+		}
+
 		// <-P
 		if (angle > -45 && angle <= 0 || angle > 0 && angle <= 45) {
 			return 1;

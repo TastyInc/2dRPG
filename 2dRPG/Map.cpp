@@ -1,58 +1,119 @@
 #include "Map.hpp"
 #include "game.hpp"
-#include "fstream"
 #include "ECS.hpp"
 #include "Components.hpp"
+#include <string>
+#include "AssetManager.hpp"
 
 //Manager Object defined somewhere else
 extern Manager manager;
 
-Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(ts){
-	scaledSize = ms * ts;
+Map::Map() {
+
 }
 
 Map::~Map() {
 
 }
 
-void Map::LoadMap(std::string path, int sizeX, int sizeY) {
-	char c;
-	std::fstream mapFile;
-	mapFile.open(path);
+void Map::LoadMap(int mtID, int mcID) {
 
-	int srcX, srcY;
+	eResult = mapFile.LoadFile("assets/maps.xml");
+	if (eResult != XML_SUCCESS) {
+		std::cout << "could not load Mapfile" << std::endl;
+	}
 
-	for (int y = 0; y < sizeY; y++) {
-		for (int x = 0; x < sizeX; x++) {
+	XMLNode* root = mapFile.FirstChildElement("maps");
+	if (root == nullptr) {
+		//ERROR
+	}
 
-			mapFile.get(c);
-			srcY = atoi(&c) * tileSize;
-			mapFile.get(c);
-			srcX = atoi(&c) * tileSize;
+	mapTheme = root->FirstChildElement("maptheme");
+	mapTheme->QueryIntAttribute("id", &mapThemeID);
+
+	//loop through mapThemes
+	while (mapThemeID != 1){
+		mapTheme = mapTheme->NextSiblingElement("maptheme");
+		mapTheme->QueryIntAttribute("id", &mapThemeID);
+	}
+
+	if (mapTheme == nullptr) {
+		//error
+	}
+
+	mapScreen = mapTheme->FirstChildElement("mapscreen");
+	mapScreen->QueryIntAttribute("id", &mapScreenID);
+
+	//loop through mapSCreens
+	while (mapScreenID != 1) {
+		mapScreen = mapTheme->NextSiblingElement("mapscreen");
+		mapScreen->QueryIntAttribute("id", &mapThemeID);
+	}
+
+	if (mapScreen == nullptr) {
+		//error
+	}
+
+	mapAttributes = mapScreen->FirstChildElement("attributes");
+
+	if (mapAttributes == nullptr) {
+		//error
+	}
+
+	mapAttributes->QueryIntAttribute("width", &tilesX);
+	mapAttributes->QueryIntAttribute("height", &tilesY);
+	mapAttributes->QueryIntAttribute("scale", &mapScale);
+	mapAttributes->QueryIntAttribute("tilesize", &tileSize);
+	tileset = mapAttributes->Attribute("tileset");
+
+	scaledSize = mapScale * tileSize;
+
+	//texture vo de sprites hie
+	Game::assets->AddTexture("terrain", tileset);
+	
+	mapType = mapScreen->FirstChildElement("terrainmap");
+	std::string tilemapS = mapType->GetText();
+
+	tilemapS.erase(std::remove(tilemapS.begin(), tilemapS.end(), '\t'), tilemapS.end());
+	tilemapS.erase(std::remove(tilemapS.begin(), tilemapS.end(), '\n'), tilemapS.end());
+
+	int srcX, srcY, stringPos = 0;
+
+	for (int y = 0; y < tilesY; y++) {
+		for (int x = 0; x < tilesX; x++) {
+
+			srcY = (tilemapS[stringPos] - '0') * tileSize;
+			stringPos += 1;
+			srcX = (tilemapS[stringPos] - '0') * tileSize;
+			stringPos += 1;
 			AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
-			mapFile.ignore();
 
 		}
 	}
 
-	mapFile.ignore();
+	mapType = mapScreen->FirstChildElement("colmap");
+	tilemapS = mapType->GetText();
 
-	for (int y = 0; y < sizeY; y++) {
-		for (int x = 0; x < sizeX; x++) {
-			mapFile.get(c);
-			if (c == '1') {
+	tilemapS.erase(std::remove(tilemapS.begin(), tilemapS.end(), '\t'), tilemapS.end());
+	tilemapS.erase(std::remove(tilemapS.begin(), tilemapS.end(), '\n'), tilemapS.end());
+
+	stringPos = 0;
+
+	for (int y = 0; y < tilesY; y++) {
+		for (int x = 0; x < tilesX; x++) {
+
+			if (tilemapS[stringPos] == '1') {
 				auto& tcol(manager.addEntity());
 				tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
 				tcol.addGroup(Game::groupColliders);
 			}
-			mapFile.ignore();
+			stringPos += 1;
 		}
 	}
-	mapFile.close();
 }
 
 void Map::AddTile(int srcX, int srcY, int xpos, int ypos) {
 	auto& tile(manager.addEntity());
-	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos,tileSize, mapScale, texID);
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, "terrain");
 	tile.addGroup(Game::groupMap);
 }
