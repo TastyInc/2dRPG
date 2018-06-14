@@ -4,6 +4,9 @@
 #include <iostream>
 #include <vector>
 #include "AssetManager.hpp"
+#include "SceneManager.hpp"
+#include "Vector2D.hpp"
+
 #undef main
 
 class AssetManager;
@@ -21,12 +24,14 @@ public:
 	bool running() { return isRunning; };
 	void render();
 	void clean();
+	void renderMenu();
 	
 	static AssetManager* assets;
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
 	static bool isRunning;
 	static SDL_Rect camera;
+	static SceneManager *scene;
 
 	const static int WINDOW_WIDTH = 1280;
 	const static int WINDOW_HEIGHT = 864;
@@ -41,4 +46,6 @@ public:
 
 private:
 	SDL_Window *window;
+	Vector2D playerVel;
+	const char* playerSprite;
 };

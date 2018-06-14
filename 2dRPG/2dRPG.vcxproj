@@ -171,6 +171,7 @@
     <ClInclude Include="LevelComponent.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="ProjectileComponent.hpp" />
+    <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="TileComponent.hpp" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="TransformComponent.hpp" />

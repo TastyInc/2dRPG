@@ -1,4 +1,7 @@
 #pragma once
+
+#include "game.hpp"
+#include "ECS.hpp"
 #include "Components.hpp"
 #include "Vector2D.hpp"
 
@@ -8,7 +11,6 @@ private:
 	int ypos = 0;
 
 public:
-
 	Vector2D position;
 	Vector2D velocity;
 
@@ -49,6 +51,13 @@ public:
 	}
 
 	void update() override {
+		if (velocity.x != 0) {
+		
+		} else {
+			//sprite->Play("Idle");
+		}
+
+
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
 	}

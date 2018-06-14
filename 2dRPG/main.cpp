@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "SceneManager.hpp"
 
 Game *game = nullptr;
 
@@ -10,6 +11,8 @@ int main(int argc, const char * argv[]) {
 	Uint32 frameStart;
 	int frameTime;
 
+	int scene;
+
 	game = new Game();
 	game->init("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, game->WINDOW_WIDTH, game->WINDOW_HEIGHT, false);
 
@@ -17,9 +20,20 @@ int main(int argc, const char * argv[]) {
 
 		frameStart = SDL_GetTicks();
 
-		game->handleEvents();
-		game->update();
-		game->render();
+		scene = Game::scene->getCurrentScene();
+
+		switch (scene){
+		case 1:
+			game->handleEvents();
+			game->update();
+			game->render();
+		case 2: 
+			game->handleEvents();
+			game->renderMenu();
+		default:
+			break;
+		}
+
 
 		frameTime = SDL_GetTicks() - frameStart;
 
