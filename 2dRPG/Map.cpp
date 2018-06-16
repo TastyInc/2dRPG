@@ -18,9 +18,9 @@ Map::~Map() {
 
 void Map::LoadMap(int mtID, int mcID) {
 
-	eResult = mapFile.LoadFile("assets/maps.xml");
+	eResult = mapFile.LoadFile("resources/maps.xml");
 	if (eResult != XML_SUCCESS) {
-		std::cout << "could not load Mapfile" << std::endl;
+		std::cout << "Could not load Mapfile" << std::endl;
 	}
 
 	XMLNode* root = mapFile.FirstChildElement("maps");
@@ -32,7 +32,7 @@ void Map::LoadMap(int mtID, int mcID) {
 	mapTheme->QueryIntAttribute("id", &mapThemeID);
 
 	//loop through mapThemes
-	while (mapThemeID != 1){
+	while (mapThemeID != mtID){
 		mapTheme = mapTheme->NextSiblingElement("maptheme");
 		mapTheme->QueryIntAttribute("id", &mapThemeID);
 	}
@@ -45,7 +45,7 @@ void Map::LoadMap(int mtID, int mcID) {
 	mapScreen->QueryIntAttribute("id", &mapScreenID);
 
 	//loop through mapSCreens
-	while (mapScreenID != 1) {
+	while (mapScreenID != mcID) {
 		mapScreen = mapTheme->NextSiblingElement("mapscreen");
 		mapScreen->QueryIntAttribute("id", &mapThemeID);
 	}
@@ -110,6 +110,8 @@ void Map::LoadMap(int mtID, int mcID) {
 			stringPos += 1;
 		}
 	}
+
+	//spritemap
 }
 
 void Map::AddTile(int srcX, int srcY, int xpos, int ypos) {

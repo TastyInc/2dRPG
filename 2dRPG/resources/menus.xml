@@ -1,0 +1,24 @@
+<menulist>
+	<menu id="1" name="main" background="">
+		<element id="1" type="button" name="play" text="Play"/>
+		<element id="2" type="button" name="options" text="Options"/>
+		<element id="3" type="button" name="extras" text="Extras"/>
+		<element id="4" type="button" name="trophyroom" text="Trophy Room"/>
+		<element id="5" type="button" name="quit" text="Quit"/>
+	</menu>
+	<menu id="2" name="options" background="">
+		<element id="1" type="bar" name="music" text="Music"/>
+		<element id="2" type="bar" name="soundeffects" text="Sound Effects"/>
+		<element id="1" type="button" name="main" text="Main Menu"/>
+		<element id="2" type="button" name="returntogame" text="Return to Game"/>
+	</menu>
+	<menu id="3" name="savefiles" background="">
+		<element id="1" type="button" name="main" text="Main Menu"/>		
+	</menu>
+	<menu id="4" type="button" name="trophyroom" background="">
+		<element id="1" type="button" name="main" text="Main Menu"/>	
+	</menu>
+	<menu id="5" name="extras" background="">
+		<element id="1" type="button" name="main" text="Main Menu"/>	
+	</menu>
+</menulist>

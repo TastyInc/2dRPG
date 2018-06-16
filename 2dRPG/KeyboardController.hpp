@@ -12,75 +12,130 @@ public:
 	void init() override {
 		transform = &entity->getComponent<TransformComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
+		playerVel.Zero();
+		walkingX = 0;
+		walkingY = 0;
 	}
 
-	void setVelocity(int velX, int velY) {
-		transform->velocity.x = float(velX);
-		transform->velocity.y = float(velY);
+	void setVelocity() {
+		if (pSprint) {
+			playerVel.x = sprintSpeed * walkingX;
+			playerVel.y = sprintSpeed * walkingY;
+		} else {
+			playerVel.x = walkingX;
+			playerVel.y = walkingY;
+		}
+
+		transform->velocity.x = playerVel.x;
+		transform->velocity.y = playerVel.y;
+	}
+
+	void keyInput() {
+		switch (Game::event.type) {
+		case SDL_QUIT:
+			Game::isRunning = false;
+			break;
+		case SDL_KEYDOWN:
+			switch (Game::event.key.keysym.sym) {
+			case SDLK_LSHIFT:
+				pSprint = true;
+				break;
+			case SDLK_w:
+				walkingY = -walkSpeed;
+				break;
+			case SDLK_s:
+				walkingY = walkSpeed;
+				break;
+			case SDLK_a:
+				walkingX = -walkSpeed;
+				break;
+			case SDLK_d:
+				walkingX = walkSpeed;
+				break;
+			case SDLK_o:
+				Game::scenes->setScene(0);
+				break;
+			case SDLK_i:
+				Game::scenes->setScene(1);
+				break;
+			default:
+				break;
+			}
+		}
+
+		switch (Game::event.type) {
+			case SDL_KEYUP:
+				switch (Game::event.key.keysym.sym) {
+				case SDLK_LSHIFT:
+					pSprint = false;
+					break;
+				case SDLK_w:
+				case SDLK_s:
+					walkingY = 0;
+					break;
+				case SDLK_a:
+				case SDLK_d:
+					walkingX = 0;
+					break;
+				case SDLK_ESCAPE:
+					Game::isRunning = false;
+					break;
+				default:
+					break;
+				}
+			default:
+				break;
+		}
+	
 	}
 
 	void update() override {
-		/*
-		if (Game::event.type == SDL_KEYDOWN) {
-			switch (Game::event.key.keysym.sym)	{
-			case SDLK_w:
-				transform->velocity.y = -1;
-				sprite->Play("WalkUp");
-				break;
-			case SDLK_s:
-				transform->velocity.y = 1;
-				break;
-			case SDLK_a:
-				transform->velocity.x = -1;
-				break;
-			case SDLK_d:
-				transform->velocity.x = 1;
-				break;
-			case SDLK_o:
-				Game::scene->setScene(2);
-			default:
-				break;
-			}
-		}
-
-		if (Game::event.type == SDL_KEYUP) {
-			switch (Game::event.key.keysym.sym) {
-			case SDLK_w:
-			case SDLK_s:
-				transform->velocity.y = 0;
-				break;
-			case SDLK_a:
-			case SDLK_d:
-				transform->velocity.x = 0;
-				break;
-			case SDLK_ESCAPE:
-				Game::isRunning = false;
-				break;
-			default:
-				break;
-			}
-		}*/
-
+		
 		if (transform->velocity.x == 0 && transform->velocity.y == 0) {
 			sprite->Play("Idle");
 		} else {
-			if (transform->velocity.x > 0) {
+			if (transform->velocity.x > 0) 
 				sprite->spriteFlip = SDL_FLIP_NONE;
-				sprite->Play("WalkLR");
-			}
 
-			if (transform->velocity.x < 0) {
+			if (transform->velocity.x < 0) 
 				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
-				sprite->Play("WalkLR");
+
+			if (transform->velocity.x != 0) {
+				if (pSprint) {
+					sprite->Play("SprintLR");
+				}
+				else {
+					sprite->Play("WalkLR");
+				}
 			}
 
 			if (transform->velocity.y > 0) {
-				sprite->Play("WalkDown");
+				if (pSprint) {
+					sprite->Play("SprintDown");
+				} else {
+					sprite->Play("WalkDown");
+				}
 			}
 
 			if (transform->velocity.y < 0) {
-				sprite->Play("WalkUp");
+				if (pSprint) {
+					sprite->Play("SprintUp");
+				}
+				else {
+					sprite->Play("WalkUp");
+				}
 			}
 		}
 	}
+private:
+	Vector2D playerVel;
+	float walkSpeed = 1;
+	float sprintSpeed = 2;
+
+	float walkingX;
+	float walkingY;
+
+	bool pSprint = false;
+	bool pMoving = false;
+
 };

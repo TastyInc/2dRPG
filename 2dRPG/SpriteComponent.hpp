@@ -37,11 +37,17 @@ public:
 		Animation walkUp = Animation(1, 8, 100);
 		Animation walkDown = Animation(2, 8, 100);
 		Animation walkLR = Animation(3, 8, 100);
+		Animation sprintUp = Animation(1, 8, 60);
+		Animation sprintDown = Animation(2, 8, 60);
+		Animation sprintLR = Animation(3, 8, 60);
 
 		animations.emplace("Idle", idle);
 		animations.emplace("WalkUp", walkUp);
 		animations.emplace("WalkDown", walkDown);
 		animations.emplace("WalkLR", walkLR);
+		animations.emplace("SprintUp", sprintUp);
+		animations.emplace("SprintDown", sprintDown);
+		animations.emplace("SprintLR", sprintLR);
 
 		Play("Idle");
 

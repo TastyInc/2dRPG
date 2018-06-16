@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_image.h"
+#include "TextureManager.hpp"
 #include <iostream>
 #include <vector>
 #include "AssetManager.hpp"
@@ -31,7 +32,7 @@ public:
 	static SDL_Event event;
 	static bool isRunning;
 	static SDL_Rect camera;
-	static SceneManager *scene;
+	static SceneManager* scenes;
 
 	const static int WINDOW_WIDTH = 1280;
 	const static int WINDOW_HEIGHT = 864;
@@ -46,6 +47,6 @@ public:
 
 private:
 	SDL_Window *window;
-	Vector2D playerVel;
 	const char* playerSprite;
+
 };

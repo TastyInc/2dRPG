@@ -1,14 +1,12 @@
 #include "Game.hpp"
-#include "TextureManager.hpp"
 #include "Map.hpp"
 #include "Components.hpp"
-#include "Vector2D.hpp"
 #include "Collision.hpp"
-#include "AssetManager.hpp"
 #include <sstream>
 
 Map* map;
 Manager manager;
+MenuHandler menuHandler;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
@@ -16,7 +14,8 @@ SDL_Event Game::event;
 SDL_Rect Game::camera = { 0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH };
 
 AssetManager* Game::assets = new AssetManager(&manager);
-SceneManager* Game::scene = new SceneManager();
+SceneManager* Game::scenes = new SceneManager(&menuHandler);
+
 
 bool Game::isRunning = false;
 
@@ -49,7 +48,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			
 			renderer = SDL_CreateRenderer(window, -1, 0);
 			if (renderer) {
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 5);
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 5);
 				std::cout << "Renderer created!" << std::endl;
 
 				isRunning = true;
@@ -63,10 +62,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		std::cout << "ERROR: SDL_TTF" << std::endl;
 	}
 
-	assets->AddTexture("player", "assets/new_player_idle.png");
-	assets->AddTexture("projectile", "assets/proj.png");
+	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
+	assets->AddTexture("projectile", "resources/sprites/proj.png");
 
-	assets->AddFont("arial", "assets/arial.ttf", 30);
+	assets->AddFont("arial", "resources/font/arial.ttf", 30);
 
 	map = new Map();
 
@@ -77,7 +76,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
 	player.addGroup(groupPlayers);
-	playerVel.Zero();
 
 	SDL_Color white = { 255, 255, 255, 255 };
 	label.addComponent<UILable>(10, 10, "test string", "arial", white);
@@ -99,56 +97,14 @@ void Game::handleEvents() {
 
 	SDL_PollEvent(&event);
 
-	switch (event.type) {
-	case SDL_QUIT:
-		isRunning = false;
-		break;
-	case SDL_KEYDOWN:
-		switch (event.key.keysym.sym) {
-			case SDLK_w:
-				playerVel.y = -1;
-				break;
-			case SDLK_s:
-				playerVel.y = 1;
-				break;
-			case SDLK_a:
-				playerVel.x = -1;
-				break;
-			case SDLK_d:
-				playerVel.x = 1;
-				break;
-			case SDLK_o:
-				Game::scene->setScene(2);
-			default:
-				break;
-		}
-	}
+	player.getComponent<KeyboardController>().keyInput();
 
-	switch (event.type) {
-	case SDL_KEYUP:			
-		switch (Game::event.key.keysym.sym) {
-			case SDLK_w:
-			case SDLK_s:
-				playerVel.y = 0;
-				break;
-			case SDLK_a:
-			case SDLK_d:
-				playerVel.x = 0;
-				break;
-			case SDLK_ESCAPE:
-				Game::isRunning = false;
-				break;
-			default:
-				break;
-			}	
-	default:
-		break;
-	}
+
 }
 
 void Game::update() { 
 	
-	player.getComponent<KeyboardController>().setVelocity(playerVel.x, playerVel.y);
+	player.getComponent<KeyboardController>().setVelocity();
 
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
@@ -195,8 +151,8 @@ void Game::update() {
 		}
 	}
 
-	camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - WINDOW_WIDTH / 2);
-	camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - WINDOW_HEIGHT / 2);
+	camera.x = static_cast<int>(playerPos.x - WINDOW_WIDTH / 2 + player.getComponent<TransformComponent>().width / 2);
+	camera.y = static_cast<int>(playerPos.y - WINDOW_HEIGHT / 2 + player.getComponent<TransformComponent>().height / 2);
 
 	if (camera.x < 0){
 		camera.x = 0;
@@ -237,6 +193,27 @@ void Game::render() {
 }
 
 void Game::renderMenu() {
+
+	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+	SDL_RenderClear(renderer);
+
+	
+	SDL_Texture* background = IMG_LoadTexture(renderer, "resources/sprites/firewatch.png");
+
+
+	SDL_RenderCopy(renderer, background, NULL, NULL);
+
+	SDL_SetRenderDrawColor(renderer, 150, 150, 150, 150);
+
+	for (int i = 0; i < scenes->menus->eleCount; i++){
+		SDL_RenderFillRect(renderer, &scenes->menus->menuRect[i]);
+	}
+
+
+
+
+	SDL_RenderPresent(renderer);
 
 }
 

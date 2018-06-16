@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "SceneManager.hpp"
 
 Game *game = nullptr;
 
@@ -20,16 +19,18 @@ int main(int argc, const char * argv[]) {
 
 		frameStart = SDL_GetTicks();
 
-		scene = Game::scene->getCurrentScene();
+		scene = Game::scenes->getCurrentScene();
+
+		game->handleEvents();
 
 		switch (scene){
-		case 1:
-			game->handleEvents();
+		case 0:
 			game->update();
 			game->render();
-		case 2: 
-			game->handleEvents();
+			break;
+		case 1: 
 			game->renderMenu();
+			break;
 		default:
 			break;
 		}
