@@ -7,6 +7,7 @@
 #include "AssetManager.hpp"
 #include "SceneManager.hpp"
 #include "Vector2D.hpp"
+#include "CameraHandler.hpp"
 
 #undef main
 
@@ -26,27 +27,36 @@ public:
 	void render();
 	void clean();
 	void renderMenu();
+	void newScene();
 	
 	static AssetManager* assets;
+	static SceneManager* scenes;
+	static CameraHandler* camera;
+
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
-	static bool isRunning;
-	static SDL_Rect camera;
-	static SceneManager* scenes;
 
 	const static int WINDOW_WIDTH = 1280;
 	const static int WINDOW_HEIGHT = 864;
+
+	static bool isRunning;
+
+	//Scene as in which menu, map, event etc..
+	int scene = 1;
 
 	enum groupLabels : std::size_t {
 		groupMap,
 		groupPlayers,
 		groupColliders,
-		groupProjectiles
+		groupProjectiles,
+		groupEnemies,
+		groupTexts,
 	};
 
 
 private:
 	SDL_Window *window;
 	const char* playerSprite;
+	SDL_Color white = { 255, 255, 255, 255 };
 
 };

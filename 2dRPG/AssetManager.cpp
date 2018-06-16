@@ -19,6 +19,13 @@ void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int s
 	projectile.addGroup(Game::groupProjectiles);
 }
 
+void AssetManager::createText(std::string text, Vector2D pos, std::string font, SDL_Color& color){
+	auto& gameText(manager->addEntity());
+
+	gameText.addComponent<UILable>(pos.x, pos.y, text, font, color);
+	gameText.addGroup(Game::groupTexts);
+}
+
 void AssetManager::AddTexture(std::string id, const char* path) {
 	textures.emplace(id, TextureManager::LoadTexture(path));
 }

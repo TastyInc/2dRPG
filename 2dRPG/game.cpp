@@ -11,25 +11,18 @@ MenuHandler menuHandler;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
-SDL_Rect Game::camera = { 0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH };
-
 AssetManager* Game::assets = new AssetManager(&manager);
 SceneManager* Game::scenes = new SceneManager(&menuHandler);
-
+CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH );
 
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
-auto& label(manager.addEntity());
+//auto& texts(manager.addEntity());
 
+Game::Game() {}
 
-Game::Game() {
-
-}
-
-Game::~Game() {
-
-}
+Game::~Game() {}
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
 	
@@ -77,14 +70,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
 	player.addGroup(groupPlayers);
 
-	SDL_Color white = { 255, 255, 255, 255 };
-	label.addComponent<UILable>(10, 10, "test string", "arial", white);
+	//texts.addComponent<UILable>(10, 10, "test string", "arial", white);
+	assets->createText("test SUPER", {50, 50}, "arial", white);
 
 	//ADD PROJECTILES HERE
 	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 0), 300, 2, "projectile");
 
-	camera.h = 35 * 32 * 3 - WINDOW_HEIGHT;
-	camera.w = 60 * 32 * 3 - WINDOW_WIDTH;
+	camera->camera.x = 100;
+
 }
 
 //list of all entities for updating
@@ -92,13 +85,12 @@ auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
+auto& texts(manager.getGroup(Game::groupTexts));
 
 void Game::handleEvents() {
 
 	SDL_PollEvent(&event);
-
 	player.getComponent<KeyboardController>().keyInput();
-
 
 }
 
@@ -108,12 +100,8 @@ void Game::update() {
 
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
-	
-	//std::stringstream strstr;
 
-	//strstr << "Player Position: " << playerPos;
-
-	label.getComponent<UILable>().SetLableText("Test", "arial");
+	//label.getComponent<UILable>().SetLableText("Test", "arial");
 
 	manager.refresh();
 	manager.update();
@@ -151,21 +139,8 @@ void Game::update() {
 		}
 	}
 
-	camera.x = static_cast<int>(playerPos.x - WINDOW_WIDTH / 2 + player.getComponent<TransformComponent>().width / 2);
-	camera.y = static_cast<int>(playerPos.y - WINDOW_HEIGHT / 2 + player.getComponent<TransformComponent>().height / 2);
-
-	if (camera.x < 0){
-		camera.x = 0;
-	}
-	if (camera.y < 0){
-		camera.y = 0;
-	}
-	if (camera.x > camera.w){
-		camera.x = camera.w;
-	}
-	if (camera.y > camera.h){
-		camera.y = camera.h;
-	}
+	//camera size chunnt hie no du drecks mulaff
+	camera->updateCameraPos(static_cast<int>(playerPos.x - WINDOW_WIDTH / 2 + player.getComponent<TransformComponent>().width / 2), static_cast<int>(playerPos.y - WINDOW_HEIGHT / 2 + player.getComponent<TransformComponent>().height / 2));
 }
 
 void Game::render() {
@@ -187,20 +162,19 @@ void Game::render() {
 		p->draw();
 	}
 
-	label.draw();
+	for (auto& t : texts) {
+		t->draw();
+	}
+
 
 	SDL_RenderPresent(renderer);
 }
 
 void Game::renderMenu() {
-
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
 	SDL_RenderClear(renderer);
 
 	
 	SDL_Texture* background = IMG_LoadTexture(renderer, "resources/sprites/firewatch.png");
-
 
 	SDL_RenderCopy(renderer, background, NULL, NULL);
 
@@ -208,12 +182,22 @@ void Game::renderMenu() {
 
 	for (int i = 0; i < scenes->menus->eleCount; i++){
 		SDL_RenderFillRect(renderer, &scenes->menus->menuRect[i]);
+		assets->createText(scenes->menus->menuText[i], { 108, float(i) * 80 + 308 }, "arial", white);
 	}
 
+	for (auto& t : texts) {
+		t->draw();
 
-
+	}
 
 	SDL_RenderPresent(renderer);
+
+}
+
+void Game::newScene() {
+	for (auto& t : texts) {
+		t->destroy();
+	}
 
 }
 

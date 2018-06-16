@@ -67,8 +67,8 @@ public:
 			}
 		}
 
-		destR.x = collider.x - Game::camera.x;
-		destR.y = collider.y - Game::camera.y;
+		destR.x = collider.x - Game::camera->camera.x;
+		destR.y = collider.y - Game::camera->camera.y;
 	}
 
 	void draw() override {

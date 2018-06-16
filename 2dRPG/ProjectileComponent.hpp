@@ -21,10 +21,10 @@ public:
 		if (distance > range) {
 			std::cout << "out of range" << std::endl;
 			entity->destroy();
-		} else if (	transform->position.x > Game::camera.x + Game::camera.w ||
-					transform->position.x < Game::camera.x ||
-					transform->position.y > Game::camera.y + Game::camera.h ||
-					transform->position.y < Game::camera.y) {
+		} else if (	transform->position.x > Game::camera->camera.x + Game::camera->camera.w ||
+					transform->position.x < Game::camera->camera.x ||
+					transform->position.y > Game::camera->camera.y + Game::camera->camera.h ||
+					transform->position.y < Game::camera->camera.y) {
 			entity->destroy();
 		}
 	}

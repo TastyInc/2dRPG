@@ -33,8 +33,8 @@ public:
 	}
 
 	void update() override {
-		destRect.x = static_cast<int>(position.x - Game::camera.x);
-		destRect.y = static_cast<int>(position.y - Game::camera.y);
+		destRect.x = static_cast<int>(position.x - Game::camera->camera.x);
+		destRect.y = static_cast<int>(position.y - Game::camera->camera.y);
 	}
 
 	void draw() override {

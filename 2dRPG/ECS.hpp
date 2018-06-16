@@ -69,6 +69,7 @@ public:
 	};
 
 	bool isActive() const { return active; }
+
 	void destroy() { active = false; }
 
 	bool hasGroup(Group mGroup) {
@@ -102,8 +103,6 @@ public:
 		auto ptr(componentArray[getComponentTypeID<T>()]);
 		return *static_cast<T*>(ptr);
 	}
-
-	/* BEISPIEL:: gameobject.getComponent<PositionComponent>().setXpos(); */
 
 };
 

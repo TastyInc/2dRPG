@@ -10,8 +10,6 @@ int main(int argc, const char * argv[]) {
 	Uint32 frameStart;
 	int frameTime;
 
-	int scene;
-
 	game = new Game();
 	game->init("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, game->WINDOW_WIDTH, game->WINDOW_HEIGHT, false);
 
@@ -19,11 +17,14 @@ int main(int argc, const char * argv[]) {
 
 		frameStart = SDL_GetTicks();
 
-		scene = Game::scenes->getCurrentScene();
-
 		game->handleEvents();
+		
+		if (game->scene != Game::scenes->getCurrentScene()){
+			game->scene = Game::scenes->getCurrentScene();
+			game->newScene();
+		}
 
-		switch (scene){
+		switch (game->scene){
 		case 0:
 			game->update();
 			game->render();

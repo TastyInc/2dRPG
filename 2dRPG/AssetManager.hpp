@@ -13,6 +13,7 @@ public:
 
 	//gameobjects
 	void createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
+	void createText(std::string text, Vector2D pos, std::string font, SDL_Color& color);
 
 	//texture management
 	void AddTexture(std::string id, const char* path);
@@ -26,4 +27,5 @@ private:
 	Manager* manager;
 	std::map<std::string, SDL_Texture*> textures;
 	std::map<std::string, TTF_Font*> fonts;
+	std::map<std::string, Vector2D> texts;
 };
