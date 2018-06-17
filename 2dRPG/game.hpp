@@ -42,7 +42,7 @@ public:
 	static bool isRunning;
 
 	//Scene as in which menu, map, event etc..
-	int scene = 1;
+	int scene = 0;
 
 	enum groupLabels : std::size_t {
 		groupMap,

@@ -41,7 +41,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			
 			renderer = SDL_CreateRenderer(window, -1, 0);
 			if (renderer) {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 5);
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 				std::cout << "Renderer created!" << std::endl;
 
 				isRunning = true;
@@ -90,7 +91,13 @@ auto& texts(manager.getGroup(Game::groupTexts));
 void Game::handleEvents() {
 
 	SDL_PollEvent(&event);
-	player.getComponent<KeyboardController>().keyInput();
+
+	if (scenes->getCurrentScene() == 0) {
+		player.getComponent<KeyboardController>().keyInput();
+	} else {
+		player.getComponent<KeyboardController>().keyInputMenu();
+	}
+
 
 }
 
@@ -139,7 +146,6 @@ void Game::update() {
 		}
 	}
 
-	//camera size chunnt hie no du drecks mulaff
 	camera->updateCameraPos(static_cast<int>(playerPos.x - WINDOW_WIDTH / 2 + player.getComponent<TransformComponent>().width / 2), static_cast<int>(playerPos.y - WINDOW_HEIGHT / 2 + player.getComponent<TransformComponent>().height / 2));
 }
 
@@ -166,7 +172,6 @@ void Game::render() {
 		t->draw();
 	}
 
-
 	SDL_RenderPresent(renderer);
 }
 
@@ -178,18 +183,20 @@ void Game::renderMenu() {
 
 	SDL_RenderCopy(renderer, background, NULL, NULL);
 
-	SDL_SetRenderDrawColor(renderer, 150, 150, 150, 150);
 
+	//verschiebe das text nid immer wiede rneu erstellt wird. oder create text abendere. ganzes renderzügs überarbeite verdammt
 	for (int i = 0; i < scenes->menus->eleCount; i++){
+		SDL_SetRenderDrawColor(renderer, 150, 150, 150, scenes->menus->buttonColor(i+1));
 		SDL_RenderFillRect(renderer, &scenes->menus->menuRect[i]);
-		assets->createText(scenes->menus->menuText[i], { 108, float(i) * 80 + 308 }, "arial", white);
+		assets->createText(scenes->menus->menuText[i], { 108, float(i) * 60 + 503 }, "arial", white);
 	}
 
 	for (auto& t : texts) {
 		t->draw();
-
 	}
 
+	scenes->getNewScene();
+	
 	SDL_RenderPresent(renderer);
 
 }
@@ -199,6 +206,12 @@ void Game::newScene() {
 		t->destroy();
 	}
 
+	if (scenes->getNewScene() != 0) {
+		scenes->setScene(scenes->getNewScene());
+	} else {
+		scenes->setScene(scenes->getNewScene());
+		camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
+	}
 }
 
 void Game::clean() {

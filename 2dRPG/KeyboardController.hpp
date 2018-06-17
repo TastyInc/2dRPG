@@ -52,11 +52,6 @@ public:
 			case SDLK_d:
 				walkingX = walkSpeed;
 				break;
-			case SDLK_o:
-				Game::scenes->setScene(0);
-				break;
-			case SDLK_i:
-				Game::scenes->setScene(1);
 				break;
 			default:
 				break;
@@ -78,7 +73,7 @@ public:
 					walkingX = 0;
 					break;
 				case SDLK_ESCAPE:
-					Game::isRunning = false;
+					Game::scenes->setNewScene(2);
 					break;
 				default:
 					break;
@@ -87,6 +82,27 @@ public:
 				break;
 		}
 	
+	}
+
+	void keyInputMenu() {
+		switch (Game::event.type) {
+		case SDL_KEYDOWN:
+			switch (Game::event.key.keysym.sym) {
+			case SDLK_w:
+				Game::scenes->menus->buttonUpdate(-1);
+				break;
+			case SDLK_s:
+				Game::scenes->menus->buttonUpdate(1);
+				break;
+			case SDLK_RETURN:
+			case SDLK_e:
+			case SDLK_KP_ENTER:
+				Game::scenes->menus->buttonPressed();
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	void update() override {

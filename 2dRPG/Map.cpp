@@ -9,11 +9,9 @@
 extern Manager manager;
 
 Map::Map() {
-
 }
 
 Map::~Map() {
-
 }
 
 void Map::LoadMap(int mtID, int mcID) {
@@ -112,6 +110,12 @@ void Map::LoadMap(int mtID, int mcID) {
 	}
 
 	//spritemap
+}
+
+Vector2D Map::getMapSize() {
+	mapSize = { float(scaledSize * tilesX), float(scaledSize * tilesY) };
+	return mapSize;
+
 }
 
 void Map::AddTile(int srcX, int srcY, int xpos, int ypos) {

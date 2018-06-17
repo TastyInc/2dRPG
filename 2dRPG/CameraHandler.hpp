@@ -38,8 +38,9 @@ public:
 		}
 	}
 
-	void updateCameraSize(int w, int h) {
-	
+	void updateCameraSize(Vector2D size, int windowX, int windowY) {
+		camera.w = int(size.x) - windowX;
+		camera.h = int(size.y) - windowY;
 	}
 
 	SDL_Rect getCamera() {
@@ -47,9 +48,5 @@ public:
 	}
 
 private:
-	int cameraPosX;
-	int cameraPosY;
-	int cameraSizeX;
-	int cameraSizeY;
 	
 };

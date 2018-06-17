@@ -8,6 +8,9 @@ public:
 	int eleCount;
 	SDL_Rect menuRect[6];
 	std::string menuText[6];
+	int menuAction[6];
+	int activeButton = 1;
+	bool btnPressed = false;
 
 	MenuHandler() {}
 	~MenuHandler() {}
@@ -18,17 +21,18 @@ public:
 		}
 	}*/
 
-	void LoadMenu(int menu) {
+	bool LoadMenu(int menu) {
 		eleCount = 0;
 
 		eResult = menuFile.LoadFile("resources/menus.xml");
 		if (eResult != XML_SUCCESS) {
-		std::cout << "Could not load MenuFile" << std::endl;
+			std::cout << "Could not load MenuFile" << std::endl;
+			return false;
 		}
 
 		XMLNode* root = menuFile.FirstChildElement("menulist");
 		if (root == nullptr) {
-		//ERROR
+			return false;
 		}
 
 		selectedMenu = root->FirstChildElement("menu");
@@ -42,16 +46,37 @@ public:
 
 		for (XMLElement* e = selectedMenu->FirstChildElement("element"); e != NULL;  e = e->NextSiblingElement("element")) {
 			menuText[eleCount] = e->Attribute("text");
-			menuRect[eleCount] = { 100, eleCount * 80 + 300, 500, 50 };
+			e->QueryIntAttribute("action", &menuAction[eleCount]);
+			menuRect[eleCount] = { 100, eleCount * 60 + 500, 500, 40 };
 
 			eleCount++;
 
 		}
+
+		return true;
+	}
+
+	void buttonUpdate(int i) {
+		activeButton = activeButton + i;
+		if (activeButton == 0){
+			activeButton = eleCount;
+		}else if (activeButton == eleCount + 1) {
+			activeButton = 1;
+		}
+	}
+
+	int buttonColor(int i) {
+		if (i == activeButton) {
+			return 150;
+		} else {
+			return 0;
+		}
 	}
 
 	void buttonPressed() {
-
+		btnPressed = true;
 	}
+
 private:
 	
 	XMLDocument menuFile;
@@ -64,36 +89,47 @@ private:
 	int menuID;
 };
 
+
+
 class SceneManager {
 public:
 	MenuHandler * menus;
 
 	SceneManager(MenuHandler* mHandler) : menus(mHandler){
-		currentScene = 0;
+		currentScene = 0; //erste Scene. Auf 1 für Hautpmenu
 	}
 
 	~SceneManager() {}
 
 	void setScene(int scene) {
-		currentScene = scene;
-		if (currentScene != 0) {
-			menus->LoadMenu(currentScene);
+		if (scene != 0) {
+			if (menus->LoadMenu(scene) == false) {
+				std::cout << "Could not change to Menu or Game, god dammit" << std::endl;
+			} else {
+				
+			}
 		}
-
+		menus->btnPressed = false;
+		currentScene = newScene;
 	}
 
-	int getScene(std::string id) {
-
-		//return scene;
-
-	}
-
-	int getSceneElementCount() {
-		return menus->eleCount;
+	int getNewScene() {
+		if (menus->btnPressed == true) {
+			newScene = menus->menuAction[menus->activeButton - 1];
+		}
+		return newScene;
 	}
 
 	int getCurrentScene() {
 		return currentScene;
+	}
+
+	void setNewScene(int scene) {
+		newScene = scene;
+	}
+
+	int getSceneElementCount() {
+		return menus->eleCount;
 	}
 
 	/*void draw() {
@@ -102,5 +138,6 @@ public:
 
 private:
 	int currentScene;
+	int newScene;
 	bool sceneLoaded;
 };

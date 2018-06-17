@@ -19,17 +19,17 @@ int main(int argc, const char * argv[]) {
 
 		game->handleEvents();
 		
-		if (game->scene != Game::scenes->getCurrentScene()){
-			game->scene = Game::scenes->getCurrentScene();
+		if (Game::scenes->getNewScene() != Game::scenes->getCurrentScene()){
 			game->newScene();
 		}
 
-		switch (game->scene){
+		switch (Game::scenes->getCurrentScene()){
 		case 0:
 			game->update();
 			game->render();
 			break;
 		case 1: 
+		case 2:
 			game->renderMenu();
 			break;
 		default:
