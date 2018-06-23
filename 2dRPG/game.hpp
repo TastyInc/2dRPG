@@ -58,5 +58,6 @@ private:
 	SDL_Window *window;
 	const char* playerSprite;
 	SDL_Color white = { 255, 255, 255, 255 };
+	SDL_Rect menuButton;
 
 };

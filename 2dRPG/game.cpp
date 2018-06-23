@@ -18,7 +18,6 @@ CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game:
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
-//auto& texts(manager.addEntity());
 
 Game::Game() {}
 
@@ -108,8 +107,6 @@ void Game::update() {
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
 
-	//label.getComponent<UILable>().SetLableText("Test", "arial");
-
 	manager.refresh();
 	manager.update();
 
@@ -183,13 +180,12 @@ void Game::renderMenu() {
 
 	SDL_RenderCopy(renderer, background, NULL, NULL);
 
+	SDL_SetRenderDrawColor(renderer, 150, 150, 150, 150);
+	menuButton.y = scenes->menus->activeButton * 60 + 440;
+	SDL_RenderFillRect(renderer, &menuButton);
 
 	//verschiebe das text nid immer wiede rneu erstellt wird. oder create text abendere. ganzes renderzügs überarbeite verdammt
-	for (int i = 0; i < scenes->menus->eleCount; i++){
-		SDL_SetRenderDrawColor(renderer, 150, 150, 150, scenes->menus->buttonColor(i+1));
-		SDL_RenderFillRect(renderer, &scenes->menus->menuRect[i]);
-		assets->createText(scenes->menus->menuText[i], { 108, float(i) * 60 + 503 }, "arial", white);
-	}
+
 
 	for (auto& t : texts) {
 		t->draw();
@@ -199,19 +195,37 @@ void Game::renderMenu() {
 	
 	SDL_RenderPresent(renderer);
 
-}
-
-void Game::newScene() {
 	for (auto& t : texts) {
 		t->destroy();
 	}
 
-	if (scenes->getNewScene() != 0) {
-		scenes->setScene(scenes->getNewScene());
-	} else {
-		scenes->setScene(scenes->getNewScene());
-		camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
+}
+
+void Game::newScene() {
+	
+	for (auto& t : texts) {
+		t->destroy();
 	}
+
+	if (scenes->getNewScene() == 9) {
+		//hie filech no frage 
+		Game::isRunning = false;
+	} else {
+		if (scenes->getNewScene() != 0) {
+			scenes->setScene(scenes->getNewScene());
+			for (int i = 0; i < scenes->menus->eleCount; i++) {
+				assets->createText(scenes->menus->menuText[i], { 108, float(i) * 60 + 503 }, "arial", white);
+			}
+			menuButton = { 100, 500, 500, 40 };
+			scenes->menus->activeButton = 1;
+		}
+		else {
+			scenes->setScene(scenes->getNewScene());
+			camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
+		}
+	}
+	
+	manager.refresh();
 }
 
 void Game::clean() {

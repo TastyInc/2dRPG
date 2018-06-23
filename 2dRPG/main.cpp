@@ -30,6 +30,10 @@ int main(int argc, const char * argv[]) {
 			break;
 		case 1: 
 		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
 			game->renderMenu();
 			break;
 		default:

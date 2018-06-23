@@ -5,24 +5,20 @@ using namespace tinyxml2;
 
 class MenuHandler {
 public:
-	int eleCount;
-	SDL_Rect menuRect[6];
-	std::string menuText[6];
+
 	int menuAction[6];
 	int activeButton = 1;
 	bool btnPressed = false;
+	int eleCount;
+	std::string menuText[6];
 
 	MenuHandler() {}
 	~MenuHandler() {}
 
-	/*void draw() {
-		for (int i = 0; i < eleCount; i++){
-			
-		}
-	}*/
-
 	bool LoadMenu(int menu) {
 		eleCount = 0;
+		std::fill_n(menuText, 6, 0);
+		std::fill_n(menuAction, 6, 0);
 
 		eResult = menuFile.LoadFile("resources/menus.xml");
 		if (eResult != XML_SUCCESS) {
@@ -47,10 +43,7 @@ public:
 		for (XMLElement* e = selectedMenu->FirstChildElement("element"); e != NULL;  e = e->NextSiblingElement("element")) {
 			menuText[eleCount] = e->Attribute("text");
 			e->QueryIntAttribute("action", &menuAction[eleCount]);
-			menuRect[eleCount] = { 100, eleCount * 60 + 500, 500, 40 };
-
 			eleCount++;
-
 		}
 
 		return true;
@@ -96,19 +89,22 @@ public:
 	MenuHandler * menus;
 
 	SceneManager(MenuHandler* mHandler) : menus(mHandler){
-		currentScene = 0; //erste Scene. Auf 1 für Hautpmenu
+		currentScene = 1; //erste Scene. Auf 1 für Hautpmenu
 	}
 
 	~SceneManager() {}
 
 	void setScene(int scene) {
-		if (scene != 0) {
+		if (scene == 9) {
+			std::cout << "close game dammit" << std::endl;
+		} else if (scene != 0 ) {
 			if (menus->LoadMenu(scene) == false) {
 				std::cout << "Could not change to Menu or Game, god dammit" << std::endl;
 			} else {
 				
 			}
 		}
+
 		menus->btnPressed = false;
 		currentScene = newScene;
 	}
@@ -131,10 +127,6 @@ public:
 	int getSceneElementCount() {
 		return menus->eleCount;
 	}
-
-	/*void draw() {
-		menus->draw();
-	}*/
 
 private:
 	int currentScene;

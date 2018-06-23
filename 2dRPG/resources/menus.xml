@@ -26,18 +26,16 @@ Actions:
 		<element id="3" type="button" name="returntogame" text="Return to Game" action="0"/>
 	</menu>
 	<menu id="3" name="options" background="">
-		<element id="1" type="bar" name="music" text="Music"/>
-		<element id="2" type="bar" name="soundeffects" text="Sound Effects"/>
-		<element id="1" type="button" name="main" text="Main Menu"/>
-		<element id="2" type="button" name="returntogame" text="Return to Game"/>
+		<element id="1" type="button" name="main" text="Main Menu" action="1"/>
+		<element id="2" type="button" name="returntogame" text="Return to Game" action="0"/>
 	</menu>
 	<menu id="4" name="savefiles" background="">
-		<element id="1" type="button" name="main" text="Main Menu"/>		
+		<element id="1" type="button" name="main" text="Main Menu" action="1"/>		
 	</menu>
 	<menu id="5" name="trophyroom" background="">
-		<element id="1" type="button" name="main" text="Main Menu"/>	
+		<element id="1" type="button" name="main" text="Main Menu" action="1"/>	
 	</menu>
 	<menu id="6" name="extras" background="">
-		<element id="1" type="button" name="main" text="Main Menu"/>	
+		<element id="1" type="button" name="main" text="Main Menu" action="1"/>	
 	</menu>
 </menulist>

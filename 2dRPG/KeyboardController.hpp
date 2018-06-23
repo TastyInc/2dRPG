@@ -69,8 +69,14 @@ public:
 					walkingY = 0;
 					break;
 				case SDLK_a:
+					if (walkingX != walkSpeed) {
+						walkingX = 0;
+					}
+					break;
 				case SDLK_d:
-					walkingX = 0;
+					if (walkingX != -walkSpeed) {
+						walkingX = 0;
+					}
 					break;
 				case SDLK_ESCAPE:
 					Game::scenes->setNewScene(2);
@@ -95,8 +101,8 @@ public:
 				Game::scenes->menus->buttonUpdate(1);
 				break;
 			case SDLK_RETURN:
-			case SDLK_e:
 			case SDLK_KP_ENTER:
+			case SDLK_e:
 				Game::scenes->menus->buttonPressed();
 				break;
 			default:

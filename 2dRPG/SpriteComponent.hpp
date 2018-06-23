@@ -41,6 +41,7 @@ public:
 		Animation sprintDown = Animation(2, 8, 60);
 		Animation sprintLR = Animation(3, 8, 60);
 
+
 		animations.emplace("Idle", idle);
 		animations.emplace("WalkUp", walkUp);
 		animations.emplace("WalkDown", walkDown);
@@ -48,6 +49,8 @@ public:
 		animations.emplace("SprintUp", sprintUp);
 		animations.emplace("SprintDown", sprintDown);
 		animations.emplace("SprintLR", sprintLR);
+
+
 
 		Play("Idle");
 
