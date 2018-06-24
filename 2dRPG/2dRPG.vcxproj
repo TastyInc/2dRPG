@@ -162,6 +162,7 @@
     <ClInclude Include="animation.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="CameraHandler.hpp" />
+    <ClInclude Include="CharacterComponent.hpp" />
     <ClInclude Include="ColliderComponent.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Components.hpp" />
@@ -172,7 +173,7 @@
     <ClInclude Include="LevelComponent.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="ProjectileComponent.hpp" />
-    <ClInclude Include="SavefileHandler.h" />
+    <ClInclude Include="SavefileHandler.hpp" />
     <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="TileComponent.hpp" />
     <ClInclude Include="tinyxml2.h" />

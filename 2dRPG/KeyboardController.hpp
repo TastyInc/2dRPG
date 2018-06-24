@@ -30,6 +30,10 @@ public:
 		transform->velocity.y = playerVel.y;
 	}
 
+	bool isSprinting() {
+		return pSprint;
+	}
+
 	void keyInput() {
 		switch (Game::event.type) {
 		case SDL_QUIT:
@@ -149,6 +153,7 @@ public:
 			}
 		}
 	}
+
 private:
 	Vector2D playerVel;
 	float walkSpeed = 1;

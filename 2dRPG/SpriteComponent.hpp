@@ -51,7 +51,6 @@ public:
 		animations.emplace("SprintLR", sprintLR);
 
 
-
 		Play("Idle");
 
 		setTex(id);

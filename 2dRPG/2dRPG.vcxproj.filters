@@ -116,7 +116,10 @@
     <ClInclude Include="CameraHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SavefileHandler.h">
+    <ClInclude Include="CharacterComponent.hpp">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SavefileHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

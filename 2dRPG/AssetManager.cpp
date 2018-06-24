@@ -26,6 +26,15 @@ void AssetManager::createText(std::string text, Vector2D pos, std::string font, 
 	gameText.addGroup(Game::groupTexts);
 }
 
+void AssetManager::createEnemy(int id, Vector2D pos) {
+	auto& enemy(manager->addEntity());
+
+	enemy.addComponent<TransformComponent>(pos.x, pos.y, 80, 110, 3);
+	enemy.addComponent<SpriteComponent>("enemy", true);
+	enemy.addComponent<CharacterComponent>(id);
+	enemy.addGroup(Game::groupEnemies);
+}
+
 void AssetManager::AddTexture(std::string id, const char* path) {
 	textures.emplace(id, TextureManager::LoadTexture(path));
 }

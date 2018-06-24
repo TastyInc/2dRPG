@@ -88,9 +88,7 @@ class SceneManager {
 public:
 	MenuHandler * menus;
 
-	SceneManager(MenuHandler* mHandler) : menus(mHandler){
-		currentScene = 1; //erste Scene. Auf 1 für Hautpmenu
-	}
+	SceneManager(MenuHandler* mHandler) : menus(mHandler){}
 
 	~SceneManager() {}
 
@@ -129,7 +127,7 @@ public:
 	}
 
 private:
-	int currentScene;
-	int newScene;
+	int currentScene = 1;
+	int newScene = 1;
 	bool sceneLoaded;
 };

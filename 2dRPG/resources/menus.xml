@@ -7,8 +7,8 @@ Actions:
 4: savefiles
 5: trophyroom
 6: extras
-7
-8
+7  load game
+8  save game
 9: quit game
 -->
 
@@ -23,7 +23,8 @@ Actions:
 	<menu id="2" name="pause" background="">
 		<element id="1" type="button" name="main" text="Main Menu" action="1"/>
 		<element id="2" type="button" name="options" text="Options" action="3"/>
-		<element id="3" type="button" name="returntogame" text="Return to Game" action="0"/>
+		<element id="3" type="button" name="savegame" text="Save Game" action="8"/>
+		<element id="4" type="button" name="returntogame" text="Return to Game" action="0"/>
 	</menu>
 	<menu id="3" name="options" background="">
 		<element id="1" type="button" name="main" text="Main Menu" action="1"/>

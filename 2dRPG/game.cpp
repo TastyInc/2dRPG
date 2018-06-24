@@ -14,6 +14,7 @@ SDL_Event Game::event;
 AssetManager* Game::assets = new AssetManager(&manager);
 SceneManager* Game::scenes = new SceneManager(&menuHandler);
 CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH );
+SavefileHandler* Game::savegame = new SavefileHandler();
 
 bool Game::isRunning = false;
 
@@ -55,28 +56,46 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		std::cout << "ERROR: SDL_TTF" << std::endl;
 	}
 
-	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
+	//angers positioniere de no
+	if (savegame->loadGame() != 1) {
+		std::cout << "COULD NOT LOAD DATA FROM SAVE FILE!" << std::endl;
+	}
+
+
+	//----------------
 	assets->AddTexture("projectile", "resources/sprites/proj.png");
 
+	assets->AddTexture("enemy", "resources/sprites/enemy1.png");
+
 	assets->AddFont("arial", "resources/font/arial.ttf", 30);
+	//----------------
+
 
 	map = new Map();
 
-	map->LoadMap(1, 1);
+	map->LoadMap(savegame->mapTheme, savegame->mapTheme);
 
-	player.addComponent<TransformComponent>(800, 800, 64, 64, 2);
+
+	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
+	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 2);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
+	player.addComponent<CharacterComponent>(100, 100);
 	player.addGroup(groupPlayers);
 
+
+	//----------------
 	//texts.addComponent<UILable>(10, 10, "test string", "arial", white);
 	assets->createText("test SUPER", {50, 50}, "arial", white);
 
 	//ADD PROJECTILES HERE
 	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 0), 300, 2, "projectile");
+	assets->createEnemy(1, Vector2D(1400, 1200));
 
-	camera->camera.x = 100;
+	//----------------
+
+	camera->camera.x = 100; //<-??
 
 }
 
@@ -86,18 +105,17 @@ auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& texts(manager.getGroup(Game::groupTexts));
+auto& enemies(manager.getGroup(Game::groupEnemies));
 
 void Game::handleEvents() {
 
-	SDL_PollEvent(&event);
-
-	if (scenes->getCurrentScene() == 0) {
-		player.getComponent<KeyboardController>().keyInput();
-	} else {
-		player.getComponent<KeyboardController>().keyInputMenu();
+	while (SDL_PollEvent(&event)) {
+		if (scenes->getCurrentScene() == 0) {
+			player.getComponent<KeyboardController>().keyInput();
+		} else {
+			player.getComponent<KeyboardController>().keyInputMenu();
+		}
 	}
-
-
 }
 
 void Game::update() { 
@@ -109,6 +127,10 @@ void Game::update() {
 
 	manager.refresh();
 	manager.update();
+
+	if (player.getComponent<KeyboardController>().isSprinting()) {
+		player.getComponent<CharacterComponent>().updateStamina(1);
+	}
 
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
@@ -161,6 +183,10 @@ void Game::render() {
 		p->draw();
 	}
 
+	for (auto& e : enemies) { //for each T in tiles
+		e->draw();
+	}
+
 	for (auto& p : projectiles) {
 		p->draw();
 	}
@@ -184,9 +210,6 @@ void Game::renderMenu() {
 	menuButton.y = scenes->menus->activeButton * 60 + 440;
 	SDL_RenderFillRect(renderer, &menuButton);
 
-	//verschiebe das text nid immer wiede rneu erstellt wird. oder create text abendere. ganzes renderzügs überarbeite verdammt
-
-
 	for (auto& t : texts) {
 		t->draw();
 	}
@@ -194,10 +217,6 @@ void Game::renderMenu() {
 	scenes->getNewScene();
 	
 	SDL_RenderPresent(renderer);
-
-	for (auto& t : texts) {
-		t->destroy();
-	}
 
 }
 
@@ -207,20 +226,24 @@ void Game::newScene() {
 		t->destroy();
 	}
 
-	if (scenes->getNewScene() == 9) {
+	int scene = scenes->getNewScene();
+
+	if (scene == 9) {
 		//hie filech no frage 
 		Game::isRunning = false;
+	} else if(scene == 8){
+		//speichert spiel und geht ins hauptmenu
+		savegame->saveGame(player.getComponent<TransformComponent>().position);
+		scenes->setScene(1);
 	} else {
-		if (scenes->getNewScene() != 0) {
-			scenes->setScene(scenes->getNewScene());
+		scenes->setScene(scene);
+		if (scene != 0) {
 			for (int i = 0; i < scenes->menus->eleCount; i++) {
 				assets->createText(scenes->menus->menuText[i], { 108, float(i) * 60 + 503 }, "arial", white);
 			}
 			menuButton = { 100, 500, 500, 40 };
 			scenes->menus->activeButton = 1;
-		}
-		else {
-			scenes->setScene(scenes->getNewScene());
+		} else {
 			camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
 		}
 	}

@@ -1,13 +1,17 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_image.h"
-#include "TextureManager.hpp"
+
 #include <iostream>
 #include <vector>
+
+#include "Vector2D.hpp"
 #include "AssetManager.hpp"
 #include "SceneManager.hpp"
-#include "Vector2D.hpp"
+#include "TextureManager.hpp"
+
 #include "CameraHandler.hpp"
+#include "SavefileHandler.hpp"
 
 #undef main
 
@@ -32,6 +36,7 @@ public:
 	static AssetManager* assets;
 	static SceneManager* scenes;
 	static CameraHandler* camera;
+	static SavefileHandler* savegame;
 
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
