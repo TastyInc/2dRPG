@@ -15,6 +15,7 @@ AssetManager* Game::assets = new AssetManager(&manager);
 SceneManager* Game::scenes = new SceneManager(&menuHandler);
 CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH );
 SavefileHandler* Game::savegame = new SavefileHandler();
+HUDManager* Game::hud = new HUDManager();
 
 bool Game::isRunning = false;
 
@@ -95,6 +96,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//----------------
 
+
+	//LOAD into assets HUD
+	hud->loadHUD();
+	for (int i = 0; i < hud->elemCount; i++){
+		assets->AddTexture(hud->name[i], hud->sprite[i]);
+		assets->createHud(hud->name[i], Vector2D(hud->posx[i], hud->posy[i]), hud->sizex[i], hud->sizey[i]);
+	}
+	delete hud;
+
 	camera->camera.x = 100; //<-??
 
 }
@@ -106,6 +116,7 @@ auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& texts(manager.getGroup(Game::groupTexts));
 auto& enemies(manager.getGroup(Game::groupEnemies));
+auto& hudElements(manager.getGroup(Game::groupHUD));
 
 void Game::handleEvents() {
 
@@ -128,9 +139,7 @@ void Game::update() {
 	manager.refresh();
 	manager.update();
 
-	if (player.getComponent<KeyboardController>().isSprinting()) {
-		player.getComponent<CharacterComponent>().updateStamina(1);
-	}
+	player.getComponent<CharacterComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
 
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
@@ -189,6 +198,10 @@ void Game::render() {
 
 	for (auto& p : projectiles) {
 		p->draw();
+	}
+
+	for (auto& h : hudElements) {
+		h->draw();
 	}
 
 	for (auto& t : texts) {

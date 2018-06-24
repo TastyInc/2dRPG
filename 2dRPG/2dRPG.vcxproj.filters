@@ -122,6 +122,9 @@
     <ClInclude Include="SavefileHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HUDManager.hpp">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\dirt.png">

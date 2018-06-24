@@ -14,7 +14,8 @@ public:
 	//gameobjects
 	void createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
 	void createText(std::string text, Vector2D pos, std::string font, SDL_Color& color);
-	void createEnemy(int ID, Vector2D pos);
+	void createEnemy(int id, Vector2D pos);
+	void createHud(std::string id, Vector2D pos, int w, int h);
 
 	//texture management
 	void AddTexture(std::string id, const char* path);

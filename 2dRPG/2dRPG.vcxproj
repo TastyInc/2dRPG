@@ -169,6 +169,7 @@
     <ClInclude Include="ECS.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="GameObject.hpp" />
+    <ClInclude Include="HUDManager.hpp" />
     <ClInclude Include="KeyboardController.hpp" />
     <ClInclude Include="LevelComponent.hpp" />
     <ClInclude Include="Map.hpp" />

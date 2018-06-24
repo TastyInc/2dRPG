@@ -7,8 +7,6 @@
 
 class SavefileHandler {
 public:
-	std::fstream savefile;
-
 	int playerMaxHealth;
 	int playerCurrHealth;
 	int playerStamina;
@@ -19,7 +17,7 @@ public:
 	int items[100]; //je nachdem angeri zahl. 100 grad chli viel
 
 	SavefileHandler() {
-		savefile.open("resources/savefile.sv");
+
 	}
 
 	~SavefileHandler() {
@@ -28,34 +26,44 @@ public:
 
 	//de no apasse mit de argument
 	int saveGame(Vector2D pos) {
+		std::fstream savefile;
+		savefile.open("resources/savefile.sv");
 		if (!savefile.is_open()) {
 			return 0;
 		}
 
 		std::string line;
-		std::getline(savefile, line);
-		line = encryptDecrypt(line);
-		std::stringstream ssLine(line);
 
+		line = "savefile ";
+		line += "playerpos ";
+		line += std::to_string(mapTheme) + " ";
+		line += std::to_string(mapScreen) + " ";
+		line += std::to_string(int(pos.x)) + " "; 
+		line += std::to_string(int(pos.y)) + " ";
+		line += "playerstats ";
+
+		line += "100 100 100 1 playeritems 1 2 3 4 5 6";
+		line = encryptDecrypt(line);
+
+		savefile << line;
+
+		savefile.close();
+
+		return 1;
 	}
 
 	int loadGame() {
+		std::fstream savefile;
+		savefile.open("resources/savefile.sv");
 		if (!savefile.is_open()){
 			return 0;
 		}
 
 		std::string line;
-		line = "savefile ";
-		line += "playerpos ";
-		line += " ";
-
-
 		std::getline(savefile, line);
 		line = encryptDecrypt(line);
 		std::stringstream ssLine(line);
 		std::string keyWord;
-
-
 
 		ssLine >> keyWord;
 		if (keyWord == "savefile"){
@@ -91,12 +99,14 @@ public:
 							itemNum++;
 						}
 
+						savefile.close();
 						return 1;
 					}
 				}
 			}
 		}
 		
+		savefile.close();
 		return 0;
 	}
 

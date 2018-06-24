@@ -1,4 +1,6 @@
 #pragma once
+#include "ECS.hpp"
+#include "Components.hpp"
 
 //Component that character/enemy stats, items etc
 class CharacterComponent : public Component {
@@ -10,31 +12,41 @@ public:
 			
 
 		}
-	
 	}
 
 	//init player
 	CharacterComponent(int health, int stamina) {
-		hp = health;
-		stm = stamina;
+		hp = maxHp = health;
+		stm = maxStm = stamina;
 	}
 
 	void updateHealth(int damage) {
 		hp = hp - (damage * (damage / (damage + armor)));
 	}
 
-	void updateStamina(int lostStamina) {
-		if (stm - lostStamina <= 0) {
-			stm = 0;
+	void updateStamina(bool sprinting) {
+		if (sprinting) {
+			if (stm <= 0) {
+				stm = 0;
+			}
+			else {
+				stm -= 1;
+			}
 		} else {
-			stm -= lostStamina;
+			if (stm >= maxStm) {
+				stm = maxStm;
+			} else {
+				stm += 1;
+			}
 		}
 	}
 
 private:
 	int hp;		//healthpoints
+	int maxHp;	//max healthpoints
 	int armor;	//armor
 	int stm;	//stamina
+	int maxStm;	//max Stamina
 
 	int sizeX, sizeY;
 

@@ -9,6 +9,7 @@
 #include "AssetManager.hpp"
 #include "SceneManager.hpp"
 #include "TextureManager.hpp"
+#include "HUDManager.hpp"
 
 #include "CameraHandler.hpp"
 #include "SavefileHandler.hpp"
@@ -37,6 +38,7 @@ public:
 	static SceneManager* scenes;
 	static CameraHandler* camera;
 	static SavefileHandler* savegame;
+	static HUDManager* hud;
 
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
@@ -56,6 +58,7 @@ public:
 		groupProjectiles,
 		groupEnemies,
 		groupTexts,
+		groupHUD
 	};
 
 

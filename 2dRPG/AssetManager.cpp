@@ -35,6 +35,14 @@ void AssetManager::createEnemy(int id, Vector2D pos) {
 	enemy.addGroup(Game::groupEnemies);
 }
 
+void AssetManager::createHud(std::string id, Vector2D pos, int w, int h){
+	auto& hudElement(manager->addEntity());
+
+	hudElement.addComponent<TransformComponent>(pos.x, pos.y, w, h, 1);
+	hudElement.addComponent<SpriteComponent>(id);
+	hudElement.addGroup(Game::groupHUD);
+}
+
 void AssetManager::AddTexture(std::string id, const char* path) {
 	textures.emplace(id, TextureManager::LoadTexture(path));
 }

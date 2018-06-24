@@ -1,0 +1,8 @@
+<hud>
+	<hudElement id="1" name="hpbar" posx="100" posy="100" sizex="256" sizey="32" sprite="resources/sprites/hpbar.png" />
+	<hudElement id="2" name="stmbar" posx="120" posy="200" sizex="256" sizey="32" sprite="resources/sprites/stmbar.png" />
+	<hudElement id="3" name="armor" posx="100" posy="300" sizex="" sizey="" sprite="" />
+	<hudElement id="4" name="weapon1" posx="1200" posy="600" sizex="200" sizey="200" sprite="resources/sprites/weapon1.png" />
+	<hudElement id="5" name="weapon2" posx="1200" posy="800" sizex="200" sizey="200" sprite="resources/sprites/weapon2.png" />
+	<hudElement id="6" name="special" posx="666" posy="666" sizex="222" sizey="222" sprite="resources/sprites/special.png" />
+</hud>
