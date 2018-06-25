@@ -98,15 +98,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 
 	//LOAD into assets HUD
-	hud->loadHUD();
-	for (int i = 0; i < hud->elemCount; i++){
-		assets->AddTexture(hud->name[i], hud->sprite[i]);
-		assets->createHud(hud->name[i], Vector2D(hud->posx[i], hud->posy[i]), hud->sizex[i], hud->sizey[i]);
+	//HUd söt sech ar kamera festhebe, nid ar map
+	if (hud->loadHUD()) {
+		for (int i = 0; i < hud->elemCount - 1; i++) {
+			assets->AddTexture(hud->name[i], hud->sprite[i]);
+			assets->createHud(hud->name[i], Vector2D(hud->posx[i], hud->posy[i]), hud->sizex[i], hud->sizey[i]);
+		}
+		delete hud;
 	}
-	delete hud;
 
 	camera->camera.x = 100; //<-??
-
 }
 
 //list of all entities for updating
@@ -208,6 +209,7 @@ void Game::render() {
 		t->draw();
 	}
 
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -215,7 +217,22 @@ void Game::renderMenu() {
 	SDL_RenderClear(renderer);
 
 	
-	SDL_Texture* background = IMG_LoadTexture(renderer, "resources/sprites/firewatch.png");
+
+	/*
+	TTF_Font* Sans = TTF_OpenFont("resources/font/arial.ttf", 24);
+
+	SDL_Surface* surf = TTF_RenderText_Blended(Sans, "THIS IS A TEST STRING", {255, 255, 255, 255});
+	SDL_Texture* labelTexture; labelTexture = SDL_CreateTextureFromSurface(Game::renderer, surf);
+	SDL_FreeSurface(surf);
+	SDL_Rect rekt = { 100, 100, 500, 100 };
+
+	SDL_RenderCopy(renderer, labelTexture, NULL, &rekt);
+	//----
+	SDL_QueryTexture(labelTexture, nullptr, nullptr, 0, 0);
+	*/
+
+
+	SDL_Texture* background = IMG_LoadTexture(renderer, "resources/sprites/menu_background.png");
 
 	SDL_RenderCopy(renderer, background, NULL, NULL);
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "tinyxml2.h"
 #include <iostream>
-#include "Vector2D.hpp"
 
 using namespace tinyxml2;
 
@@ -48,6 +47,7 @@ public:
 
 			count++;
 		}	
+		return 1;
 	}
 
 private:

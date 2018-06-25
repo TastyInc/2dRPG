@@ -13,6 +13,7 @@ private:
 	SDL_Rect srcRect, destRect;
 
 	bool animated = false;
+	bool fixed = false;
 	int frames = 0;
 	int speed = 100;
 	
@@ -30,9 +31,22 @@ public:
 		setTex(id);
 	}
 
+	SpriteComponent(std::string id, int fix) {
+		switch (fix){
+			case 1:
+				fixed = fix;
+				break;
+			default:
+				break;
+		}
+		setTex(id);
+	}
+
 	SpriteComponent(std::string id, bool isAnimated) {
 		animated = isAnimated;
 
+
+		//anpassen für enemies angeri animations u angeri framerate etc
 		Animation idle = Animation(0, 4, 200);
 		Animation walkUp = Animation(1, 8, 100);
 		Animation walkDown = Animation(2, 8, 100);
@@ -40,7 +54,6 @@ public:
 		Animation sprintUp = Animation(1, 8, 60);
 		Animation sprintDown = Animation(2, 8, 60);
 		Animation sprintLR = Animation(3, 8, 60);
-
 
 		animations.emplace("Idle", idle);
 		animations.emplace("WalkUp", walkUp);
@@ -82,8 +95,15 @@ public:
 
 		srcRect.y = animIndex * transform->height;
 
-		destRect.x = static_cast<int>(transform->position.x) - Game::camera->camera.x;
-		destRect.y = static_cast<int>(transform->position.y) - Game::camera->camera.y;
+		//switch für hud, tilemap, background etc.
+		if (fixed) {
+			destRect.x = static_cast<int>(transform->position.x);
+			destRect.y = static_cast<int>(transform->position.y);
+		} else {
+			destRect.x = static_cast<int>(transform->position.x) - Game::camera->camera.x;
+			destRect.y = static_cast<int>(transform->position.y) - Game::camera->camera.y;
+		}
+
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}
