@@ -62,7 +62,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		std::cout << "COULD NOT LOAD DATA FROM SAVE FILE!" << std::endl;
 	}
 
-
 	//----------------
 	assets->AddTexture("projectile", "resources/sprites/proj.png");
 
@@ -74,7 +73,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map = new Map();
 
-	map->LoadMap(savegame->mapTheme, savegame->mapTheme);
+	map->LoadMap(savegame->mapTheme, savegame->mapScreen);
 
 
 	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
@@ -85,10 +84,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<CharacterComponent>(100, 100);
 	player.addGroup(groupPlayers);
 
+	mTimer = Timer::Instance();
 
 	//----------------
 	//texts.addComponent<UILable>(10, 10, "test string", "arial", white);
-	assets->createText("test SUPER", {50, 50}, "arial", white);
+	//assets->createText("test SUPER", {50, 50}, "arial", white);
 
 	//ADD PROJECTILES HERE
 	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 0), 300, 2, "projectile");
@@ -132,6 +132,8 @@ void Game::handleEvents() {
 
 void Game::update() { 
 	
+	mTimer->Update();
+
 	player.getComponent<KeyboardController>().setVelocity();
 
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
@@ -173,6 +175,10 @@ void Game::update() {
 			//health etc. here
 			p->destroy();
 		}
+	}
+
+	if (playerPos.y + 128 <= 0 || playerPos.x + 128 <= 0 || playerPos.x >= map->getMapSize().x || playerPos.y >= map->getMapSize().y ) {
+		Game::newScreen(playerPos);
 	}
 
 	camera->updateCameraPos(static_cast<int>(playerPos.x - WINDOW_WIDTH / 2 + player.getComponent<TransformComponent>().width / 2), static_cast<int>(playerPos.y - WINDOW_HEIGHT / 2 + player.getComponent<TransformComponent>().height / 2));
@@ -263,7 +269,7 @@ void Game::newScene() {
 		Game::isRunning = false;
 	} else if(scene == 8){
 		//speichert spiel und geht ins hauptmenu
-		savegame->saveGame(player.getComponent<TransformComponent>().position);
+		savegame->saveGame(player.getComponent<TransformComponent>().position, map->getMapThemeID(), map->getMapScreenID());
 		scenes->setScene(1);
 	} else {
 		scenes->setScene(scene);
@@ -279,6 +285,51 @@ void Game::newScene() {
 	}
 	
 	manager.refresh();
+}
+
+void Game::newScreen(Vector2D pp) {
+	Vector2D playerPos = pp;
+
+	for (auto& t : tiles) { //for each T in tiles
+		t->delGroup(Game::groupMap);
+	}
+
+	for (auto& c : colliders) { //for each T in tiles
+		c->delGroup(Game::groupColliders);
+	}
+
+	//North
+	if (playerPos.y + 128 <= 0) {
+		direction = "n";
+	}
+	//WEst
+	else if (playerPos.x + 128 <= 0) {
+		direction = "w";
+	}
+	//East
+	else if (playerPos.x >= map->getMapSize().x) {
+		direction = "e";
+	}
+	//South
+	else if (playerPos.y >= map->getMapSize().y) {
+		direction = "s";
+	}
+	//Action (Boat, Boss, Event, Hole etc)
+	else {
+		direction = "";
+	}
+	if (direction != "") {
+		map->LoadMap(direction);
+	} else {
+		//eventNumber oder so
+		map->LoadMap(1);
+	}
+
+	player.getComponent<TransformComponent>().position = map->spawnPoint;
+	camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
+
+
+
 }
 
 void Game::clean() {

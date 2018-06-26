@@ -12,9 +12,16 @@ public:
 	Map();
 	~Map();
 
-	void LoadMap(int mtID, int mcID);
+	void LoadMap(int eventNum);
+	void LoadMap(const char*);
+	int LoadMap(int mtID, int mcID);
+
+	int getMapScreenID();
+	int getMapThemeID();
+
 	void AddTile(int srcX, int srcY, int xpos, int ypos);
 	Vector2D getMapSize();
+	Vector2D spawnPoint;
 
 private:
 	std::string texID;
@@ -26,6 +33,7 @@ private:
 	int mapThemeID = 0;
 	int mapScreenID = 0;
 	int tilesX, tilesY;
+	const char* newMap;
 	Vector2D mapSize;
 
 	XMLDocument mapFile;

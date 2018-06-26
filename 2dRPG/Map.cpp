@@ -14,16 +14,34 @@ Map::Map() {
 Map::~Map() {
 }
 
-void Map::LoadMap(int mtID, int mcID) {
+void Map::LoadMap(int eventNum) {
+
+}
+
+void Map::LoadMap(const char* direction) {
+	mapScreen->QueryStringAttribute(direction, &newMap);
+	std::stringstream ss;
+	ss << newMap;
+	int newMtID = atoi(ss.str().substr(0, 2).c_str());
+	int newMcID = atoi(ss.str().substr(2, 4).c_str());
+	
+	if (LoadMap(newMtID, newMcID) != 1) {
+		std::cout << "could not load new map" << std::endl;
+	}
+}
+
+int Map::LoadMap(int mtID, int mcID) {
 
 	eResult = mapFile.LoadFile("resources/maps.xml");
 	if (eResult != XML_SUCCESS) {
 		std::cout << "Could not load Mapfile" << std::endl;
+		return 0;
 	}
 
 	XMLNode* root = mapFile.FirstChildElement("maps");
 	if (root == nullptr) {
-		//ERROR
+		std::cout << "Could not load Maps" << std::endl;
+		return 0;
 	}
 
 	mapTheme = root->FirstChildElement("maptheme");
@@ -36,26 +54,29 @@ void Map::LoadMap(int mtID, int mcID) {
 	}
 
 	if (mapTheme == nullptr) {
-		//error
+		std::cout << "Could not load Maptheme" << std::endl;
+		return 0;
 	}
 
 	mapScreen = mapTheme->FirstChildElement("mapscreen");
 	mapScreen->QueryIntAttribute("id", &mapScreenID);
 
-	//loop through mapSCreens
+	//loop through mapScreens
 	while (mapScreenID != mcID) {
-		mapScreen = mapTheme->NextSiblingElement("mapscreen");
-		mapScreen->QueryIntAttribute("id", &mapThemeID);
+		mapScreen = mapScreen->NextSiblingElement("mapscreen");
+		mapScreen->QueryIntAttribute("id", &mapScreenID);
 	}
 
 	if (mapScreen == nullptr) {
-		//error
+		std::cout << "Could not load Mapscreen" << std::endl;
+		return 0;
 	}
 
 	mapAttributes = mapScreen->FirstChildElement("attributes");
 
 	if (mapAttributes == nullptr) {
-		//error
+		std::cout << "Could not load Map Attributes" << std::endl;
+		return 0;
 	}
 
 	mapAttributes->QueryIntAttribute("width", &tilesX);
@@ -104,11 +125,14 @@ void Map::LoadMap(int mtID, int mcID) {
 				auto& tcol(manager.addEntity());
 				tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
 				tcol.addGroup(Game::groupColliders);
+			} else if (tilemapS[stringPos] == '4') {
+				spawnPoint = {float( x * scaledSize) ,float( y * scaledSize )};
 			}
 			stringPos += 1;
 		}
 	}
 
+	return 1;
 	//spritemap
 }
 
@@ -116,6 +140,14 @@ Vector2D Map::getMapSize() {
 	mapSize = { float(scaledSize * tilesX), float(scaledSize * tilesY) };
 	return mapSize;
 
+}
+
+int Map::getMapScreenID() {
+	return mapScreenID;
+}
+
+int Map::getMapThemeID() {
+	return mapThemeID;
 }
 
 void Map::AddTile(int srcX, int srcY, int xpos, int ypos) {

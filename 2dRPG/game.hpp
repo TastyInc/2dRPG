@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Timer.hpp"
 
 #include "Vector2D.hpp"
 #include "AssetManager.hpp"
@@ -33,6 +34,7 @@ public:
 	void clean();
 	void renderMenu();
 	void newScene();
+	void newScreen(Vector2D pp);
 	
 	static AssetManager* assets;
 	static SceneManager* scenes;
@@ -65,7 +67,10 @@ public:
 private:
 	SDL_Window *window;
 	const char* playerSprite;
+	const char* direction;
 	SDL_Color white = { 255, 255, 255, 255 };
 	SDL_Rect menuButton;
+
+	Timer* mTimer;
 
 };

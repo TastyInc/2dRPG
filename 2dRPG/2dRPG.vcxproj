@@ -155,6 +155,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="SavefileHandler.hpp" />
     <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="TileComponent.hpp" />
+    <ClInclude Include="Timer.hpp" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="TransformComponent.hpp" />
     <ClInclude Include="resource.h" />

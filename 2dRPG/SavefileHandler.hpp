@@ -25,12 +25,15 @@ public:
 	}
 
 	//de no apasse mit de argument
-	int saveGame(Vector2D pos) {
+	int saveGame(Vector2D pos, int mtID, int mcID) {
 		std::fstream savefile;
 		savefile.open("resources/savefile.sv");
 		if (!savefile.is_open()) {
 			return 0;
 		}
+
+		mapTheme = mtID;
+		mapScreen = mcID;
 
 		std::string line;
 
@@ -43,7 +46,7 @@ public:
 		line += "playerstats ";
 
 		line += "100 100 100 1 playeritems 1 2 3 4 5 6";
-		line = encryptDecrypt(line);
+		//line = encryptDecrypt(line);
 
 		savefile << line;
 
@@ -61,7 +64,7 @@ public:
 
 		std::string line;
 		std::getline(savefile, line);
-		line = encryptDecrypt(line);
+		//line = encryptDecrypt(line);
 		std::stringstream ssLine(line);
 		std::string keyWord;
 

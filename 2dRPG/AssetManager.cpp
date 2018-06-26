@@ -9,6 +9,7 @@ AssetManager::~AssetManager() {
 
 }
 
+//PROJECTILE
 void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id){
 	auto& projectile(manager->addEntity());				// Placeholder
 
@@ -19,6 +20,7 @@ void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int s
 	projectile.addGroup(Game::groupProjectiles);
 }
 
+//TEXT
 void AssetManager::createText(std::string text, Vector2D pos, std::string font, SDL_Color& color){
 	auto& gameText(manager->addEntity());
 
@@ -26,6 +28,7 @@ void AssetManager::createText(std::string text, Vector2D pos, std::string font, 
 	gameText.addGroup(Game::groupTexts);
 }
 
+//ENEMY
 void AssetManager::createEnemy(int id, Vector2D pos) {
 	auto& enemy(manager->addEntity());
 
@@ -35,6 +38,7 @@ void AssetManager::createEnemy(int id, Vector2D pos) {
 	enemy.addGroup(Game::groupEnemies);
 }
 
+//HUD
 void AssetManager::createHud(std::string id, Vector2D pos, int w, int h){
 	auto& hudElement(manager->addEntity());
 

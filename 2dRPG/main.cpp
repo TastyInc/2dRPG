@@ -18,6 +18,7 @@ int main(int argc, const char * argv[]) {
 
 		frameStart = SDL_GetTicks();
 
+
 		game->handleEvents();
 		
 		if (Game::scenes->getNewScene() != Game::scenes->getCurrentScene()){
@@ -41,13 +42,11 @@ int main(int argc, const char * argv[]) {
 			break;
 		}
 
-
 		frameTime = SDL_GetTicks() - frameStart;
 
 		if (frameDelay > frameTime) {
 			SDL_Delay(frameDelay - frameTime);
 		}
-
 	}
 
 	game->clean();
