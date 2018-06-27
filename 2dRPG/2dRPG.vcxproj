@@ -154,6 +154,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="SpellHandler.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
@@ -177,6 +178,8 @@
     <ClInclude Include="ProjectileComponent.hpp" />
     <ClInclude Include="SavefileHandler.hpp" />
     <ClInclude Include="SceneManager.hpp" />
+    <ClInclude Include="SpellComponent.hpp" />
+    <ClInclude Include="SpellHandler.hpp" />
     <ClInclude Include="TileComponent.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="tinyxml2.h" />

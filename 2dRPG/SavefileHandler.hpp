@@ -16,13 +16,9 @@ public:
 	Vector2D playerPos;
 	int items[100]; //je nachdem angeri zahl. 100 grad chli viel
 
-	SavefileHandler() {
+	SavefileHandler() {}
 
-	}
-
-	~SavefileHandler() {
-	
-	}
+	~SavefileHandler() {}
 
 	//de no apasse mit de argument
 	int saveGame(Vector2D pos, int mtID, int mcID) {
@@ -112,6 +108,8 @@ public:
 		savefile.close();
 		return 0;
 	}
+
+private:
 
 	std::string encryptDecrypt(std::string toEncrypt) {
 		char key[3] = { 'L', 'A', 'S' }; //keys for added security

@@ -62,8 +62,8 @@ public:
 			collider.y = static_cast<int>(transform->position.y) + yOffset;
 
 			if (!fixedSize) {
-				collider.w = transform->width * transform->scale;
-				collider.h = transform->height * transform->scale;
+				collider.w = static_cast<int>(transform->width * transform->scale);
+				collider.h = static_cast<int>(transform->height * transform->scale);
 			}
 		}
 

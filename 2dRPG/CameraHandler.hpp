@@ -46,7 +46,4 @@ public:
 	SDL_Rect getCamera() {
 		return camera;
 	}
-
-private:
-	
 };

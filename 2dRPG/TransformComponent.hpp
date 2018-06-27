@@ -16,7 +16,7 @@ public:
 
 	int height = 32;
 	int width = 32;
-	int scale = 1;
+	float scale = 1.0f;
 
 	int speed = 3;
 
@@ -26,7 +26,7 @@ public:
 	}
 
 	//init pos für player. de speter no endere für enemies etc
-	TransformComponent(int sc) {
+	TransformComponent(float sc) {
 		position.x = 900;
 		position.y = 700;
 		scale = sc;
@@ -38,7 +38,7 @@ public:
 	}
 
 	//posX, posY, height, width, scale
-	TransformComponent(float x, float y, int w, int h, int sc) {
+	TransformComponent(float x, float y, int w, int h, float sc) {
 		position.x = x;
 		position.y = y;
 		height = h;

@@ -17,7 +17,7 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, std::string id) {
+	TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, float tscale, std::string id) {
 		texture = Game::assets->GetTexture(id);
 
 		position.x = static_cast<float>(xpos);
@@ -29,7 +29,7 @@ public:
 
 		destRect.x = xpos;
 		destRect.y = ypos;
-		destRect.w = destRect.h = tsize * tscale;
+		destRect.w = destRect.h = static_cast<int>(tsize * tscale);
 	}
 
 	void update() override {

@@ -16,6 +16,7 @@ SceneManager* Game::scenes = new SceneManager(&menuHandler);
 CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH );
 SavefileHandler* Game::savegame = new SavefileHandler();
 HUDManager* Game::hud = new HUDManager();
+SpellHandler* Game::spellHandler = new SpellHandler();
 
 bool Game::isRunning = false;
 
@@ -91,7 +92,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//assets->createText("test SUPER", {50, 50}, "arial", white);
 
 	//ADD PROJECTILES HERE
-	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 0), 300, 2, "projectile");
+	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 1), 300, 2, "projectile");
 	assets->createEnemy(1, Vector2D(1400, 1200));
 
 	//----------------
@@ -118,14 +119,17 @@ auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& texts(manager.getGroup(Game::groupTexts));
 auto& enemies(manager.getGroup(Game::groupEnemies));
 auto& hudElements(manager.getGroup(Game::groupHUD));
+auto& spells(manager.getGroup(Game::groupSpells));
 
 void Game::handleEvents() {
 
 	while (SDL_PollEvent(&event)) {
 		if (scenes->getCurrentScene() == 0) {
 			player.getComponent<KeyboardController>().keyInput();
+			player.getComponent<KeyboardController>().mouseInput();
 		} else {
 			player.getComponent<KeyboardController>().keyInputMenu();
+			player.getComponent<KeyboardController>().mouseMenuInput();
 		}
 	}
 }
@@ -141,8 +145,6 @@ void Game::update() {
 
 	manager.refresh();
 	manager.update();
-
-	player.getComponent<CharacterComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
 
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
@@ -177,6 +179,9 @@ void Game::update() {
 		}
 	}
 
+	player.getComponent<CharacterComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
+	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
+
 	if (playerPos.y + 128 <= 0 || playerPos.x + 128 <= 0 || playerPos.x >= map->getMapSize().x || playerPos.y >= map->getMapSize().y ) {
 		Game::newScreen(playerPos);
 	}
@@ -205,6 +210,10 @@ void Game::render() {
 
 	for (auto& p : projectiles) {
 		p->draw();
+	}
+
+	for (auto& s : spells) {
+		s->draw();
 	}
 
 	for (auto& h : hudElements) {
@@ -269,19 +278,22 @@ void Game::newScene() {
 		Game::isRunning = false;
 	} else if(scene == 8){
 		//speichert spiel und geht ins hauptmenu
+		spellHandler->LoadSpell(1);
+		
 		savegame->saveGame(player.getComponent<TransformComponent>().position, map->getMapThemeID(), map->getMapScreenID());
-		scenes->setScene(1);
-	} else {
-		scenes->setScene(scene);
-		if (scene != 0) {
-			for (int i = 0; i < scenes->menus->eleCount; i++) {
-				assets->createText(scenes->menus->menuText[i], { 108, float(i) * 60 + 503 }, "arial", white);
-			}
-			menuButton = { 100, 500, 500, 40 };
-			scenes->menus->activeButton = 1;
-		} else {
-			camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
+		scene = 1;
+		scenes->setNewScene(scene);
+	} 
+	
+	scenes->setScene(scene);
+	if (scene != 0) {
+		for (int i = 0; i < scenes->menus->eleCount; i++) {
+			assets->createText(scenes->menus->menuText[i], { 108, float(i) * 60 + 503 }, "arial", white);
 		}
+		menuButton = { 100, 500, 500, 40 };
+		scenes->menus->activeButton = 1;
+	} else {
+		camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 	
 	manager.refresh();

@@ -15,6 +15,8 @@ public:
 		playerVel.Zero();
 		walkingX = 0;
 		walkingY = 0;
+
+		kTimer = Timer::Instance();
 	}
 
 	void setVelocity() {
@@ -91,7 +93,28 @@ public:
 			default:
 				break;
 		}
-	
+	}
+
+	void mouseInput() {
+		kTimer->Update();
+		if (Game::event.button.button == SDL_BUTTON_LEFT) {
+			if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
+				//std::cout << mouseX << " " << mouseY << std::endl;
+				kTimer->Reset();
+			}
+			else if (Game::event.type == SDL_MOUSEBUTTONUP) {
+				SDL_GetMouseState(&mouseX, &mouseY);
+				//std::cout << kTimer->DeltaTime() << std::endl;
+				Game::spellHandler->LoadSpell(1, kTimer->DeltaTime(), mouseX, mouseY);
+				kTimer->Reset();
+			}
+		}
+	}
+
+	void mouseMenuInput() {
+		if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
+
+		}
 	}
 
 	void keyInputMenu() {
@@ -154,6 +177,18 @@ public:
 		}
 	}
 
+	int getMouseX() {
+		return mouseX;
+	}
+
+	int getMouseY() {
+		return mouseY;
+	}
+
+	float getDeltaMousePress(){
+		return kTimer->DeltaTime();
+	}
+
 private:
 	Vector2D playerVel;
 	float walkSpeed = 1;
@@ -164,5 +199,9 @@ private:
 
 	bool pSprint = false;
 	bool pMoving = false;
+
+	Timer* kTimer;
+
+	int mouseX, mouseY;
 
 };

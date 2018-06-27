@@ -34,6 +34,7 @@ public:
 	SpriteComponent(std::string id, int fix) {
 		switch (fix){
 			case 1:
+				//Hud etc stays fixed
 				fixed = fix;
 				break;
 			default:
@@ -42,6 +43,7 @@ public:
 		setTex(id);
 	}
 
+	//Für player
 	SpriteComponent(std::string id, bool isAnimated) {
 		animated = isAnimated;
 
@@ -63,8 +65,20 @@ public:
 		animations.emplace("SprintDown", sprintDown);
 		animations.emplace("SprintLR", sprintLR);
 
-
 		Play("Idle");
+
+		setTex(id);
+	}
+
+	//sprite für spell
+	SpriteComponent(std::string id, int frames, int delay, int index) {
+		animated = true;
+		
+		Animation spell = Animation(index, frames, delay);
+
+		animations.emplace("spell", spell);
+
+		Play("spell");
 
 		setTex(id);
 	}
@@ -104,8 +118,8 @@ public:
 			destRect.y = static_cast<int>(transform->position.y) - Game::camera->camera.y;
 		}
 
-		destRect.w = transform->width * transform->scale;
-		destRect.h = transform->height * transform->scale;
+		destRect.w = static_cast<int>(transform->width * transform->scale);
+		destRect.h = static_cast<int>(transform->height * transform->scale);
 	}
 
 	void draw() override {

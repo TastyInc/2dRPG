@@ -14,6 +14,7 @@
 
 #include "CameraHandler.hpp"
 #include "SavefileHandler.hpp"
+#include "SpellHandler.hpp"
 
 #undef main
 
@@ -40,6 +41,7 @@ public:
 	static SceneManager* scenes;
 	static CameraHandler* camera;
 	static SavefileHandler* savegame;
+	static SpellHandler* spellHandler;
 	static HUDManager* hud;
 
 	static SDL_Renderer *renderer;
@@ -60,7 +62,8 @@ public:
 		groupProjectiles,
 		groupEnemies,
 		groupTexts,
-		groupHUD
+		groupHUD,
+		groupSpells
 	};
 
 
