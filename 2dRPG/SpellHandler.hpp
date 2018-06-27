@@ -54,6 +54,7 @@ private:
 	int sWidth;
 	int sHeight;
 	int sFrameDelay;
+	float minFrameDelay, maxFrameDelay;
 	int sAnimCount;
 
 };

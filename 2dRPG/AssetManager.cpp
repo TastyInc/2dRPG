@@ -42,7 +42,7 @@ void AssetManager::createEnemy(int id, Vector2D pos) {
 void AssetManager::createHud(std::string id, Vector2D pos, int w, int h){
 	auto& hudElement(manager->addEntity());
 
-	hudElement.addComponent<TransformComponent>(pos.x, pos.y, w, h, 1.5);
+	hudElement.addComponent<TransformComponent>(pos.x, pos.y, w, h, 1.0f);
 	hudElement.addComponent<SpriteComponent>(id, 1);
 	hudElement.addGroup(Game::groupHUD);
 }

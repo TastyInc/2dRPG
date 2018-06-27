@@ -22,6 +22,7 @@ public:
 	void AddTile(int srcX, int srcY, int xpos, int ypos);
 	Vector2D getMapSize();
 	Vector2D spawnPoint;
+	int getMapScale();
 
 private:
 	std::string texID;

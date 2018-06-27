@@ -20,6 +20,7 @@ public:
 
 		if (distance > range) {
 			entity->destroy();
+			//entity->getComponent<SpellComponent>().destroyParticle;
 		} else if (	transform->position.x > Game::camera->camera.x + Game::camera->camera.w ||
 					transform->position.x < Game::camera->camera.x ||
 					transform->position.y > Game::camera->camera.y + Game::camera->camera.h ||

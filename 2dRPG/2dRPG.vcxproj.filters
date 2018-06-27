@@ -128,17 +128,17 @@
     <ClInclude Include="SavefileHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HUDManager.hpp">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpellHandler.hpp">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="SpellComponent.hpp">
       <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDManager.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

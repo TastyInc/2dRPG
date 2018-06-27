@@ -55,6 +55,9 @@ public:
 	//Scene as in which menu, map, event etc..
 	int scene = 0;
 
+	//multiplier for enemies, character, sprites, everything!
+	float drawingScale;
+
 	enum groupLabels : std::size_t {
 		groupMap,
 		groupPlayers,

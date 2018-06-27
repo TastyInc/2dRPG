@@ -95,7 +95,8 @@ bool SpellHandler::LoadSpell(int spellID) {
 			if (sElement != NULL) {
 				sElement->QueryIntAttribute("width", &sWidth);
 				sElement->QueryIntAttribute("height", &sHeight);
-				sElement->QueryIntAttribute("frameDelay", &sFrameDelay);
+				sElement->QueryFloatAttribute("minFrameDelay", &minFrameDelay);
+				sElement->QueryFloatAttribute("maxFrameDelay", &maxFrameDelay);
 				sElement->QueryIntAttribute("count", &sAnimCount);
 			}
 			break;
@@ -116,6 +117,7 @@ bool SpellHandler::LoadSpell(int spellID) {
 	sSize = minMax(float(sSizeMin), float(sSizeMax));
 	sDistance = minMax(sDistanceMin, sDistanceMax);
 	sDmg = minMax(sDmgMin, sDmgMax);
+	sFrameDelay = int(minMax(minFrameDelay, maxFrameDelay));
 
 	createSpell();
 
@@ -131,7 +133,7 @@ void SpellHandler::createSpell() {
 
 	//spell.addComponent<SpellComponent>();
 	spell.addComponent<TransformComponent>(playerX, playerY, sWidth, sHeight, sSize);
-	spell.addComponent<SpriteComponent>(sName, sAnimCount, sFrameDelay * sDeltaTime, 0);
+	spell.addComponent<SpriteComponent>(sName, sAnimCount, sFrameDelay, 0);
 	/* no is spell verschiebe ev.*/
 	spell.addComponent<ProjectileComponent>(sDistance, sSpeed, Vector2D(sSpeed * angleX, sSpeed * angleY));
 	//spell.addComponent<ColliderComponent>("projectile");

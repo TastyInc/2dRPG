@@ -76,15 +76,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap(savegame->mapTheme, savegame->mapScreen);
 
-
-	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
-	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 2);
-	player.addComponent<SpriteComponent>("player", true);
-	player.addComponent<KeyboardController>();
-	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
-	player.addComponent<CharacterComponent>(100, 100);
-	player.addGroup(groupPlayers);
-
 	mTimer = Timer::Instance();
 
 	//----------------
@@ -97,6 +88,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//----------------
 
+	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
+	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 2.0f);
+	player.addComponent<SpriteComponent>("player", true);
+	player.addComponent<KeyboardController>();
+	//hie no apasse
+	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
+	player.addComponent<CharacterComponent>(100, 100);
+	player.addGroup(groupPlayers);
 
 	//LOAD into assets HUD
 	//HUd söt sech ar kamera festhebe, nid ar map
@@ -278,7 +277,6 @@ void Game::newScene() {
 		Game::isRunning = false;
 	} else if(scene == 8){
 		//speichert spiel und geht ins hauptmenu
-		spellHandler->LoadSpell(1);
 		
 		savegame->saveGame(player.getComponent<TransformComponent>().position, map->getMapThemeID(), map->getMapScreenID());
 		scene = 1;
@@ -300,6 +298,7 @@ void Game::newScene() {
 }
 
 void Game::newScreen(Vector2D pp) {
+
 	Vector2D playerPos = pp;
 
 	for (auto& t : tiles) { //for each T in tiles
@@ -326,7 +325,7 @@ void Game::newScreen(Vector2D pp) {
 	else if (playerPos.y >= map->getMapSize().y) {
 		direction = "s";
 	}
-	//Action (Boat, Boss, Event, Hole etc)
+	//Action (Boat, Boss, Event, Hole, start etc)
 	else {
 		direction = "";
 	}
@@ -338,10 +337,9 @@ void Game::newScreen(Vector2D pp) {
 	}
 
 	player.getComponent<TransformComponent>().position = map->spawnPoint;
+	std::cout << player.getComponent<TransformComponent>().scale << std::endl;
+	
 	camera->updateCameraSize(map->getMapSize(), WINDOW_WIDTH, WINDOW_HEIGHT);
-
-
-
 }
 
 void Game::clean() {

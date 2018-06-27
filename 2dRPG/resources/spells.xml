@@ -2,22 +2,23 @@
 "SPELLBOOK"
 
 //attributes
-deltaMouse:	maximal time of mouse pressed till release. if 0, no charge possible
-Speed: 		minimal/maximal speed with minimal mouse Click Time
-Size:		minimal/maximal size of projectile (actual size on screen = size * width||height * scale)
-damage:		minimal/maximal damage output
-distance:	minimal/maximal distance traveling
-count:		minimal/maximal number of projectiles
-sprite:		information about the sprite. Width / Height / scale
-animation:	information about how the game handles the animation. If empty, no animation:
-			frameDelay: time to wait before loading new frame
-			count: 		number of animations
+deltaMouse:		maximal time of mouse pressed till release. if 0, no charge possible
+Speed: 			minimal/maximal speed with minimal mouse Click Time
+Size:			minimal/maximal size of projectile (actual size on screen = size * width||height * scale)
+damage:			minimal/maximal damage output
+distance:		minimal/maximal distance traveling
+count:			minimal/maximal number of projectiles
+acceleration:	accelerates the projectile. negative for deceleration
+sprite:			information about the sprite. Width / Height / scale
+animation:		information about how the game handles the animation. If empty, no animation:
+				frameDelay: time to wait before loading new frame
+				count: 		number of animations
 
 //Types
-1:			normal missile straight path 
-2:			normal missile straight path w/o deltaTime
-3:			close range attack (similar to a sword swing)
-4:			scatter into multiple projectiles
+1:				normal missile straight path 
+2:				normal missile straight path w/o deltaTime
+3:				close range attack (similar to a sword swing)
+4:				scatter into multiple projectiles
 5:			
 -->
 
@@ -28,7 +29,7 @@ animation:	information about how the game handles the animation. If empty, no an
 		<transform speedMin="3.0f" speedMax="2.0f" sizeMin="1.0f" sizeMax="3.0f" distMin="200" distMax="400" />
 		<damage min="5" max="30" />
 		<!--<count min="1" max="1" />-->
-		<sprite width="32" height="32" frameDelay="100" count="4" />
+		<sprite width="32" height="32" minFrameDelay="50" maxFrameDelay="200" count="4" />
 	</spell>
 	
 	<spell id ="" name="" type="" sprite="">
