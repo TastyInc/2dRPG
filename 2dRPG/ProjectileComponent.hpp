@@ -22,16 +22,16 @@ public:
 
 		if (distance > range) {
 
-			if (entity->hasGroup(Game::groupSpells)) {
-				entity->getComponent<SpriteComponent>().Play("destroy");
+			if (!entity->hasGroup(Game::groupSpells)) {
+				entity->destroy();
+			} else {
+				entity->getComponent<SpriteComponent>().Play("spell_destroy");
 				if (destroyTime > 30) {
 
 					entity->destroy();
 					destroyTime = 0;
 				}
 				destroyTime++;
-			} else {
-				entity->destroy();
 			}
 		} 
 	}

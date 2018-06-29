@@ -108,14 +108,22 @@ bool SpellHandler::LoadSpell(int spellID) {
 				sElement->QueryFloatAttribute("minFrameDelay", &minFrameDelay);
 				maxFrameDelay = minFrameDelay;
 				sElement->QueryFloatAttribute("maxFrameDelay", &maxFrameDelay);
-				sElement->QueryIntAttribute("count", &sAnimCount);
+				sElement->QueryIntAttribute("frameCount", &sFrameCount);
 				sElement->QueryIntAttribute("index", &sIndex);
 
-				sElement = getElementByName(*sElement, "load");
-				if (sElement != NULL) {
-
+				sElementSprite = getElementByName(*sElement, "load");
+				if (sElementSprite != NULL) {
+					sElementSprite->QueryIntAttribute("frameDelay", &sFrameDelayLoad);
+					sElementSprite->QueryIntAttribute("index", &sIndexLoad);
+					sElementSprite->QueryIntAttribute("frameCountLoad", &sFrameCountLoad);
 				}
 
+				sElementSprite = getElementByName(*sElement, "delete");
+				if (sElementSprite != NULL) {
+					sElementSprite->QueryIntAttribute("frameDelay", &sFrameDelayDelete);
+					sElementSprite->QueryIntAttribute("index", &sIndexDelete);
+					sElementSprite->QueryIntAttribute("frameCountDelete", &sFrameCountDelete);
+				}
 			}
 			break;
 		default:
@@ -151,8 +159,10 @@ void SpellHandler::createSpell() {
 
 	spell.addComponent<SpellComponent>(sDmg, sMana);
 	spell.addComponent<TransformComponent>(playerX, playerY, sWidth, sHeight, sSize);
-	spell.addComponent<SpriteComponent>(sName, sAnimCount, sFrameDelay, 0, "spell");
-	spell.addComponent<ProjectileComponent>(sDistance, sSpeed, Vector2D(sSpeed * float(angleX), sSpeed * float(angleY)));
+	spell.addComponent<SpriteComponent>(sName, sFrameCount, sFrameDelay, sIndex, "spell");
+	spell.getComponent<SpriteComponent>().addAnimation(sFrameCountLoad, sFrameDelayLoad, sIndexLoad, "spell_load");
+	spell.getComponent<SpriteComponent>().addAnimation(sFrameCountDelete, sFrameDelayDelete, sIndexDelete, "spell_destroy");
+	spell.addComponent<ProjectileComponent>(sDistance, sSpeed, Vector2D(sSpeed * angleX, sSpeed * angleY));
 	spell.addComponent<ColliderComponent>("spell");
 	spell.addGroup(Game::groupSpells);
 

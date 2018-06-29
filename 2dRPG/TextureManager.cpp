@@ -16,5 +16,4 @@ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_Ren
 
 void TextureManager::DrawRect(SDL_Rect rect) {
 	SDL_RenderDrawRect(Game::renderer, &rect);
-
 }

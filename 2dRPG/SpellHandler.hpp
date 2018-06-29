@@ -27,10 +27,11 @@ private:
 	XMLError eResult;
 	XMLElement* spell;
 	XMLElement* sElement;
+	XMLElement* sElementSprite;
 
 	float deltaButton;
 	float deltaMultiplier;
-	double angleX, angleY;
+	float angleX, angleY;
 
 	int sID;
 	int lastSpellID = 0;
@@ -56,6 +57,9 @@ private:
 	int sHeight;
 	int sFrameDelay;
 	float minFrameDelay, maxFrameDelay;
-	int sAnimCount;
+	int sFrameCount, sFrameCountLoad, sFrameCountDelete;
+
+	int sIndex, sIndexLoad, sIndexDelete;
+	int sFrameDelayLoad, sFrameDelayDelete;
 
 };

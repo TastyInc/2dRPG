@@ -74,12 +74,15 @@ public:
 
 		Animation spell = Animation(index, frames, delay);
 		animations.emplace(spellName, spell);
-		Animation spell_destroy = Animation(1, frames, delay);
-		animations.emplace("destroy", spell_destroy);
 
 		Play(spellName);
 
 		setTex(id);
+	}
+
+	void addAnimation(int frames, int delay, int index, const char* spellName) {
+		Animation spell = Animation(index, frames, delay);
+		animations.emplace(spellName, spell);
 	}
 	
 	~SpriteComponent() {
