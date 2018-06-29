@@ -13,28 +13,40 @@ public:
 	void init() override{
 		transform = &entity->getComponent<TransformComponent>();
 		transform->velocity = velocity;
+
+		pTimer = Timer::Instance();
 	}
 
 	void update() override {
 		distance += speed;
 
 		if (distance > range) {
-			entity->destroy();
-			//entity->getComponent<SpellComponent>().destroyParticle;
-		} else if (	transform->position.x > Game::camera->camera.x + Game::camera->camera.w ||
-					transform->position.x < Game::camera->camera.x ||
-					transform->position.y > Game::camera->camera.y + Game::camera->camera.h ||
-					transform->position.y < Game::camera->camera.y) {
-			entity->destroy();
-		}
+
+			if (entity->hasGroup(Game::groupSpells)) {
+				entity->getComponent<SpriteComponent>().Play("destroy");
+				if (destroyTime > 30) {
+
+					entity->destroy();
+					destroyTime = 0;
+				}
+				destroyTime++;
+			} else {
+				entity->destroy();
+			}
+		} 
 	}
 
 private:
+	Timer* pTimer;
+
+	SpellComponent* spellC;
 	TransformComponent* transform;
 	
 	int range = 0;
 	int speed = 0;
 	int distance = 0;
+
+	int destroyTime = 0;
 
 	Vector2D velocity;
 

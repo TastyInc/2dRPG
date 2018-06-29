@@ -5,14 +5,25 @@
 
 class SpellComponent : public Component {
 public:
-	SpellComponent() {
-	
+	//SpriteComponent* sprite;
+
+
+	SpellComponent(int dmg, int mana) {
+		sDamage = dmg;
+		sMana = mana;
 	}
 
 	~SpellComponent() {
 	
 	}
 
+	float getDestroyTime() {
+		return destroyDeltaTime;
+	}
+
 private:
+	int sDamage;
+	int sMana;
+	float destroyDeltaTime;
 
 };

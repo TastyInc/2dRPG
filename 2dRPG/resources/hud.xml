@@ -1,8 +1,8 @@
 <hud>
-	<hudElement id="1" name="stat_bars" posx="120" posy="50" sizex="128" sizey="65" sprite="resources/sprites/stat_bars.png" />
-	<hudElement id="2" name="stat_bar_end" posx="248" posy="50" sizex="3" sizey="21" sprite="resources/sprites/stat_bar_end.png" />
-	<hudElement id="3" name="stat_circle" posx="30" posy="30" sizex="109" sizey="109" sprite="resources/sprites/stat_circle.png" />
-	<hudElement id="4" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/weapon1.png" />
-	<hudElement id="5" name="weapon1" posx="1200" posy="600" sizex="200" sizey="200" sprite="resources/sprites/weapon1.png" />
-	<hudElement id="6" name="weapon2" posx="1200" posy="800" sizex="200" sizey="200" sprite="resources/sprites/weapon2.png" />
+	<hudElement id="0" name="stat_bars" posx="120" posy="50" sizex="128" sizey="65" sprite="resources/sprites/stat_bars.png" />
+	<hudElement id="1" name="stat_bar_end" posx="248" posy="50" sizex="3" sizey="21" sprite="resources/sprites/stat_bar_end.png" />
+	<hudElement id="2" name="stat_circle" posx="30" posy="30" sizex="109" sizey="109" sprite="resources/sprites/stat_circle.png" />
+	<hudElement id="3" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/weapon1.png" />
+	<hudElement id="4" name="weapon1" posx="1200" posy="600" sizex="200" sizey="200" sprite="resources/sprites/weapon1.png" />
+	<hudElement id="5" name="weapon2" posx="1200" posy="800" sizex="200" sizey="200" sprite="resources/sprites/weapon2.png" />
 </hud>

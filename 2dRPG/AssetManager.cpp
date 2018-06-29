@@ -29,11 +29,11 @@ void AssetManager::createText(std::string text, Vector2D pos, std::string font, 
 }
 
 //ENEMY
-void AssetManager::createEnemy(int id, Vector2D pos) {
+void AssetManager::createEnemy(int id, Vector2D pos, std::string name) {
 	auto& enemy(manager->addEntity());
 
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 80, 110, 3);
-	enemy.addComponent<SpriteComponent>("enemy", true);
+	enemy.addComponent<SpriteComponent>(name, true);
 	enemy.addComponent<CharacterComponent>(id);
 	enemy.addGroup(Game::groupEnemies);
 }
@@ -52,7 +52,11 @@ void AssetManager::AddTexture(std::string id, const char* path) {
 }
 
 SDL_Texture* AssetManager::GetTexture(std::string id) {
-	return textures[id];
+	if (textures[id] != NULL){
+		return textures[id];
+	}
+	
+	return NULL;
 }
 
 void AssetManager::AddFont(std::string id, std::string path, int fontSize) {

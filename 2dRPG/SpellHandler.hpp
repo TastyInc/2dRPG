@@ -50,6 +50,7 @@ private:
 	float sSize, sSizeMin, sSizeMax;
 	int sDistance, sDistanceMin, sDistanceMax;
 	int sDmg, sDmgMin, sDmgMax;
+	int sMana, sManaMin, sManaMax;
 
 	int sWidth;
 	int sHeight;

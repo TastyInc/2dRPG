@@ -6,11 +6,12 @@ deltaMouse:		maximal time of mouse pressed till release. if 0, no charge possibl
 Speed: 			minimal/maximal speed with minimal mouse Click Time
 Size:			minimal/maximal size of projectile (actual size on screen = size * width||height * scale)
 damage:			minimal/maximal damage output
-distance:		minimal/maximal distance traveling
+mana:			minimal/maximal the mana cost
+distance:		minimal/maximal distance traveling in milliseconds
 count:			minimal/maximal number of projectiles
 acceleration:	accelerates the projectile. negative for deceleration
 sprite:			information about the sprite. Width / Height / scale
-animation:		information about how the game handles the animation. If empty, no animation:
+				information about how the game handles the animation. If empty, no animation:
 				frameDelay: time to wait before loading new frame
 				count: 		number of animations
 
@@ -26,10 +27,13 @@ animation:		information about how the game handles the animation. If empty, no a
 <spells>
 	<spell id ="1" name="Weak Energy" type="1" sprite="resources/sprites/spells/spell_1.png">
 		<delta time="2" />
-		<transform speedMin="3.0f" speedMax="2.0f" sizeMin="1.0f" sizeMax="3.0f" distMin="200" distMax="400" />
-		<damage min="5" max="30" />
-		<!--<count min="1" max="1" />-->
-		<sprite width="32" height="32" minFrameDelay="50" maxFrameDelay="200" count="4" />
+		<transform speedMin="3.0f" speedMax="2.0f" sizeMin="1.0f" sizeMax="2.0f" distMin="200" distMax="400" />
+		<damage minDmg="5" maxDmg="30" />
+		<mana min="2" max="12" />
+		<sprite width="32" height="32" minFrameDelay="40" maxFrameDelay="100" count="4" index="0">
+			<load frameDelay="50" index="1"/>
+			<delete frameDelay="50" index="2"/>
+		</sprite>
 	</spell>
 	
 	<spell id ="" name="" type="" sprite="">

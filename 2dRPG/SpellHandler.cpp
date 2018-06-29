@@ -6,7 +6,6 @@
 
 #define PI 3.1415926535
 
-
 extern Manager manager;
 
 SpellHandler::SpellHandler() {
@@ -78,17 +77,28 @@ bool SpellHandler::LoadSpell(int spellID) {
 			sElement = getElementByName(*spell, "transform");
 			if (sElement != NULL) {
 				sElement->QueryFloatAttribute("speedMin", &sSpeedMin);
+				sSpeedMax = sSpeedMin;
 				sElement->QueryFloatAttribute("speedMax", &sSpeedMax);
 				sElement->QueryFloatAttribute("sizeMin", &sSizeMin);
+				sSizeMax = sSizeMin;
 				sElement->QueryFloatAttribute("sizeMax", &sSizeMax);
 				sElement->QueryIntAttribute("distMin", &sDistanceMin);
+				sDistanceMax = sDistanceMin;
 				sElement->QueryIntAttribute("distMax", &sDistanceMax);
 			}
 
 			sElement = getElementByName(*spell, "damage");
 			if (sElement != NULL) {
 				sElement->QueryIntAttribute("dmgMin", &sDmgMin);
+				sDmgMax = sDmgMin;
 				sElement->QueryIntAttribute("dmgMax", &sDmgMax);
+			}
+
+			sElement = getElementByName(*spell, "mana");
+			if (sElement != NULL) {
+				sElement->QueryIntAttribute("manaMin", &sDmgMin);
+				sDmgMax = sDmgMin;
+				sElement->QueryIntAttribute("manaMax", &sDmgMax);
 			}
 
 			sElement = getElementByName(*spell, "sprite");
@@ -96,8 +106,16 @@ bool SpellHandler::LoadSpell(int spellID) {
 				sElement->QueryIntAttribute("width", &sWidth);
 				sElement->QueryIntAttribute("height", &sHeight);
 				sElement->QueryFloatAttribute("minFrameDelay", &minFrameDelay);
+				maxFrameDelay = minFrameDelay;
 				sElement->QueryFloatAttribute("maxFrameDelay", &maxFrameDelay);
 				sElement->QueryIntAttribute("count", &sAnimCount);
+				sElement->QueryIntAttribute("index", &sIndex);
+
+				sElement = getElementByName(*sElement, "load");
+				if (sElement != NULL) {
+
+				}
+
 			}
 			break;
 		default:
@@ -117,6 +135,7 @@ bool SpellHandler::LoadSpell(int spellID) {
 	sSize = minMax(float(sSizeMin), float(sSizeMax));
 	sDistance = minMax(sDistanceMin, sDistanceMax);
 	sDmg = minMax(sDmgMin, sDmgMax);
+	sMana = minMax(sManaMin, sManaMax);
 	sFrameDelay = int(minMax(minFrameDelay, maxFrameDelay));
 
 	createSpell();
@@ -127,33 +146,39 @@ bool SpellHandler::LoadSpell(int spellID) {
 void SpellHandler::createSpell() {
 
 	auto& spell(manager.addEntity());
-	//if (Game::assets->GetTexture(sName) == NULL) { luege öb t textur scho existiert...oder grad direkt im Settexture
-	Game::assets->AddTexture(sName, sSprite);
-	//}
 
-	//spell.addComponent<SpellComponent>();
+	Game::assets->AddTexture(sName, sSprite);
+
+	spell.addComponent<SpellComponent>(sDmg, sMana);
 	spell.addComponent<TransformComponent>(playerX, playerY, sWidth, sHeight, sSize);
-	spell.addComponent<SpriteComponent>(sName, sAnimCount, sFrameDelay, 0);
-	/* no is spell verschiebe ev.*/
-	spell.addComponent<ProjectileComponent>(sDistance, sSpeed, Vector2D(sSpeed * angleX, sSpeed * angleY));
-	//spell.addComponent<ColliderComponent>("projectile");
+	spell.addComponent<SpriteComponent>(sName, sAnimCount, sFrameDelay, 0, "spell");
+	spell.addComponent<ProjectileComponent>(sDistance, sSpeed, Vector2D(sSpeed * float(angleX), sSpeed * float(angleY)));
+	spell.addComponent<ColliderComponent>("spell");
 	spell.addGroup(Game::groupSpells);
 
 }
 
 int SpellHandler::minMax(int min, int max) {
-	int diff = max - min;
+	if (min != max) {
+		int diff = max - min;
 
-	return int(min + diff * deltaMultiplier);
+		return int(min + diff * deltaMultiplier);
+	}
+
+	return min;
 }
 
 float SpellHandler::minMax(float min, float max) {
-	float diff = max - min;
+	if (min != max) {
+		float diff = max - min;
 
-	return min + diff * deltaMultiplier;
+		return min + diff * deltaMultiplier;
+	}
+
+	return min;
 }
 
-XMLElement* SpellHandler::getElementByName(XMLElement &ele, std::string const & elem_name) {
+XMLElement* SpellHandler::getElementByName(XMLElement &ele, std::string const &elem_name) {
 	XMLElement* elem = ele.FirstChildElement();
 	while (elem){
 		if (!std::string(elem->Value()).compare(elem_name)){

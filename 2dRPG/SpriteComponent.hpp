@@ -18,7 +18,6 @@ private:
 	int speed = 100;
 	
 public:
-
 	int animIndex = 0;
 
 	std::map<const char*, Animation> animations;
@@ -47,7 +46,6 @@ public:
 	SpriteComponent(std::string id, bool isAnimated) {
 		animated = isAnimated;
 
-
 		//anpassen für enemies angeri animations u angeri framerate etc
 		Animation idle = Animation(0, 4, 200);
 		Animation walkUp = Animation(1, 8, 100);
@@ -70,15 +68,16 @@ public:
 		setTex(id);
 	}
 
-	//sprite für spell
-	SpriteComponent(std::string id, int frames, int delay, int index) {
+	//for spells
+	SpriteComponent(std::string id, int frames, int delay, int index, const char* spellName) {
 		animated = true;
-		
+
 		Animation spell = Animation(index, frames, delay);
+		animations.emplace(spellName, spell);
+		Animation spell_destroy = Animation(1, frames, delay);
+		animations.emplace("destroy", spell_destroy);
 
-		animations.emplace("spell", spell);
-
-		Play("spell");
+		Play(spellName);
 
 		setTex(id);
 	}
@@ -132,5 +131,4 @@ public:
 		animIndex = animations[animName].index;
 		speed = animations[animName].speed;
 	}
-
 };

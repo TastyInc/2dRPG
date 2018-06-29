@@ -83,8 +83,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//assets->createText("test SUPER", {50, 50}, "arial", white);
 
 	//ADD PROJECTILES HERE
-	assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 1), 300, 2, "projectile");
-	assets->createEnemy(1, Vector2D(1400, 1200));
+	//assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 1), 300, 2, "projectile");
+	assets->createEnemy(1, Vector2D(1400, 1200), "ueli");
 
 	//----------------
 
@@ -100,7 +100,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//LOAD into assets HUD
 	//HUd söt sech ar kamera festhebe, nid ar map
 	if (hud->loadHUD()) {
-		for (int i = 0; i < hud->elemCount - 1; i++) {
+		for (int i = 0; i < hud->elemCount; i++) {
 			assets->AddTexture(hud->name[i], hud->sprite[i]);
 			assets->createHud(hud->name[i], Vector2D(hud->posx[i], hud->posy[i]), hud->sizex[i], hud->sizey[i]);
 		}
