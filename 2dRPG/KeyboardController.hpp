@@ -1,5 +1,4 @@
 #pragma once
-
 #include "game.hpp"
 #include "ECS.hpp"
 #include "Components.hpp"
@@ -21,8 +20,8 @@ public:
 
 	void setVelocity() {
 		if (pSprint) {
-			playerVel.x = sprintSpeed * walkingX;
-			playerVel.y = sprintSpeed * walkingY;
+			playerVel.x = sprintMultiplier * walkingX;
+			playerVel.y = sprintMultiplier * walkingY;
 		} else {
 			playerVel.x = walkingX;
 			playerVel.y = walkingY;
@@ -99,12 +98,11 @@ public:
 		kTimer->Update();
 		if (Game::event.button.button == SDL_BUTTON_LEFT) {
 			if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
-				//std::cout << mouseX << " " << mouseY << std::endl;
+				// öppis bessers hie... so wie Entity "loadSpell" oder so wo nur texture component ladt...Game::spellHandler->LoadSpell(1);
 				kTimer->Reset();
 			}
 			else if (Game::event.type == SDL_MOUSEBUTTONUP) {
 				SDL_GetMouseState(&mouseX, &mouseY);
-				//std::cout << kTimer->DeltaTime() << std::endl;
 				Game::spellHandler->LoadSpell(1, kTimer->DeltaTime(), mouseX, mouseY);
 				kTimer->Reset();
 			}
@@ -142,11 +140,12 @@ public:
 		
 		if (transform->velocity.x == 0 && transform->velocity.y == 0) {
 			sprite->Play("Idle");
-		} else {
-			if (transform->velocity.x > 0) 
+		}
+		else {
+			if (transform->velocity.x > 0)
 				sprite->spriteFlip = SDL_FLIP_NONE;
 
-			if (transform->velocity.x < 0) 
+			if (transform->velocity.x < 0)
 				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 
 			if (transform->velocity.x != 0) {
@@ -161,7 +160,8 @@ public:
 			if (transform->velocity.y > 0) {
 				if (pSprint) {
 					sprite->Play("SprintDown");
-				} else {
+				}
+				else {
 					sprite->Play("WalkDown");
 				}
 			}
@@ -175,6 +175,7 @@ public:
 				}
 			}
 		}
+
 	}
 
 	int getMouseX() {
@@ -191,8 +192,8 @@ public:
 
 private:
 	Vector2D playerVel;
-	float walkSpeed = 1;
-	float sprintSpeed = 2;
+	float walkSpeed = 0.6f;
+	float sprintMultiplier = 2;
 
 	float walkingX;
 	float walkingY;

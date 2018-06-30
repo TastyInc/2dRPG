@@ -1,8 +1,14 @@
 <hud>
-	<hudElement id="0" name="stat_bars" posx="120" posy="50" sizex="128" sizey="65" sprite="resources/sprites/stat_bars.png" />
-	<hudElement id="1" name="stat_bar_end" posx="248" posy="50" sizex="3" sizey="21" sprite="resources/sprites/stat_bar_end.png" />
-	<hudElement id="2" name="stat_circle" posx="30" posy="30" sizex="109" sizey="109" sprite="resources/sprites/stat_circle.png" />
-	<hudElement id="3" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/weapon1.png" />
-	<hudElement id="4" name="weapon1" posx="1200" posy="600" sizex="200" sizey="200" sprite="resources/sprites/weapon1.png" />
-	<hudElement id="5" name="weapon2" posx="1200" posy="800" sizex="200" sizey="200" sprite="resources/sprites/weapon2.png" />
+	<hudElement id="0" name="stat_bar1" posx="120" posy="50" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_bars.png" />
+	<hudElement id="1" name="stat_bar2" posx="120" posy="72" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_bars.png" />
+	<hudElement id="2" name="stat_bar3" posx="120" posy="94" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_bars.png" />
+	<hudElement id="3" name="stat_health" posx="120" posy="51" sizex="128" sizey="19" sprite="resources/sprites/hud/stat_health.png" />
+	<hudElement id="4" name="stat_mana" posx="120" posy="73" sizex="128" sizey="19" sprite="resources/sprites/hud/stat_mana.png" />
+	<hudElement id="5" name="stat_stamina" posx="120" posy="95" sizex="128" sizey="19" sprite="resources/sprites/hud/stat_stamina.png" />
+	<hudElement id="6" name="stat_bar_end" posx="248" posy="50" sizex="3" sizey="21" sprite="resources/sprites/hud/stat_bar_end.png" />
+	<hudElement id="7" name="stat_circle" posx="30" posy="30" sizex="109" sizey="109" sprite="resources/sprites/hud/stat_circle.png" />
+	<hudElement id="8" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/hud/weapon1.png" />
+	<!--<hudElement id="4" name="weapon1" posx="1200" posy="600" sizex="200" sizey="200" sprite="resources/sprites/hud/weapon1.png" />
+	<hudElement id="5" name="weapon2" posx="1200" posy="800" sizex="200" sizey="200" sprite="resources/sprites/hud/weapon2.png" />
+	-->
 </hud>

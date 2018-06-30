@@ -6,14 +6,14 @@ using namespace tinyxml2;
 
 class HUDManager {
 public:
-	int elemCount = 6;
-	int id[6];
-	const char* name[6];
-	const char* sprite[6];
-	float posx[6];
-	float posy[6];
-	int sizex[6];
-	int sizey[6];
+	int elemCount = 9;
+	int id[9];
+	const char* name[9];
+	const char* sprite[9];
+	float posx[9];
+	float posy[9];
+	int sizex[9];
+	int sizey[9];
 
 
 	HUDManager() {};

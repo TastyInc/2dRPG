@@ -2,7 +2,7 @@
 <maps>
 	<maptheme id="1" name="beach">
 		<mapscreen id="1" name="Where Journeys begin..." n="0102" e="0103">
-			<attributes width="60" height="35" scale="3" tilesize="32" tileset="resources/sprites/terrain_beach.png" />
+			<attributes width="60" height="35" scale="2" tilesize="32" tileset="resources/sprites/terrain_beach.png" />
 			<terrainmap>
 				000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020127223101060000000000000000
 				000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020127223501120500000000000000

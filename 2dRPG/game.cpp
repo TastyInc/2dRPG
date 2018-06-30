@@ -89,11 +89,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//----------------
 
 	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
-	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 2.0f);
+	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 1);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
 	//hie no apasse
-	player.addComponent<ColliderComponent>("player", 40, 80, 48, 48, true);
+	player.addComponent<ColliderComponent>("player", 20, 40, 24, 24, true);
 	player.addComponent<CharacterComponent>(100, 100);
 	player.addGroup(groupPlayers);
 

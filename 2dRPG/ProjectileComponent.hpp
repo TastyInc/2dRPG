@@ -25,28 +25,30 @@ public:
 			if (!entity->hasGroup(Game::groupSpells)) {
 				entity->destroy();
 			} else {
+				pTimer->Update();
 				entity->getComponent<SpriteComponent>().Play("spell_destroy");
-				if (destroyTime > 30) {
+				//if (pTimer->DeltaTime() >= entity->getComponent<SpellComponent>().getDestroyTime()) {
 
 					entity->destroy();
-					destroyTime = 0;
-				}
-				destroyTime++;
+				//}
 			}
-		} 
+		} else {
+			pTimer->Reset();
+		}
+	}
+
+	void destroyProjectile() {
+		
 	}
 
 private:
 	Timer* pTimer;
 
-	SpellComponent* spellC;
 	TransformComponent* transform;
 	
 	int range = 0;
 	int speed = 0;
 	int distance = 0;
-
-	int destroyTime = 0;
 
 	Vector2D velocity;
 

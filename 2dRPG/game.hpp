@@ -54,6 +54,7 @@ public:
 
 	//Scene as in which menu, map, event etc..
 	int scene = 0;
+	int scaleMultiplier;
 
 	//multiplier for enemies, character, sprites, everything!
 	float drawingScale;

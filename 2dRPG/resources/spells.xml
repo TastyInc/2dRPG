@@ -33,12 +33,12 @@ Is loading / destroyed
 <spells>
 	<spell id ="1" name="Weak Energy" type="1" sprite="resources/sprites/spells/spell_1.png">
 		<delta time="2" />
-		<transform speedMin="3.0f" speedMax="2.0f" sizeMin="1.0f" sizeMax="1.5f" distMin="200" distMax="300" />
+		<transform speedMin="3.0f" speedMax="2.0f" sizeMin="0.5f" sizeMax="0.8f" distMin="200" distMax="300" />
 		<damage minDmg="5" maxDmg="30" />
 		<mana min="2" max="12" />
 		<sprite width="32" height="32" minFrameDelay="40" maxFrameDelay="100" frameCount="4" index="0">
 			<load frameDelay="50" frameCountLoad="4" index="2"/>
-			<delete frameDelay="50" frameCountDelete="4" index="1"/>
+			<delete frameDelay="50" frameCountDelete="4" index="1" deleteTime="0.15f"/>
 		</sprite>
 	</spell>
 	

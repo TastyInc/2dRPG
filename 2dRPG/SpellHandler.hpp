@@ -1,12 +1,17 @@
 #pragma once
 #include <string>
 #include "tinyxml2.h"
+#include "ECS.hpp"
 #include "Vector2D.hpp"
 
 using namespace tinyxml2;
 
 class SpellHandler {
 public:
+	float sSpeed;
+	float deltaButton;
+	float angleX, angleY;
+
 	SpellHandler();
 	~SpellHandler();
 
@@ -29,9 +34,8 @@ private:
 	XMLElement* sElement;
 	XMLElement* sElementSprite;
 
-	float deltaButton;
+
 	float deltaMultiplier;
-	float angleX, angleY;
 
 	int sID;
 	int lastSpellID = 0;
@@ -47,7 +51,7 @@ private:
 
 	float sDeltaTime;
 
-	float sSpeed, sSpeedMin, sSpeedMax;
+	float sSpeedMin, sSpeedMax;
 	float sSize, sSizeMin, sSizeMax;
 	int sDistance, sDistanceMin, sDistanceMax;
 	int sDmg, sDmgMin, sDmgMax;
@@ -58,6 +62,7 @@ private:
 	int sFrameDelay;
 	float minFrameDelay, maxFrameDelay;
 	int sFrameCount, sFrameCountLoad, sFrameCountDelete;
+	float sDeleteTime;
 
 	int sIndex, sIndexLoad, sIndexDelete;
 	int sFrameDelayLoad, sFrameDelayDelete;

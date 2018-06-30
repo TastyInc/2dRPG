@@ -28,8 +28,8 @@ void SpellHandler::LoadSpell(int spellID, float deltaBtn, int mX, int mY) {
 
 	double angleDist = sqrt(pow(mouseX - playerX, 2.0f) + pow(mouseY - playerY, 2.0f));
 
-	angleX = (mouseX - playerX) / angleDist;
-	angleY = (mouseY - playerY) / angleDist;
+	angleX = float((mouseX - playerX) / angleDist);
+	angleY = float((mouseY - playerY) / angleDist);
 
 	LoadSpell(spellID);
 }
@@ -123,6 +123,7 @@ bool SpellHandler::LoadSpell(int spellID) {
 					sElementSprite->QueryIntAttribute("frameDelay", &sFrameDelayDelete);
 					sElementSprite->QueryIntAttribute("index", &sIndexDelete);
 					sElementSprite->QueryIntAttribute("frameCountDelete", &sFrameCountDelete);
+					sElementSprite->QueryFloatAttribute("deleteTime", &sDeleteTime);
 				}
 			}
 			break;
@@ -157,7 +158,7 @@ void SpellHandler::createSpell() {
 
 	Game::assets->AddTexture(sName, sSprite);
 
-	spell.addComponent<SpellComponent>(sDmg, sMana);
+	spell.addComponent<SpellComponent>(sDmg, sMana, sDeleteTime);
 	spell.addComponent<TransformComponent>(playerX, playerY, sWidth, sHeight, sSize);
 	spell.addComponent<SpriteComponent>(sName, sFrameCount, sFrameDelay, sIndex, "spell");
 	spell.getComponent<SpriteComponent>().addAnimation(sFrameCountLoad, sFrameDelayLoad, sIndexLoad, "spell_load");
