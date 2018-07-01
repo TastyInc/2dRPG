@@ -42,7 +42,6 @@ public:
 	static CameraHandler* camera;
 	static SavefileHandler* savegame;
 	static SpellHandler* spellHandler;
-	static HUDManager* hud;
 
 	static SDL_Renderer *renderer;
 	static SDL_Event event;

@@ -6,54 +6,77 @@ using namespace tinyxml2;
 
 class HUDManager {
 public:
-	int elemCount = 9;
-	int id[9];
-	const char* name[9];
-	const char* sprite[9];
-	float posx[9];
-	float posy[9];
-	int sizex[9];
-	int sizey[9];
+	int id;
+	const char* name;
+	const char* sprite;
+	const char* type;
+	float posx;
+	float posy;
+	int sizex;
+	int sizey;
 
+	int currentID = 0;
 
-	HUDManager() {};
+	HUDManager() {
 
-	~HUDManager() {
 	};
 
-	int loadHUD() {
+	bool loadHUD() {
 		eResult = hudFile.LoadFile("resources/hud.xml");
 		if (eResult != XML_SUCCESS) {
 			std::cout << "Could not load HUDFile" << std::endl;
-			return 0;
+			return false;
 		}
 
-		XMLNode* root = hudFile.FirstChildElement("hud");
+		root = hudFile.FirstChildElement("hud");
 		if (root == nullptr) {
 			std::cout << "Could not load HUDFile" << std::endl;
-			return 0;
+			return false;
 		}
 
-		int count = 0;
-		for (XMLElement* e = root->FirstChildElement("hudElement"); e != NULL; e = e->NextSiblingElement("hudElement")){
+		root->QueryIntAttribute("elementCount", &elementCount);
 
-			e->QueryIntAttribute("id", &id[count]);
-			e->QueryFloatAttribute("posx", &posx[count]);
-			e->QueryFloatAttribute("posy", &posy[count]);
-			e->QueryIntAttribute("sizex", &sizex[count]);
-			e->QueryIntAttribute("sizey", &sizey[count]);
-			e->QueryStringAttribute("name", &name[count]);
-			e->QueryStringAttribute("sprite", &sprite[count]);
+		return true;
+	}
 
-			count++;
-		}	
-		return 1;
+	bool getHudElement() {
+
+		currentID++;
+
+		if (currentID <= elementCount) {
+			for (XMLElement* e = root->FirstChildElement("hudElement"); e != NULL; e = e->NextSiblingElement("hudElement")) {
+
+				e->QueryIntAttribute("id", &id);
+				if (id == currentID) {
+					e->QueryFloatAttribute("posx", &posx);
+					e->QueryFloatAttribute("posy", &posy);
+					e->QueryIntAttribute("sizex", &sizex);
+					e->QueryIntAttribute("sizey", &sizey);
+					e->QueryStringAttribute("name", &name);
+					e->QueryStringAttribute("sprite", &sprite);
+					if (e->QueryStringAttribute("type", &type) != 0) {
+						type = NULL;
+					}
+					returnValue = true;
+					break;
+				}
+				else {
+					returnValue = false;
+				}
+			}
+		} else {
+			return false;
+		}
+
+		return returnValue;
 	}
 
 private:
 	XMLDocument hudFile;
 	XMLError eResult;
 	XMLElement* hudElement;
+	XMLElement* root;
 
-
+	bool returnValue = false;
+	int elementCount;
 };

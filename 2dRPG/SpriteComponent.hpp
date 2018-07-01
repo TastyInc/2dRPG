@@ -13,7 +13,6 @@ private:
 	SDL_Rect srcRect, destRect;
 
 	bool animated = false;
-	bool fixed = false;
 	int frames = 0;
 	int speed = 100;
 	
@@ -27,18 +26,6 @@ public:
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent(std::string id) {
-		setTex(id);
-	}
-
-	SpriteComponent(std::string id, int fix) {
-		switch (fix){
-			case 1:
-				//Hud etc stays fixed
-				fixed = fix;
-				break;
-			default:
-				break;
-		}
 		setTex(id);
 	}
 
@@ -112,7 +99,7 @@ public:
 		srcRect.y = animIndex * transform->height;
 
 		//switch für hud, tilemap, background etc.
-		if (fixed) {
+		if (entity->hasGroup(Game::groupHUD)) {
 			destRect.x = static_cast<int>(transform->position.x);
 			destRect.y = static_cast<int>(transform->position.y);
 		} else {

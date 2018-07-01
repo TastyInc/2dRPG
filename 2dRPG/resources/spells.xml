@@ -32,7 +32,7 @@ Is loading / destroyed
 
 <spells>
 	<spell id ="1" name="Weak Energy" type="1" sprite="resources/sprites/spells/spell_1.png">
-		<delta time="2" />
+		<delta time="1.0f" />
 		<transform speedMin="3.0f" speedMax="2.0f" sizeMin="0.5f" sizeMax="0.8f" distMin="200" distMax="300" />
 		<damage minDmg="5" maxDmg="30" />
 		<mana min="2" max="12" />

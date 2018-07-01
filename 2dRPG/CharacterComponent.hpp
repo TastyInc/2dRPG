@@ -41,6 +41,10 @@ public:
 		}
 	}
 
+	int getStamina() {
+		return stm;
+	}
+
 private:
 	int hp;		//healthpoints
 	int maxHp;	//max healthpoints

@@ -15,7 +15,6 @@ AssetManager* Game::assets = new AssetManager(&manager);
 SceneManager* Game::scenes = new SceneManager(&menuHandler);
 CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH );
 SavefileHandler* Game::savegame = new SavefileHandler();
-HUDManager* Game::hud = new HUDManager();
 SpellHandler* Game::spellHandler = new SpellHandler();
 
 bool Game::isRunning = false;
@@ -99,12 +98,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//LOAD into assets HUD
 	//HUd söt sech ar kamera festhebe, nid ar map
-	if (hud->loadHUD()) {
-		for (int i = 0; i < hud->elemCount; i++) {
-			assets->AddTexture(hud->name[i], hud->sprite[i]);
-			assets->createHud(hud->name[i], Vector2D(hud->posx[i], hud->posy[i]), hud->sizex[i], hud->sizey[i]);
+
+	HUDManager Hud;
+	if (Hud.loadHUD()) {
+		while (Hud.getHudElement()){
+			assets->AddTexture(Hud.name, Hud.sprite);
+			assets->createHud(Hud.name, Vector2D(Hud.posx, Hud.posy), Hud.sizex, Hud.sizey, Hud.type);
 		}
-		delete hud;
+	} else {
+		std::cout << "Could not load HUD ):" << std::endl;
 	}
 
 	camera->camera.x = 100; //<-??
@@ -135,6 +137,13 @@ void Game::handleEvents() {
 
 void Game::update() { 
 	
+
+	for (auto& h : hudElements){
+		h->getComponent<HUDComponent>().updateStamina(player.getComponent<CharacterComponent>().getStamina());
+	}
+
+	//hudElements[2]->getComponent<HUDComponent>().lmao(500);
+
 	mTimer->Update();
 
 	player.getComponent<KeyboardController>().setVelocity();
@@ -218,6 +227,8 @@ void Game::render() {
 	for (auto& h : hudElements) {
 		h->draw();
 	}
+
+//	hudElements[1]->getComponent<HUDComponent>().update();
 
 	for (auto& t : texts) {
 		t->draw();
