@@ -93,7 +93,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<KeyboardController>();
 	//hie no apasse
 	player.addComponent<ColliderComponent>("player", 20, 40, 24, 24, true);
-	player.addComponent<CharacterComponent>(100, 100);
+	player.addComponent<PlayerComponent>(100, 100);
 	player.addGroup(groupPlayers);
 
 	//LOAD into assets HUD
@@ -139,7 +139,7 @@ void Game::update() {
 	
 
 	for (auto& h : hudElements){
-		h->getComponent<HUDComponent>().updateStamina(player.getComponent<CharacterComponent>().getStamina());
+		h->getComponent<HUDComponent>().updateStamina(player.getComponent<PlayerComponent>().getStamina());
 	}
 
 	//hudElements[2]->getComponent<HUDComponent>().lmao(500);
@@ -187,7 +187,8 @@ void Game::update() {
 		}
 	}
 
-	player.getComponent<CharacterComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
+	player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
+
 	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
 
 	if (playerPos.y + 128 <= 0 || playerPos.x + 128 <= 0 || playerPos.x >= map->getMapSize().x || playerPos.y >= map->getMapSize().y ) {

@@ -16,6 +16,9 @@
     <Filter Include="Header Files\ECS">
       <UniqueIdentifier>{d49f56d7-073e-440f-9281-c2cfcf0a5f37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ECS\Enemy Components">
+      <UniqueIdentifier>{7cedd294-4540-4f6e-82c6-a956f0095120}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,9 +116,6 @@
     <ClInclude Include="CameraHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterComponent.hpp">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="SavefileHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -133,6 +133,15 @@
     </ClInclude>
     <ClInclude Include="HUDComponent.hpp">
       <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.hpp">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.hpp">
+      <Filter>Header Files\ECS\Enemy Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WormComponent.hpp">
+      <Filter>Header Files\ECS\Enemy Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

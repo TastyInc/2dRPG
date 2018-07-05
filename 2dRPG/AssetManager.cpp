@@ -17,6 +17,7 @@ void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int s
 	projectile.addComponent<SpriteComponent>(id, false);
 	projectile.addComponent<ProjectileComponent>(range, speed, vel);
 	projectile.addComponent<ColliderComponent>("projectile");
+	projectile.addComponent<WormComponent>();
 	projectile.addGroup(Game::groupProjectiles);
 }
 
@@ -34,7 +35,7 @@ void AssetManager::createEnemy(int id, Vector2D pos, std::string name) {
 
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 80, 110, 3);
 	enemy.addComponent<SpriteComponent>(name, true);
-	enemy.addComponent<CharacterComponent>(id);
+	enemy.addComponent<PlayerComponent>(id);
 	enemy.addGroup(Game::groupEnemies);
 }
 

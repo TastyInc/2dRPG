@@ -163,11 +163,12 @@
     <ClInclude Include="animation.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="CameraHandler.hpp" />
-    <ClInclude Include="CharacterComponent.hpp" />
+    <ClInclude Include="PlayerComponent.hpp" />
     <ClInclude Include="ColliderComponent.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="ECS.hpp" />
+    <ClInclude Include="EnemyComponent.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="HUDComponent.hpp" />
     <ClInclude Include="HUDManager.hpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="UILabel.hpp" />
     <ClInclude Include="Vector2D.hpp" />
+    <ClInclude Include="WormComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\ColTex.png" />

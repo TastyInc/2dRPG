@@ -3,11 +3,11 @@
 #include "Components.hpp"
 
 //Component that character/enemy stats, items etc
-class CharacterComponent : public Component {
+class PlayerComponent : public Component {
 public:
 
 	//init enemy etc.
-	CharacterComponent(int id) {
+	PlayerComponent(int id) {
 		if (id == 1) {
 			
 
@@ -15,7 +15,7 @@ public:
 	}
 
 	//init player
-	CharacterComponent(int health, int stamina) {
+	PlayerComponent(int health, int stamina) {
 		hp = maxHp = health;
 		stm = maxStm = stamina;
 	}

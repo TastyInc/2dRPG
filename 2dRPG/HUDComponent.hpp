@@ -16,7 +16,6 @@ public:
 
 	~HUDComponent() {
 
-
 	}
 
 	void update() override {
@@ -43,7 +42,24 @@ public:
 
 	void updateStamina(int stm) {
 		if (hudType == "stamina"){
-			stamina = stm;
+			transform->width = stm;
+		}
+	}
+
+	void updateMaxHealth(int hp) {
+		if (hudType == "health_bar") {
+			health = hp;
+		}
+	}
+
+	void updateMaxMana(int mna) {
+		if (hudType == "mana_bar") {
+			mana = mna;
+		}
+	}
+
+	void updateMaxStamina(int stm) {
+		if (hudType == "stamina_bar") {
 			transform->width = stm;
 		}
 	}
@@ -51,9 +67,9 @@ public:
 private:
 	std::string hudType;
 	
-	int health;
-	int mana;
-	int stamina;
+	int health, maxHealth;
+	int mana, maxMana;
+	int stamina, maxStamina;
 
 
 };
