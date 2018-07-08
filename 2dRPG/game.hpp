@@ -73,7 +73,6 @@ public:
 private:
 	SDL_Window *window;
 	const char* playerSprite;
-	const char* direction;
 	SDL_Color white = { 255, 255, 255, 255 };
 	SDL_Rect menuButton;
 

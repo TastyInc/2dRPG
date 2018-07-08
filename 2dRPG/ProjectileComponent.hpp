@@ -27,10 +27,7 @@ public:
 			} else {
 				pTimer->Update();
 				entity->getComponent<SpriteComponent>().Play("spell_destroy");
-				//if (pTimer->DeltaTime() >= entity->getComponent<SpellComponent>().getDestroyTime()) {
-
-					entity->destroy();
-				//}
+				entity->getComponent<SpriteComponent>().lastAnimation();
 			}
 		} else {
 			pTimer->Reset();

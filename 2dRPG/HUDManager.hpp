@@ -5,6 +5,17 @@
 using namespace tinyxml2;
 
 class HUDManager {
+private:
+	XMLDocument hudFile;
+	XMLError eResult;
+	XMLElement* hudElement;
+	XMLElement* root;
+
+	bool returnValue = false;
+	int elementCount;
+
+	std::map<const char*, Animation> animations;
+
 public:
 	int id;
 	const char* name;
@@ -70,13 +81,4 @@ public:
 
 		return returnValue;
 	}
-
-private:
-	XMLDocument hudFile;
-	XMLError eResult;
-	XMLElement* hudElement;
-	XMLElement* root;
-
-	bool returnValue = false;
-	int elementCount;
 };

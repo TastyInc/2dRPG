@@ -13,8 +13,11 @@ private:
 	SDL_Rect srcRect, destRect;
 
 	bool animated = false;
+	bool lastAnim = false;
 	int frames = 0;
 	int speed = 100;
+
+	double angle = 0.0f;
 	
 public:
 	int animIndex = 0;
@@ -87,18 +90,21 @@ public:
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
-
 	}
 
 	void update() override {
 
 		if (animated) {
-			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
+			int i = static_cast<int>((SDL_GetTicks() / speed) % frames);
+			srcRect.x = srcRect.w * i;
+
+			if (lastAnim == true && i == animIndex){
+				entity->destroy();
+			}
 		}
 
 		srcRect.y = animIndex * transform->height;
 
-		//switch für hud, tilemap, background etc.
 		if (entity->hasGroup(Game::groupHUD)) {
 			destRect.x = static_cast<int>(transform->position.x);
 			destRect.y = static_cast<int>(transform->position.y);
@@ -112,8 +118,7 @@ public:
 	}
 
 	void draw() override {
-	
-		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+		TextureManager::Draw(texture, srcRect, destRect, angle, spriteFlip);
 	}
 
 	void Play(const char* animName) {
@@ -121,4 +126,10 @@ public:
 		animIndex = animations[animName].index;
 		speed = animations[animName].speed;
 	}
+
+	//call this to play one more animation then destroy the entity
+	void lastAnimation() {
+		lastAnim = true;
+	}
+
 };

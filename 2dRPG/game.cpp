@@ -312,6 +312,7 @@ void Game::newScene() {
 void Game::newScreen(Vector2D pp) {
 
 	Vector2D playerPos = pp;
+	const char* direction;
 
 	for (auto& t : tiles) { //for each T in tiles
 		t->delGroup(Game::groupMap);
@@ -325,7 +326,7 @@ void Game::newScreen(Vector2D pp) {
 	if (playerPos.y + 128 <= 0) {
 		direction = "n";
 	}
-	//WEst
+	//West
 	else if (playerPos.x + 128 <= 0) {
 		direction = "w";
 	}
@@ -341,6 +342,7 @@ void Game::newScreen(Vector2D pp) {
 	else {
 		direction = "";
 	}
+
 	if (direction != "") {
 		map->LoadMap(direction);
 	} else {

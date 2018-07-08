@@ -71,5 +71,4 @@ private:
 	int mana, maxMana;
 	int stamina, maxStamina;
 
-
 };

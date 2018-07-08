@@ -1,20 +1,23 @@
 #pragma once
+#include "SDL.h"
 
-struct Animation {
+struct HudElement {
+	SDL_Rect pos;
+
 	int index;
 	int frames;
 	int speed;
 	double angle;
 
-	Animation() {}
+	HudElement() {}
 
-	Animation(int i, int f, int s) {
+	HudElement(int i, int f, int s) {
 		index = i;
 		frames = f;
 		speed = s;
 	}
 
-	Animation(int i, int f, int s, double a) {
+	HudElement(int i, int f, int s, double a) {
 		index = i;
 		frames = f;
 		speed = s;
