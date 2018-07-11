@@ -14,8 +14,6 @@ private:
 	bool returnValue = false;
 	int elementCount;
 
-	std::map<const char*, Animation> animations;
-
 public:
 	int id;
 	const char* name;

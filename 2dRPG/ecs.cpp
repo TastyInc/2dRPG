@@ -5,3 +5,8 @@ void Entity::addGroup(Group mGroup) {
 	manager.AddToGroup(this, mGroup);
 
 }
+
+void Entity::addSubGroup(subGroup mSubGroup) {
+	subGroupBitset[mSubGroup] = true;
+	manager.AddToSubGroup(this, mSubGroup);
+}

@@ -11,6 +11,27 @@ public:
 	HUDComponent(const char * type) {
 		if (type != NULL) {
 			hudType = type;
+
+		}
+
+
+	}
+
+	void setType() {
+	
+		if (!hudType.empty()) {
+
+			if (hudType == "health") {
+				entity->addSubGroup(Game::subHudHealth);
+			}
+			else if (hudType == "mana") {
+
+				entity->addSubGroup(Game::subHudMana);
+			}
+			else if (hudType == "stamina") {
+
+				entity->addSubGroup(Game::subHudStamina);
+			}
 		}
 	}
 

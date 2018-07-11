@@ -143,9 +143,6 @@
     <ClInclude Include="WormComponent.hpp">
       <Filter>Header Files\ECS\Enemy Components</Filter>
     </ClInclude>
-    <ClInclude Include="HudElement.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\dirt.png">

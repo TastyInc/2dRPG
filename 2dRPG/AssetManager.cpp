@@ -46,6 +46,7 @@ void AssetManager::createHud(std::string id, Vector2D pos, int w, int h, const c
 	hudElement.addComponent<TransformComponent>(pos.x, pos.y, w, h, 1.0f);
 	hudElement.addComponent<SpriteComponent>(id);
 	hudElement.addComponent<HUDComponent>(type);
+	hudElement.getComponent<HUDComponent>().setType();
 	hudElement.addGroup(Game::groupHUD);
 }
 

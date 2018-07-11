@@ -3,13 +3,15 @@
 #include "Components.hpp"
 #include "game.hpp"
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define PI 3.1415926535
 
 extern Manager manager;
 
 SpellHandler::SpellHandler() {
-
+	srand(time(NULL));
 }
 
 SpellHandler::~SpellHandler() {
@@ -27,6 +29,10 @@ void SpellHandler::LoadSpell(int spellID, float deltaBtn, int mX, int mY) {
 	mouseY = mY + Game::camera->getCamera().y;
 
 	double angleDist = sqrt(pow(mouseX - playerX, 2.0f) + pow(mouseY - playerY, 2.0f));
+
+	//float scatter = (rand() % 100 - 50) / 200.0f;
+
+	//std::cout << scatter << std::endl;
 
 	angleX = float((mouseX - playerX) / angleDist);
 	angleY = float((mouseY - playerY) / angleDist);

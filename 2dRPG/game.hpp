@@ -69,6 +69,12 @@ public:
 		groupSpells
 	};
 
+	enum subgroupLabels : std::size_t {
+		subHudMana,
+		subHudHealth,
+		subHudStamina
+	};
+
 
 private:
 	SDL_Window *window;

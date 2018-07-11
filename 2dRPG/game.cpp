@@ -88,10 +88,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//----------------
 
 	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
-	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 1);
+	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 32, 32, 1);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
 	//hie no apasse
+
 	player.addComponent<ColliderComponent>("player", 20, 40, 24, 24, true);
 	player.addComponent<PlayerComponent>(100, 100);
 	player.addGroup(groupPlayers);
@@ -137,13 +138,6 @@ void Game::handleEvents() {
 
 void Game::update() { 
 	
-
-	for (auto& h : hudElements){
-		h->getComponent<HUDComponent>().updateStamina(player.getComponent<PlayerComponent>().getStamina());
-	}
-
-	//hudElements[2]->getComponent<HUDComponent>().lmao(500);
-
 	mTimer->Update();
 
 	player.getComponent<KeyboardController>().setVelocity();
@@ -188,6 +182,9 @@ void Game::update() {
 	}
 
 	player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
+	auto& hudStamina(manager.getSubGroup(Game::subHudStamina));
+	hudStamina[0]->getComponent<HUDComponent>().updateStamina(player.getComponent<PlayerComponent>().getStamina());
+
 
 	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
 
@@ -228,8 +225,6 @@ void Game::render() {
 	for (auto& h : hudElements) {
 		h->draw();
 	}
-
-//	hudElements[1]->getComponent<HUDComponent>().update();
 
 	for (auto& t : texts) {
 		t->draw();

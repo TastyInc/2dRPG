@@ -163,7 +163,6 @@
     <ClInclude Include="animation.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="CameraHandler.hpp" />
-    <ClInclude Include="HudElement.hpp" />
     <ClInclude Include="PlayerComponent.hpp" />
     <ClInclude Include="ColliderComponent.hpp" />
     <ClInclude Include="Collision.hpp" />

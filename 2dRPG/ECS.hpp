@@ -15,6 +15,7 @@ class Manager;
 
 using ComponentID = std::size_t;
 using Group = std::size_t;
+using subGroup = std::size_t;
 
 
 inline ComponentID getNewComponentTypeID() {
@@ -30,9 +31,11 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept {
 
 constexpr std::size_t maxComponents = 32;
 constexpr std::size_t maxGroups = 32;
+constexpr std::size_t maxSubGroups = 32;
 
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitset = std::bitset<maxGroups>;
+using SubGroupBitset = std::bitset<maxSubGroups>;
 
 using ComponentArray = std::array<Component*, maxComponents>;
 
@@ -57,6 +60,7 @@ private:
 	ComponentArray componentArray;
 	ComponentBitSet componentBitSet;
 	GroupBitset groupBitset;
+	SubGroupBitset subGroupBitset;
 
 public:
 	Entity(Manager& mManager) : manager(mManager) {} //Manager = mManager
@@ -77,9 +81,19 @@ public:
 		return groupBitset[mGroup];
 	}
 
+	bool hasSubGroup(subGroup mSubGroup) {
+		return subGroupBitset[mSubGroup];
+	}
+
 	void addGroup(Group mGroup);
+
+	void addSubGroup(subGroup mSubGroup);
+
 	void delGroup(Group mGroup) {
 		groupBitset[mGroup] = false;
+	}
+	void delSubGroup(subGroup mSubGroup) {
+		subGroupBitset[mSubGroup] = false;
 	}
 
 	template <typename T> bool hasComponent() const {
@@ -110,6 +124,7 @@ class Manager {
 private:
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities; //32 Arrays wil have a Vector of a pointer to each entity in the Manager
+	std::array<std::vector<Entity*>, maxSubGroups> subgroupedEntities;
 
 public:
 	void update() {
@@ -140,8 +155,16 @@ public:
 		groupedEntities[mGroup].emplace_back(mEntity);
 	}
 
+	void AddToSubGroup(Entity* mEntity, subGroup mSubGroup) {
+		subgroupedEntities[mSubGroup].emplace_back(mEntity);
+	}
+
 	std::vector<Entity*>& getGroup(Group mGroup) {
 		return groupedEntities[mGroup];
+	}
+
+	std::vector<Entity*>& getSubGroup(subGroup mSubGroup) {
+		return subgroupedEntities[mSubGroup];
 	}
 
 	Entity& addEntity() {
