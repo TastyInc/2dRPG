@@ -16,6 +16,16 @@ public:
 	
 	}
 
+	void moveRandom() {
+	
+	
+	}
+
+	void moveToPlayer() {
+	
+	
+	}
+
 
 private:
 

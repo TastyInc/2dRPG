@@ -88,7 +88,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//----------------
 
 	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
-	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 32, 32, 1);
+	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 1);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
 	//hie no apasse
@@ -156,22 +156,24 @@ void Game::update() {
 			case 0:
 				break;
 			case 1:
-				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 1.0f;
+				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 2.0f;
 				break;
 			case 3:
-				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 1.0f;
+				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 2.0f;
 				break;
 			case 2:
-				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset + 1.0f;
+				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset + 2.0f;
 				break;
 			case 4:
-				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 1.0f;
+				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 2.0f;
 				break;
 
 			default:
 				break;
 		}
 	}
+
+
 
 	//collision projectiles
 	for (auto& p : projectiles) {
@@ -183,8 +185,9 @@ void Game::update() {
 
 	player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
 	auto& hudStamina(manager.getSubGroup(Game::subHudStamina));
+	auto& hudMana(manager.getSubGroup(Game::subHudMana));
 	hudStamina[0]->getComponent<HUDComponent>().updateStamina(player.getComponent<PlayerComponent>().getStamina());
-
+	hudMana[0]->getComponent<HUDComponent>().updateMana(player.getComponent<PlayerComponent>().getMana());
 
 	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
 

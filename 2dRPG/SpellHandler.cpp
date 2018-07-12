@@ -1,5 +1,4 @@
 #include "SpellHandler.hpp"
-#include "ECS.hpp"
 #include "Components.hpp"
 #include "game.hpp"
 #include <math.h>

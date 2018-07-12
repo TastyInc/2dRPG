@@ -3,12 +3,12 @@
 
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "PlayerComponent.hpp"
 #include "KeyboardController.hpp"
 #include "ColliderComponent.hpp"
 #include "TileComponent.hpp"
 #include "ProjectileComponent.hpp"
 #include "UILabel.hpp"
-#include "PlayerComponent.hpp"
 #include "SpellComponent.hpp"
 #include "HUDComponent.hpp"
 #include "EnemyComponent.hpp"

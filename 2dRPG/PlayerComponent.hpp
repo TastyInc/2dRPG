@@ -45,12 +45,18 @@ public:
 		return stm;
 	}
 
+	int getMana() {
+		return mana;
+	}
+
 private:
 	int hp;		//healthpoints
 	int maxHp;	//max healthpoints
 	int armor;	//armor
 	int stm;	//stamina
 	int maxStm;	//max Stamina
+	int mana;	//mana
+	int maxMana;//Max mana
 
 	int sizeX, sizeY;
 

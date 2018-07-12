@@ -1,3 +1,8 @@
+
+
+
 <enemies>
-	
+		<enemy id="1" name="Frost Golem">
+			
+		</enemy>
 </enemies>
