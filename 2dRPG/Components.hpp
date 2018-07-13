@@ -12,4 +12,4 @@
 #include "SpellComponent.hpp"
 #include "HUDComponent.hpp"
 #include "EnemyComponent.hpp"
-#include "WormComponent.hpp"
+//#include "WormComponent.hpp"

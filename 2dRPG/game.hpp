@@ -15,6 +15,7 @@
 #include "CameraHandler.hpp"
 #include "SavefileHandler.hpp"
 #include "SpellHandler.hpp"
+#include "EnemyHandler.hpp"
 
 #undef main
 
@@ -42,6 +43,7 @@ public:
 	static CameraHandler* camera;
 	static SavefileHandler* savegame;
 	static SpellHandler* spellHandler;
+	static EnemyHandler* enemyHandler;
 
 	static SDL_Renderer *renderer;
 	static SDL_Event event;

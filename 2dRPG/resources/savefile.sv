@@ -1,1 +1,1 @@
-savefile playerpos 1 1 1152 906 playerstats 100 100 100 1 playeritems 1 2 3 4 5 66
+savefile playerpos 1 1 453 150 playerstats 100 100 100 1 playeritems 1 2 3 4 5 666

@@ -16,6 +16,7 @@ SceneManager* Game::scenes = new SceneManager(&menuHandler);
 CameraHandler* Game::camera = new CameraHandler(0, 0, Game::WINDOW_HEIGHT, Game::WINDOW_WIDTH );
 SavefileHandler* Game::savegame = new SavefileHandler();
 SpellHandler* Game::spellHandler = new SpellHandler();
+EnemyHandler* Game::enemyHandler = new EnemyHandler();
 
 bool Game::isRunning = false;
 
@@ -83,7 +84,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//ADD PROJECTILES HERE
 	//assets->createProjectile(Vector2D(1000, 1000),Vector2D(2, 1), 300, 2, "projectile");
-	assets->createEnemy(1, Vector2D(1400, 1200), "ueli");
+	enemyHandler->createEnemy();
 
 	//----------------
 

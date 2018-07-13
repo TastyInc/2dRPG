@@ -150,6 +150,7 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ecs.cpp" />
+    <ClCompile Include="EnemyHandler.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
