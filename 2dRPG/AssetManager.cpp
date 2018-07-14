@@ -39,11 +39,19 @@ void AssetManager::createEnemy(int id, Vector2D pos, std::string name) {
 }
 
 //HUD
-void AssetManager::createHud(std::string id, Vector2D pos, int w, int h, const char* type){
+void AssetManager::createHud(std::string id, Vector2D pos, int w, int h, const char* type, int frames){
 	auto& hudElement(manager->addEntity());
 
 	hudElement.addComponent<TransformComponent>(pos.x, pos.y, w, h, 1.0f);
-	hudElement.addComponent<SpriteComponent>(id);
+	
+
+	if (frames > 0){
+		const char* c = id.c_str();
+		hudElement.addComponent<SpriteComponent>(id, frames, 80, 0, c);
+	} else {
+		hudElement.addComponent<SpriteComponent>(id);
+	}
+
 	hudElement.addComponent<HUDComponent>(type);
 	hudElement.getComponent<HUDComponent>().setType();
 	hudElement.addGroup(Game::groupHUD);

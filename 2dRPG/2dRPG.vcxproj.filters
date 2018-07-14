@@ -57,6 +57,9 @@
     <ClCompile Include="EnemyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vector2DInt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.hpp">
@@ -147,6 +150,9 @@
       <Filter>Header Files\ECS\Enemy Components</Filter>
     </ClInclude>
     <ClInclude Include="EnemyHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2DInt.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

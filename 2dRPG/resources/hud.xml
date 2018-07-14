@@ -4,13 +4,18 @@ elementCount HAS to have the same number as the number of all elements
 -->
 
 <hud elementCount="9">
-	<hudElement id="1" name="stat_bar1" posx="120" posy="50" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_bars.png" type="health_bar"/>
-	<hudElement id="2" name="stat_bar2" posx="120" posy="72" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_bars.png" type="mana_bar"/>
-	<hudElement id="3" name="stat_bar3" posx="120" posy="94" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_bars.png" type="stamina_bar"/>
-	<hudElement id="4" name="stat_health" posx="120" posy="50" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_health.png" type="health"/>
-	<hudElement id="5" name="stat_mana" posx="120" posy="72" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_mana.png"  type="mana"/>
-	<hudElement id="6" name="stat_stamina" posx="120" posy="94" sizex="128" sizey="21" sprite="resources/sprites/hud/stat_stamina.png"  type="stamina"/>
-	<hudElement id="7" name="stat_bar_end" posx="248" posy="50" sizex="3" sizey="21" sprite="resources/sprites/hud/stat_bar_end.png" />
-	<hudElement id="8" name="stat_circle" posx="30" posy="30" sizex="109" sizey="109" sprite="resources/sprites/hud/stat_circle.png" />
-	<hudElement id="9" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/hud/weapon1.png" />
+	<hudElement id="1" name="stats_health_head" 	posx="20" posy="20" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_head_health.png" type="health_head"/>
+	<hudElement id="2" name="stats_health" 			posx="20" posy="52" sizex="32" sizey="1" sprite="resources/sprites/hud/stats_health.png" type="health"/>
+	<hudElement id="3" name="stats_health_bottom" 	posx="20" posy="52" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_health_bottom.png"  type="health_bottom" frames="15"/>
+	
+	<hudElement id="4" name="stats_mana_head" 		posx="55" posy="20" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_head_mana.png" type="mana_head"/>
+	<hudElement id="5" name="stats_mana" 			posx="55" posy="52" sizex="32" sizey="1" sprite="resources/sprites/hud/stats_mana.png"  type="mana"/>
+	<hudElement id="6" name="stats_mana_bottom" 	posx="55" posy="52" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_mana_bottom.png"  type="mana_bottom" frames="15"/>
+
+	<hudElement id="7" name="stats_stamina_head"	posx="90" posy="20" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_head_stamina.png" type="stamina_head"/>
+	<hudElement id="8" name="stats_stamina" 		posx="90" posy="52" sizex="32" sizey="1" sprite="resources/sprites/hud/stats_stamina.png"  type="stamina"/>
+	<hudElement id="9" name="stats_stamina_bottom" 	posx="90" posy="52" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_stamina_bottom.png"  type="stamina_bottom" frames="15"/>
+	
+	
+	<hudElement id="10" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/hud/weapon1.png" />
 </hud>

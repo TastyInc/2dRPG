@@ -14,7 +14,7 @@ void EnemyHandler::createEnemy(){
 	auto& enemy(manager.addEntity());
 
 	enemy.addComponent<TransformComponent>(800, 800, 64, 72, 2);
-	enemy.addComponent<SpriteComponent>("Golem", 7, 120, 5, "enemy");
+	enemy.addComponent<SpriteComponent>("Golem", 7, 120, 1, "enemy");
 	enemy.addComponent<EnemyComponent>();
 	enemy.addGroup(Game::groupEnemies);
 }

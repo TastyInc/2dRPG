@@ -22,6 +22,8 @@ int Collision::AABBxy(const SDL_Rect& recA, const SDL_Rect& recB) {
 			return 5;
 		}
 
+		std::cout << angle << std::endl;
+
 		// <-P
 		if (angle > -45 && angle <= 0 || angle > 0 && angle <= 45) {
 			return 1;
@@ -44,6 +46,8 @@ int Collision::AABBxy(const SDL_Rect& recA, const SDL_Rect& recB) {
 
 	return 0;
 }
+
+
 
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) {
 	if (
@@ -80,6 +84,46 @@ int Collision::AABBxy(const ColliderComponent& colA, const ColliderComponent& co
 			return 0;
 			break;
 	}
+}
+
+int Collision::AABBx(const SDL_Rect& recA, const SDL_Rect& recB) {
+	if (
+		recA.x + recA.w >= recB.x &&
+		recB.x + recB.w >= recA.x &&
+		recA.y + recA.h >= recB.y &&
+		recB.y + recB.h >= recA.y
+		)
+	{
+		//->
+		if (recA.x > recB.x){
+			return 1;
+		// <-
+		} else {
+			return 2;
+		}
+	}
+
+	return 0;
+}
+
+int Collision::AABBy(const SDL_Rect& recA, const SDL_Rect& recB) {
+	if (
+		recA.x + recA.w >= recB.x &&
+		recB.x + recB.w >= recA.x &&
+		recA.y + recA.h >= recB.y &&
+		recB.y + recB.h >= recA.y
+		)
+	{
+		// V
+		if (recA.y > recB.y) {
+			return 1;
+		// A
+		} else {
+			return 2;
+		}
+	}
+
+	return 0;
 }
 
 bool Collision::AABB(const ColliderComponent& colA, const ColliderComponent& colB) {

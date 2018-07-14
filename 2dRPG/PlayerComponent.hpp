@@ -15,9 +15,10 @@ public:
 	}
 
 	//init player
-	PlayerComponent(int health, int stamina) {
+	PlayerComponent(int health, int stamina, int mna) {
 		hp = maxHp = health;
 		stm = maxStm = stamina;
+		mana = maxMana = mna;
 	}
 
 	void updateHealth(int damage) {
@@ -47,6 +48,10 @@ public:
 
 	int getMana() {
 		return mana;
+	}
+
+	int getHealth() {
+		return hp;
 	}
 
 private:

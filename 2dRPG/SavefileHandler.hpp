@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>  
-#include "Vector2D.hpp"
+#include "Vector2DInt.hpp"
 #include <vector>
 
 class SavefileHandler {
@@ -13,7 +13,7 @@ public:
 	int playerLevel;
 	int mapTheme;
 	int mapScreen;
-	Vector2D playerPos;
+	Vector2DInt playerPos;
 	int items[100]; //je nachdem angeri zahl. 100 grad chli viel
 
 	SavefileHandler() {}
@@ -21,7 +21,7 @@ public:
 	~SavefileHandler() {}
 
 	//de no apasse mit de argument
-	int saveGame(Vector2D pos, int mtID, int mcID) {
+	int saveGame(Vector2DInt pos, int mtID, int mcID) {
 		std::fstream savefile;
 		savefile.open("resources/savefile.sv");
 		if (!savefile.is_open()) {
@@ -74,9 +74,9 @@ public:
 				ssLine >> keyWord;
 				mapScreen = atoi(keyWord.c_str());
 				ssLine >> keyWord;
-				playerPos.x = float(atof(keyWord.c_str()));
+				playerPos.x = atoi(keyWord.c_str());
 				ssLine >> keyWord;
-				playerPos.y = float(atof(keyWord.c_str()));
+				playerPos.y = atoi(keyWord.c_str());
 				ssLine >> keyWord;
 
 				if (keyWord == "playerstats") {

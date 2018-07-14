@@ -70,9 +70,9 @@ public:
 		setTex(id);
 	}
 
-	void addAnimation(int frames, int delay, int index, const char* spellName) {
-		Animation spell = Animation(index, frames, delay);
-		animations.emplace(spellName, spell);
+	void addAnimation(int frames, int delay, int index, const char* name) {
+		Animation animation = Animation(index, frames, delay);
+		animations.emplace(name, animation);
 	}
 	
 	~SpriteComponent() {

@@ -164,6 +164,9 @@ void SpellHandler::createSpell() {
 	Game::assets->AddTexture(sName, sSprite);
 
 	spell.addComponent<SpellComponent>(sDmg, sMana, sDeleteTime);
+
+	spell.getComponent<SpellComponent>().setComponents(spell);
+
 	spell.addComponent<TransformComponent>(playerX, playerY, sWidth, sHeight, sSize);
 	spell.addComponent<SpriteComponent>(sName, sFrameCount, sFrameDelay, sIndex, "spell");
 	spell.getComponent<SpriteComponent>().addAnimation(sFrameCountLoad, sFrameDelayLoad, sIndexLoad, "spell_load");

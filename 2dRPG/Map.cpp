@@ -126,7 +126,7 @@ int Map::LoadMap(int mtID, int mcID) {
 				tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
 				tcol.addGroup(Game::groupColliders);
 			} else if (tilemapS[stringPos] == '4') {
-				spawnPoint = {float( x * scaledSize) ,float( y * scaledSize )};
+				spawnPoint = { x * scaledSize ,  y * scaledSize };
 			}
 			stringPos += 1;
 		}
@@ -136,8 +136,8 @@ int Map::LoadMap(int mtID, int mcID) {
 	//spritemap
 }
 
-Vector2D Map::getMapSize() {
-	mapSize = { float(scaledSize * tilesX), float(scaledSize * tilesY) };
+Vector2DInt Map::getMapSize() {
+	mapSize = {scaledSize * tilesX, scaledSize * tilesY };
 	return mapSize;
 
 }

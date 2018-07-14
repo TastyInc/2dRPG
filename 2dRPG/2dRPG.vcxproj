@@ -159,6 +159,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="Vector2DInt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.hpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="UILabel.hpp" />
     <ClInclude Include="Vector2D.hpp" />
+    <ClInclude Include="Vector2DInt.hpp" />
     <ClInclude Include="WormComponent.hpp" />
   </ItemGroup>
   <ItemGroup>

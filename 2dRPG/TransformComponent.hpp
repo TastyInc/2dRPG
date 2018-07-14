@@ -4,6 +4,7 @@
 #include "ECS.hpp"
 #include "Components.hpp"
 #include "Vector2D.hpp"
+#include "Vector2DInt.hpp"
 
 class TransformComponent : public Component {
 private:
@@ -11,7 +12,7 @@ private:
 	int ypos = 0;
 
 public:
-	Vector2D position;
+	Vector2DInt position;
 	Vector2D velocity;
 
 	int height = 32;

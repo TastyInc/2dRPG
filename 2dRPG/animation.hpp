@@ -12,6 +12,7 @@ struct Animation {
 		index = i;
 		frames = f;
 		speed = s;
+		angle = 0;
 	}
 
 	Animation(int i, int f, int s, double a) {

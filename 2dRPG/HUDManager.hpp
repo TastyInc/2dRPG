@@ -23,6 +23,7 @@ public:
 	float posy;
 	int sizex;
 	int sizey;
+	int frames;
 
 	int currentID = 0;
 
@@ -65,6 +66,9 @@ public:
 					e->QueryStringAttribute("sprite", &sprite);
 					if (e->QueryStringAttribute("type", &type) != 0) {
 						type = NULL;
+					}
+					if (e->QueryIntAttribute("frames", &frames) != 0) {
+						frames = NULL;
 					}
 					returnValue = true;
 					break;

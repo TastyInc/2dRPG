@@ -3,6 +3,7 @@
 #include "tinyxml2.h"
 #include "AssetManager.hpp"
 #include "Vector2D.hpp"
+#include "Vector2DInt.hpp"
 
 using namespace tinyxml2;
 
@@ -20,8 +21,8 @@ public:
 	int getMapThemeID();
 
 	void AddTile(int srcX, int srcY, int xpos, int ypos);
-	Vector2D getMapSize();
-	Vector2D spawnPoint;
+	Vector2DInt getMapSize();
+	Vector2DInt spawnPoint;
 	int getMapScale();
 
 private:
@@ -35,7 +36,7 @@ private:
 	int mapScreenID = 0;
 	int tilesX, tilesY;
 	const char* newMap;
-	Vector2D mapSize;
+	Vector2DInt mapSize;
 
 	XMLDocument mapFile;
 	XMLError eResult;

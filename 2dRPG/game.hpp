@@ -7,6 +7,7 @@
 #include "Timer.hpp"
 
 #include "Vector2D.hpp"
+#include "Vector2DInt.hpp"
 #include "AssetManager.hpp"
 #include "SceneManager.hpp"
 #include "TextureManager.hpp"
@@ -36,7 +37,7 @@ public:
 	void clean();
 	void renderMenu();
 	void newScene();
-	void newScreen(Vector2D pp);
+	void newScreen(Vector2DInt pp);
 	
 	static AssetManager* assets;
 	static SceneManager* scenes;
@@ -74,7 +75,10 @@ public:
 	enum subgroupLabels : std::size_t {
 		subHudMana,
 		subHudHealth,
-		subHudStamina
+		subHudStamina,
+		subHudStaminaEnd,
+		subHudManaEnd,
+		subHudHealthEnd
 	};
 
 

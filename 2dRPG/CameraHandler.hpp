@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2D.hpp"
+#include "Vector2DInt.hpp"
 #include "SDL.h"
 
 class CameraHandler {
@@ -38,7 +39,7 @@ public:
 		}
 	}
 
-	void updateCameraSize(Vector2D size, int windowX, int windowY) {
+	void updateCameraSize(Vector2DInt size, int windowX, int windowY) {
 		camera.w = int(size.x) - windowX;
 		camera.h = int(size.y) - windowY;
 	}

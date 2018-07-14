@@ -20,6 +20,11 @@ public:
 	
 	}
 
+	void setComponents(Entity &spell) {
+		spell.addComponent<ColliderComponent>("lmao");
+	
+	}
+
 	void update() override {
 
 		//if (Game::spellHandler->deltaButton > 0){

@@ -89,13 +89,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//----------------
 
 	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
-	player.addComponent<TransformComponent>(savegame->playerPos.x, savegame->playerPos.y, 64, 64, 1);
+	player.addComponent<TransformComponent>(/*savegame->playerPos.x*/ 200, /*savegame->playerPos.y*/ 100, 64, 64, 1);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<KeyboardController>();
 	//hie no apasse
 
 	player.addComponent<ColliderComponent>("player", 20, 40, 24, 24, true);
-	player.addComponent<PlayerComponent>(100, 100);
+	player.addComponent<PlayerComponent>(100, 100, 100);
 	player.addGroup(groupPlayers);
 
 	//LOAD into assets HUD
@@ -105,13 +105,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	if (Hud.loadHUD()) {
 		while (Hud.getHudElement()){
 			assets->AddTexture(Hud.name, Hud.sprite);
-			assets->createHud(Hud.name, Vector2D(Hud.posx, Hud.posy), Hud.sizex, Hud.sizey, Hud.type);
+			assets->createHud(Hud.name, Vector2D(Hud.posx, Hud.posy), Hud.sizex, Hud.sizey, Hud.type, Hud.frames);
 		}
 	} else {
-		std::cout << "Could not load HUD ):" << std::endl;
+		std::cout << "Could not load HUD :(" << std::endl;
 	}
 
-	camera->camera.x = 100; //<-??
+	//camera->camera.x = 100; //<-??
 }
 
 //list of all entities for updating
@@ -141,23 +141,73 @@ void Game::update() {
 	
 	mTimer->Update();
 
+	
+
 	player.getComponent<KeyboardController>().setVelocity();
 
-	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
-	Vector2D playerPos = player.getComponent<TransformComponent>().position;
 
-	manager.refresh();
-	manager.update();
+
+
+	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
+	Vector2DInt playerPos = player.getComponent<TransformComponent>().position;
+
+
 
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 
+		switch (Collision::AABBx(cCol, playerCol)){
+		case 0:
+			break;
+		case 1:
+			while (player.getComponent<TransformComponent>().position.x + playerCol.w + player.getComponent<ColliderComponent>().xOffset >= cCol.x){
+				player.getComponent<TransformComponent>().position.x -= 1;
+			}
+			//player.getComponent<TransformComponent>().velocity.x = 0;
+
+			break;
+		case 2:
+			while (player.getComponent<TransformComponent>().position.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset <= cCol.x) {
+				player.getComponent<TransformComponent>().position.x += 1;
+			}
+
+			//player.update();
+			break;
+		default:
+			break;
+		}
+		/*
+		switch (Collision::AABBy(cCol, playerCol)) {
+		case 0:
+			break;
+		case 1:
+			while (player.getComponent<TransformComponent>().position.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset <= cCol.y) {
+				player.getComponent<TransformComponent>().position.y += 1;
+			}
+
+			//player.update();
+			break;
+		case 2:
+			while (player.getComponent<TransformComponent>().position.y + playerCol.h + player.getComponent<ColliderComponent>().yOffset >= cCol.y) {
+				player.getComponent<TransformComponent>().position.y -= 1;
+			}
+
+
+			//player.update();
+			break;
+		default:
+			break;
+		}
+		*/
+
+
+		/*
 		switch (Collision::AABBxy(cCol, playerCol)){
 			case 0:
 				break;
 			case 1:
-				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 2.0f;
+				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 2.0f; 			
 				break;
 			case 3:
 				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 2.0f;
@@ -172,9 +222,12 @@ void Game::update() {
 			default:
 				break;
 		}
+		*/
 	}
 
 
+	manager.refresh();
+	manager.update();
 
 	//collision projectiles
 	for (auto& p : projectiles) {
@@ -185,10 +238,24 @@ void Game::update() {
 	}
 
 	player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
+	
+	//stamina
 	auto& hudStamina(manager.getSubGroup(Game::subHudStamina));
+	auto& hudStaminaEnd(manager.getSubGroup(Game::subHudStaminaEnd));
+	hudStamina[0]->getComponent<HUDComponent>().updateBarHeight(player.getComponent<PlayerComponent>().getStamina());
+	hudStaminaEnd[0]->getComponent<HUDComponent>().updateEndPos(hudStamina[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getStamina());
+	
+	//mana
 	auto& hudMana(manager.getSubGroup(Game::subHudMana));
-	hudStamina[0]->getComponent<HUDComponent>().updateStamina(player.getComponent<PlayerComponent>().getStamina());
-	hudMana[0]->getComponent<HUDComponent>().updateMana(player.getComponent<PlayerComponent>().getMana());
+	auto& hudManaEnd(manager.getSubGroup(Game::subHudManaEnd));
+	hudMana[0]->getComponent<HUDComponent>().updateBarHeight(player.getComponent<PlayerComponent>().getMana());
+	hudManaEnd[0]->getComponent<HUDComponent>().updateEndPos(hudMana[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getMana());
+
+	//health
+	auto& hudHealth(manager.getSubGroup(Game::subHudHealth));
+	auto& hudHealthEnd(manager.getSubGroup(Game::subHudHealthEnd));
+	hudHealth[0]->getComponent<HUDComponent>().updateBarHeight(player.getComponent<PlayerComponent>().getHealth());
+	hudHealthEnd[0]->getComponent<HUDComponent>().updateEndPos(hudHealth[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getHealth());
 
 	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
 
@@ -308,9 +375,9 @@ void Game::newScene() {
 	manager.refresh();
 }
 
-void Game::newScreen(Vector2D pp) {
+void Game::newScreen(Vector2DInt pp) {
 
-	Vector2D playerPos = pp;
+	Vector2DInt playerPos = pp;
 	const char* direction;
 
 	for (auto& t : tiles) { //for each T in tiles

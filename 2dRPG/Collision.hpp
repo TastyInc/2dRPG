@@ -12,6 +12,9 @@ public:
 	static int AABBxy(const SDL_Rect& rectA, const SDL_Rect& rectB);
 	static int AABBxy(const ColliderComponent& colA, const ColliderComponent& colB);
 
+	static int AABBx(const SDL_Rect& rectA, const SDL_Rect& rectB);
+	static int AABBy(const SDL_Rect& rectA, const SDL_Rect& rectB);
+
 	static bool AABB(const SDL_Rect& rectA, const SDL_Rect& rectB);
 	static bool AABB(const ColliderComponent& colA, const ColliderComponent& colB);
 };

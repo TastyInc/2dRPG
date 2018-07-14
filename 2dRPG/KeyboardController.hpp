@@ -192,7 +192,7 @@ public:
 
 private:
 	Vector2D playerVel;
-	float walkSpeed = 0.6f;
+	float walkSpeed = 1.0f;
 	float sprintMultiplier = 2;
 
 	float walkingX;

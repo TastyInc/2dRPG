@@ -2,6 +2,7 @@
 #include "ECS.hpp"
 #include "Components.hpp"
 #include <iostream>
+#include "game.hpp"
 
 class HUDComponent : public Component {
 public:
@@ -13,8 +14,6 @@ public:
 			hudType = type;
 
 		}
-
-
 	}
 
 	void setType() {
@@ -25,12 +24,19 @@ public:
 				entity->addSubGroup(Game::subHudHealth);
 			}
 			else if (hudType == "mana") {
-
 				entity->addSubGroup(Game::subHudMana);
 			}
 			else if (hudType == "stamina") {
-
 				entity->addSubGroup(Game::subHudStamina);
+			}
+			else if (hudType == "stamina_bottom") {
+				entity->addSubGroup(Game::subHudStaminaEnd);
+			}
+			else if (hudType == "health_bottom") {
+				entity->addSubGroup(Game::subHudHealthEnd);
+			}
+			else if (hudType == "mana_bottom") {
+				entity->addSubGroup(Game::subHudManaEnd);
 			}
 		}
 	}
@@ -49,41 +55,14 @@ public:
 		}
 	}
 
-	void updateHealth(int hp) {
-		if (hudType == "health"){
-			health = hp;
-		}
+	void updateBarHeight(int h) {
+		transform->height = h;
 	}
 
-	void updateMana(int mna) {
-		if (hudType == "mana"){
-			mana = mna;
-		}
+	void updateEndPos(int posY) {
+		transform->position.y = posY;
 	}
 
-	void updateStamina(int stm) {
-		if (hudType == "stamina"){
-			transform->width = stm;
-		}
-	}
-
-	void updateMaxHealth(int hp) {
-		if (hudType == "health_bar") {
-			health = hp;
-		}
-	}
-
-	void updateMaxMana(int mna) {
-		if (hudType == "mana_bar") {
-			mana = mna;
-		}
-	}
-
-	void updateMaxStamina(int stm) {
-		if (hudType == "stamina_bar") {
-			transform->width = stm;
-		}
-	}
 
 private:
 	std::string hudType;
