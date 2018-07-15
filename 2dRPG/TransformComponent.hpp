@@ -33,13 +33,13 @@ public:
 		scale = sc;
 	}
 
-	TransformComponent(float x, float y) {
+	TransformComponent(int x, int y) {
 		position.x = x;
 		position.y = y;
 	}
 
 	//posX, posY, height, width, scale
-	TransformComponent(float x, float y, int w, int h, float sc) {
+	TransformComponent(int x, int y, int w, int h, float sc) {
 		position.x = x;
 		position.y = y;
 		height = h;
@@ -59,8 +59,7 @@ public:
 			//sprite->Play("Idle");
 		}
 
-
-		position.x += velocity.x * speed;
-		position.y += velocity.y * speed;
+		position.x += std::rint(velocity.x * speed);
+		position.y += std::rint(velocity.y * speed);
 	}
 };

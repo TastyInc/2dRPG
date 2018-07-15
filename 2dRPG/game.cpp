@@ -277,13 +277,23 @@ void Game::render() {
 		c->draw();
 	}
 
+	int pPosX = player.getComponent<TransformComponent>().position.y + player.getComponent<TransformComponent>().height;
+	for (int i = 0; i < enemies.size(); i++) { //for each T in tiles
+		enemies[i]->getComponent<SpriteComponent>().drawRefPlayer(pPosX, true);
+	}
+
 	for (auto& p : players) { //for each T in tiles
 		p->draw();
 	}
 
-	for (auto& e : enemies) { //for each T in tiles
-		e->draw();
+	for (int i = 0; i < enemies.size(); i++) { //for each T in tiles
+		enemies[i]->getComponent<SpriteComponent>().drawRefPlayer(pPosX, false);
 	}
+
+	//for (auto& e : enemies) { //for each T in tiles
+	//	e->draw();
+	//}
+
 
 	for (auto& p : projectiles) {
 		p->draw();

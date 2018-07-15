@@ -8,17 +8,18 @@
 
 class SpriteComponent: public Component {
 private:
-	TransformComponent *transform;
-	SDL_Texture *texture;
-	SDL_Rect srcRect, destRect;
-
 	bool animated = false;
 	bool lastAnim = false;
 	int frames = 0;
 	int speed = 100;
 
+protected:
+	TransformComponent * transform;
+	SDL_Texture *texture;
+	SDL_Rect srcRect, destRect;
+
 	double angle = 0.0f;
-	
+
 public:
 	int animIndex = 0;
 
@@ -120,6 +121,22 @@ public:
 	void draw() override {
 		TextureManager::Draw(texture, srcRect, destRect, angle, spriteFlip);
 	}
+
+	void drawRefPlayer(int baseY, bool back) {
+
+		float objectY = float(transform->position.y + (transform->height * transform->scale));
+
+		if (objectY > baseY && back == false){
+			TextureManager::Draw(texture, srcRect, destRect, angle, spriteFlip);
+			
+		}
+
+		if (objectY <= baseY && back == true) {
+			TextureManager::Draw(texture, srcRect, destRect, angle, spriteFlip);
+			
+		}
+
+	};
 
 	void Play(const char* animName) {
 		frames = animations[animName].frames;

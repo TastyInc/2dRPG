@@ -60,7 +60,7 @@ public:
 	
 		double angleDist = sqrt(pow(endMoveX - posX, 2.0f) + pow(endMoveY - posY, 2.0f));
 
-		moveX = std::rint((endMoveX - posX) / angleDist);
+		moveX = std::rint(std::double_t((endMoveX - posX) / angleDist));
 		moveY = std::rint((endMoveY - posY) / angleDist);	
 	}
 

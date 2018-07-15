@@ -19,6 +19,9 @@
     <Filter Include="Header Files\ECS\Enemy Components">
       <UniqueIdentifier>{7cedd294-4540-4f6e-82c6-a956f0095120}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ECS\Spell Components">
+      <UniqueIdentifier>{f658755c-fec1-4106-b95e-50e0a66643e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,9 +131,6 @@
     <ClInclude Include="Timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpellComponent.hpp">
-      <Filter>Header Files\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="SpellHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -154,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Vector2DInt.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellComponent.hpp">
+      <Filter>Header Files\ECS\Spell Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
