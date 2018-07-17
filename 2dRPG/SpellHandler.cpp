@@ -17,6 +17,13 @@ SpellHandler::~SpellHandler() {
 
 }
 
+void SpellHandler::updateSelectedSpell(int spellNr) {
+	
+	auto& selectedSpell(manager.getSubGroup(Game::subHudSpellSelect));
+	selectedSpell[0]->getComponent<HUDComponent>().updateXPos(322 + spellNr * 64);
+	
+}
+
 void SpellHandler::updatePlayerPos(int pX, int pY) {
 	playerX = pX + 32;
 	playerY = pY;

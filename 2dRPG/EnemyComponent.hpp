@@ -30,10 +30,14 @@ public:
 		int posX = transform->position.x += moveX;
 		int posY = transform->position.y += moveY;
 
+		eTimer->Update();
+
 		if ((posX >= endMoveX && moveX >= 0) || (posX <= endMoveX && moveX <= 0)){
 
 			moveX = 0;
 			moveY = 0;
+
+			//std::cout << eTimer->DeltaTime() << std::endl;
 
 			if (eTimer->DeltaTime() > pauseAfterMove) {
 				

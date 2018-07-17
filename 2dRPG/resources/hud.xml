@@ -3,7 +3,7 @@ List of all Hud Elements, ordered by drawing ordered
 elementCount HAS to have the same number as the number of all elements
 -->
 
-<hud elementCount="9">
+<hud elementCount="11">
 	<hudElement id="1" name="stats_health_head" 	posx="20" posy="20" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_head_health.png" type="health_head"/>
 	<hudElement id="2" name="stats_health" 			posx="20" posy="52" sizex="32" sizey="1" sprite="resources/sprites/hud/stats_health.png" type="health"/>
 	<hudElement id="3" name="stats_health_bottom" 	posx="20" posy="52" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_health_bottom.png"  type="health_bottom" frames="15"/>
@@ -15,7 +15,6 @@ elementCount HAS to have the same number as the number of all elements
 	<hudElement id="7" name="stats_stamina_head"	posx="90" posy="20" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_head_stamina.png" type="stamina_head"/>
 	<hudElement id="8" name="stats_stamina" 		posx="90" posy="52" sizex="32" sizey="1" sprite="resources/sprites/hud/stats_stamina.png"  type="stamina"/>
 	<hudElement id="9" name="stats_stamina_bottom" 	posx="90" posy="52" sizex="32" sizey="32" sprite="resources/sprites/hud/stats_stamina_bottom.png"  type="stamina_bottom" frames="15"/>
-	
-	
-	<hudElement id="10" name="armor" posx="50" posy="300" sizex="40" sizey="40" sprite="resources/sprites/hud/weapon1.png" />
+	<hudElement id="10" name="spell_list" 			posx="340" posy="780" sizex="600" sizey="84" sprite="resources/sprites/hud/spell_list.png" />
+	<hudElement id="11" name="spell_select" 		posx="386" posy="780" sizex="60" sizey="84" sprite="resources/sprites/hud/spell_select.png" type="spell_select"/>
 </hud>

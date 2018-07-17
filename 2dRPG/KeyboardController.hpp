@@ -86,6 +86,31 @@ public:
 				case SDLK_ESCAPE:
 					Game::scenes->setNewScene(2);
 					break;
+				case SDLK_1:
+					updateSelectedSpell(1);
+					break;
+				case SDLK_2:
+					updateSelectedSpell(2);
+					break;
+				case SDLK_3:
+					updateSelectedSpell(3);
+					break;
+				case SDLK_4:
+					updateSelectedSpell(4);
+					break;
+				case SDLK_5:
+					updateSelectedSpell(5);
+					break;
+
+				case SDLK_6:
+					updateSelectedSpell(6);
+					break;
+				case SDLK_7:
+					updateSelectedSpell(7);
+					break;
+				case SDLK_8:
+					updateSelectedSpell(8);
+					break;
 				default:
 					break;
 				}
@@ -175,6 +200,11 @@ public:
 				}
 			}
 		}
+
+	}
+
+	void updateSelectedSpell(int spellNr) {
+		Game::spellHandler->updateSelectedSpell(spellNr);
 
 	}
 

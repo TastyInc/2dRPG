@@ -9,7 +9,7 @@
 #include "TileComponent.hpp"
 #include "ProjectileComponent.hpp"
 #include "UILabel.hpp"
-#include "SpellComponent.hpp"
 #include "HUDComponent.hpp"
+#include "SpellComponent.hpp"
 #include "EnemyComponent.hpp"
 //#include "WormComponent.hpp"

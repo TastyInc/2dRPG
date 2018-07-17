@@ -78,7 +78,8 @@ public:
 		subHudStamina,
 		subHudStaminaEnd,
 		subHudManaEnd,
-		subHudHealthEnd
+		subHudHealthEnd,
+		subHudSpellSelect
 	};
 
 

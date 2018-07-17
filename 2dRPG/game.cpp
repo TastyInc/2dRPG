@@ -111,7 +111,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		std::cout << "Could not load HUD :(" << std::endl;
 	}
 
-	//camera->camera.x = 100; //<-??
+	//SDL_RenderSetScale(Game::renderer, 1.5, 1.5);
 }
 
 //list of all entities for updating
@@ -243,20 +243,21 @@ void Game::update() {
 	auto& hudStamina(manager.getSubGroup(Game::subHudStamina));
 	auto& hudStaminaEnd(manager.getSubGroup(Game::subHudStaminaEnd));
 	hudStamina[0]->getComponent<HUDComponent>().updateBarHeight(player.getComponent<PlayerComponent>().getStamina());
-	hudStaminaEnd[0]->getComponent<HUDComponent>().updateEndPos(hudStamina[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getStamina());
+	hudStaminaEnd[0]->getComponent<HUDComponent>().updateYPos(hudStamina[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getStamina());
 	
 	//mana
 	auto& hudMana(manager.getSubGroup(Game::subHudMana));
 	auto& hudManaEnd(manager.getSubGroup(Game::subHudManaEnd));
 	hudMana[0]->getComponent<HUDComponent>().updateBarHeight(player.getComponent<PlayerComponent>().getMana());
-	hudManaEnd[0]->getComponent<HUDComponent>().updateEndPos(hudMana[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getMana());
+	hudManaEnd[0]->getComponent<HUDComponent>().updateYPos(hudMana[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getMana());
 
 	//health
 	auto& hudHealth(manager.getSubGroup(Game::subHudHealth));
 	auto& hudHealthEnd(manager.getSubGroup(Game::subHudHealthEnd));
 	hudHealth[0]->getComponent<HUDComponent>().updateBarHeight(player.getComponent<PlayerComponent>().getHealth());
-	hudHealthEnd[0]->getComponent<HUDComponent>().updateEndPos(hudHealth[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getHealth());
+	hudHealthEnd[0]->getComponent<HUDComponent>().updateYPos(hudHealth[0]->getComponent<HUDComponent>().transform->position.y + player.getComponent<PlayerComponent>().getHealth());
 
+	//umdräie. mi cha shit ga hole du huere mongoloid
 	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
 
 	if (playerPos.y + 128 <= 0 || playerPos.x + 128 <= 0 || playerPos.x >= map->getMapSize().x || playerPos.y >= map->getMapSize().y ) {
@@ -289,10 +290,6 @@ void Game::render() {
 	for (int i = 0; i < enemies.size(); i++) { //for each T in tiles
 		enemies[i]->getComponent<SpriteComponent>().drawRefPlayer(pPosX, false);
 	}
-
-	//for (auto& e : enemies) { //for each T in tiles
-	//	e->draw();
-	//}
 
 
 	for (auto& p : projectiles) {

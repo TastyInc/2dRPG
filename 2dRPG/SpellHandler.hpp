@@ -17,6 +17,7 @@ public:
 
 	void LoadSpell(int spellID, float deltaBtn, int mX, int mY);
 	bool LoadSpell(int spellID);
+	void updateSelectedSpell(int spellNr);
 	void updatePlayerPos(int pX, int pY);
 
 private:

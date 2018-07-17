@@ -38,6 +38,9 @@ public:
 			else if (hudType == "mana_bottom") {
 				entity->addSubGroup(Game::subHudManaEnd);
 			}
+			else if (hudType == "spell_select") {
+				entity->addSubGroup(Game::subHudSpellSelect);
+			}
 		}
 	}
 
@@ -59,8 +62,12 @@ public:
 		transform->height = h;
 	}
 
-	void updateEndPos(int posY) {
+	void updateYPos(int posY) {
 		transform->position.y = posY;
+	}
+
+	void updateXPos(int posX) {
+		transform->position.x = posX;
 	}
 
 

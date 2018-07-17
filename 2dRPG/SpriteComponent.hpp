@@ -128,12 +128,10 @@ public:
 
 		if (objectY > baseY && back == false){
 			TextureManager::Draw(texture, srcRect, destRect, angle, spriteFlip);
-			
 		}
 
 		if (objectY <= baseY && back == true) {
 			TextureManager::Draw(texture, srcRect, destRect, angle, spriteFlip);
-			
 		}
 
 	};
