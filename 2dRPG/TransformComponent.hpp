@@ -19,7 +19,7 @@ public:
 	int width = 32;
 	float scale = 1.0f;
 
-	int speed = 3;
+	int speed = 1;
 
 	//Nice Overloads hie 
 	TransformComponent() {

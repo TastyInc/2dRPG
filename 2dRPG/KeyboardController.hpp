@@ -1,34 +1,52 @@
 #pragma once
 #include "game.hpp"
-#include "ECS.hpp"
-#include "Components.hpp"
+//#include "Collision.hpp"
 
-class KeyboardController : public Component {
+class KeyboardController  {
 public:
-	TransformComponent *transform;
-	SpriteComponent *sprite;
-
-	void init() override {
-		transform = &entity->getComponent<TransformComponent>();
-		sprite = &entity->getComponent<SpriteComponent>();
+	//TransformComponent *transform;
+	//SpriteComponent *sprite;
+	//ColliderComponent *collider;
+	
+	void init() {//override {
+		//transform = &entity->getComponent<TransformComponent>();
+		//sprite = &entity->getComponent<SpriteComponent>();
+		//collider = &entity->getComponent<ColliderComponent>();
 		playerVel.Zero();
 		walkingX = 0;
 		walkingY = 0;
 
 		kTimer = Timer::Instance();
+
+		Game game;
 	}
 
 	void setVelocity() {
+		setVelocityX();
+		setVelocityY();
+	}
+
+	void setVelocityX() {
 		if (pSprint) {
 			playerVel.x = sprintMultiplier * walkingX;
-			playerVel.y = sprintMultiplier * walkingY;
-		} else {
+		}
+		else {
 			playerVel.x = walkingX;
+		}
+
+
+		//transform->velocity.x = playerVel.x;
+	}
+
+	void setVelocityY() {
+		if (pSprint) {
+			playerVel.y = sprintMultiplier * walkingY;
+		}
+		else {
 			playerVel.y = walkingY;
 		}
 
-		transform->velocity.x = playerVel.x;
-		transform->velocity.y = playerVel.y;
+		//transform->velocity.y = playerVel.y;
 	}
 
 	bool isSprinting() {
@@ -36,9 +54,10 @@ public:
 	}
 
 	void keyInput() {
+		
 		switch (Game::event.type) {
 		case SDL_QUIT:
-			Game::isRunning = false;
+			//Game::isRunning = false;
 			break;
 		case SDL_KEYDOWN:
 			switch (Game::event.key.keysym.sym) {
@@ -46,7 +65,11 @@ public:
 				pSprint = true;
 				break;
 			case SDLK_w:
+
 				walkingY = -walkSpeed;
+
+
+
 				break;
 			case SDLK_s:
 				walkingY = walkSpeed;
@@ -84,6 +107,7 @@ public:
 					}
 					break;
 				case SDLK_ESCAPE:
+					
 					Game::scenes->setNewScene(2);
 					break;
 				case SDLK_1:
@@ -117,9 +141,11 @@ public:
 			default:
 				break;
 		}
+		
 	}
 
 	void mouseInput() {
+		/*
 		kTimer->Update();
 		if (Game::event.button.button == SDL_BUTTON_LEFT) {
 			if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
@@ -132,9 +158,10 @@ public:
 				kTimer->Reset();
 			}
 		}
+		*/
 	}
 
-	void mouseMenuInput() {
+	void mouseInputMenu() {
 		if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
 
 		}
@@ -159,14 +186,14 @@ public:
 				break;
 			}
 		}
+		
 	}
 
-	void update() override {
-		
+	void update() {//override {
+		/*
 		if (transform->velocity.x == 0 && transform->velocity.y == 0) {
 			sprite->Play("Idle");
-		}
-		else {
+		} else {
 			if (transform->velocity.x > 0)
 				sprite->spriteFlip = SDL_FLIP_NONE;
 
@@ -176,8 +203,7 @@ public:
 			if (transform->velocity.x != 0) {
 				if (pSprint) {
 					sprite->Play("SprintLR");
-				}
-				else {
+				} else {
 					sprite->Play("WalkLR");
 				}
 			}
@@ -185,8 +211,7 @@ public:
 			if (transform->velocity.y > 0) {
 				if (pSprint) {
 					sprite->Play("SprintDown");
-				}
-				else {
+				} else {
 					sprite->Play("WalkDown");
 				}
 			}
@@ -194,20 +219,21 @@ public:
 			if (transform->velocity.y < 0) {
 				if (pSprint) {
 					sprite->Play("SprintUp");
-				}
-				else {
+				} else {
 					sprite->Play("WalkUp");
 				}
 			}
 		}
-
+		
+		*/
 	}
 
 	void updateSelectedSpell(int spellNr) {
-		Game::spellHandler->updateSelectedSpell(spellNr);
+		//Game::spellHandler->updateSelectedSpell(spellNr);
 
 	}
 
+	
 	int getMouseX() {
 		return mouseX;
 	}

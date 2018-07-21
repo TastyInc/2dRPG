@@ -3,6 +3,7 @@
 #include "Components.hpp"
 #include "Collision.hpp"
 #include <sstream>
+#include "KeyboardController.hpp"
 
 Map* map;
 Manager manager;
@@ -18,9 +19,12 @@ SavefileHandler* Game::savegame = new SavefileHandler();
 SpellHandler* Game::spellHandler = new SpellHandler();
 EnemyHandler* Game::enemyHandler = new EnemyHandler();
 
+
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
+
+KeyboardController keyboardController;
 
 Game::Game() {}
 
@@ -32,7 +36,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	if (fullscreen) {
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
-	
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 
 		std::cout << "Subsystems Initialized!" << std::endl;
@@ -46,14 +50,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 				std::cout << "Renderer created!" << std::endl;
-
 				isRunning = true;
 			}
 		}
 	} else {
 		isRunning = false;
 	}
-
 	if (TTF_Init() == -1) {
 		std::cout << "ERROR: SDL_TTF" << std::endl;
 	}
@@ -62,7 +64,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	if (savegame->loadGame() != 1) {
 		std::cout << "COULD NOT LOAD DATA FROM SAVE FILE!" << std::endl;
 	}
-
 	//----------------
 	assets->AddTexture("projectile", "resources/sprites/proj.png");
 
@@ -70,7 +71,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	assets->AddFont("arial", "resources/font/arial.ttf", 30);
 	//----------------
-
 
 	map = new Map();
 
@@ -87,11 +87,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	enemyHandler->createEnemy();
 
 	//----------------
-
 	assets->AddTexture("player", "resources/sprites/new_player_idle.png");
 	player.addComponent<TransformComponent>(/*savegame->playerPos.x*/ 200, /*savegame->playerPos.y*/ 100, 64, 64, 1);
 	player.addComponent<SpriteComponent>("player", true);
-	player.addComponent<KeyboardController>();
+	//player.addComponent<KeyboardController>();
 	//hie no apasse
 
 	player.addComponent<ColliderComponent>("player", 20, 40, 24, 24, true);
@@ -100,7 +99,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//LOAD into assets HUD
 	//HUd söt sech ar kamera festhebe, nid ar map
-
 	HUDManager Hud;
 	if (Hud.loadHUD()) {
 		while (Hud.getHudElement()){
@@ -110,7 +108,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	} else {
 		std::cout << "Could not load HUD :(" << std::endl;
 	}
-
 	//SDL_RenderSetScale(Game::renderer, 1.5, 1.5);
 }
 
@@ -128,11 +125,11 @@ void Game::handleEvents() {
 
 	while (SDL_PollEvent(&event)) {
 		if (scenes->getCurrentScene() == 0) {
-			player.getComponent<KeyboardController>().keyInput();
-			player.getComponent<KeyboardController>().mouseInput();
+			keyboardController.keyInput();//player.getComponent<KeyboardController>().keyInput();
+			keyboardController.mouseInput();//player.getComponent<KeyboardController>().mouseInput();
 		} else {
-			player.getComponent<KeyboardController>().keyInputMenu();
-			player.getComponent<KeyboardController>().mouseMenuInput();
+			keyboardController.keyInputMenu();//player.getComponent<KeyboardController>().keyInputMenu();
+			keyboardController.mouseInputMenu();//player.getComponent<KeyboardController>().mouseMenuInput();
 		}
 	}
 }
@@ -141,23 +138,18 @@ void Game::update() {
 	
 	mTimer->Update();
 
-	
-
-	player.getComponent<KeyboardController>().setVelocity();
-
-
-
 
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2DInt playerPos = player.getComponent<TransformComponent>().position;
 
-
+	manager.refresh();
+	manager.update();
 
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 
-		switch (Collision::AABBx(cCol, playerCol)){
+		/*switch (Collision::AABBx(cCol, playerCol)){
 		case 0:
 			break;
 		case 1:
@@ -177,7 +169,7 @@ void Game::update() {
 		default:
 			break;
 		}
-		/*
+		
 		switch (Collision::AABBy(cCol, playerCol)) {
 		case 0:
 			break;
@@ -199,35 +191,58 @@ void Game::update() {
 		default:
 			break;
 		}
-		*/
+		
 
-
-		/*
 		switch (Collision::AABBxy(cCol, playerCol)){
 			case 0:
 				break;
 			case 1:
-				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset + 2.0f; 			
+				player.getComponent<TransformComponent>().position.x = cCol.x + cCol.w - player.getComponent<ColliderComponent>().xOffset; 			
 				break;
 			case 3:
-				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset - 2.0f;
+				player.getComponent<TransformComponent>().position.x = cCol.x - playerCol.w - player.getComponent<ColliderComponent>().xOffset;
 				break;
 			case 2:
-				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset + 2.0f;
+				player.getComponent<TransformComponent>().position.y = cCol.y + cCol.h - player.getComponent<ColliderComponent>().yOffset;
 				break;
 			case 4:
-				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset - 2.0f;
+				player.getComponent<TransformComponent>().position.y = cCol.y - playerCol.h - player.getComponent<ColliderComponent>().yOffset;
 				break;
 
 			default:
 				break;
 		}
 		*/
+		
+		if (Collision::AABB(cCol, playerCol) == true) {
+			//player.getComponent<TransformComponent>().position.x = playerPos.x;
+			player.getComponent<TransformComponent>().velocity.x = 0;
+		}
+		else {
+		
+			keyboardController.setVelocityX();
+			//player.getComponent<KeyboardController>().setVelocityX();
+		}
+
+	}
+
+	for (auto& c : colliders) {
+		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
+
+		if (Collision::AABB(cCol, playerCol) == true) {
+			//player.getComponent<TransformComponent>().position.y = playerPos.y;
+			player.getComponent<TransformComponent>().velocity.y = 0;
+		}
+		else {
+			//player.getComponent<KeyboardController>().setVelocityY();
+			keyboardController.setVelocityY();
+		}
+
 	}
 
 
-	manager.refresh();
-	manager.update();
+
+	std::cout << player.getComponent<TransformComponent>().position.x << " " << playerPos.x << std::endl;
 
 	//collision projectiles
 	for (auto& p : projectiles) {
@@ -237,7 +252,7 @@ void Game::update() {
 		}
 	}
 
-	player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
+	//player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
 	
 	//stamina
 	auto& hudStamina(manager.getSubGroup(Game::subHudStamina));
