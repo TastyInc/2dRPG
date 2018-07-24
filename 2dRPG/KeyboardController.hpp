@@ -65,20 +65,23 @@ public:
 				pSprint = true;
 				break;
 			case SDLK_w:
-
-				walkingY = -walkSpeed;
+				walkDir = "n";
+				//walkingY = -walkSpeed;
 
 
 
 				break;
 			case SDLK_s:
-				walkingY = walkSpeed;
+				walkDir = "s";
+				//walkingY = walkSpeed;
 				break;
 			case SDLK_a:
-				walkingX = -walkSpeed;
+				walkDir = "l";
+				//walkingX = -walkSpeed;
 				break;
 			case SDLK_d:
-				walkingX = walkSpeed;
+				walkDir = "e";
+				//walkingX = walkSpeed;
 				break;
 				break;
 			default:
@@ -145,7 +148,7 @@ public:
 	}
 
 	void mouseInput() {
-		/*
+		
 		kTimer->Update();
 		if (Game::event.button.button == SDL_BUTTON_LEFT) {
 			if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
@@ -158,7 +161,7 @@ public:
 				kTimer->Reset();
 			}
 		}
-		*/
+		
 	}
 
 	void mouseInputMenu() {
@@ -229,7 +232,7 @@ public:
 	}
 
 	void updateSelectedSpell(int spellNr) {
-		//Game::spellHandler->updateSelectedSpell(spellNr);
+		Game::spellHandler->updateSelectedSpell(spellNr);
 
 	}
 
@@ -246,6 +249,10 @@ public:
 		return kTimer->DeltaTime();
 	}
 
+	const char* getWalkDir() {
+		return walkDir;
+	}
+
 private:
 	Vector2D playerVel;
 	float walkSpeed = 1.0f;
@@ -260,5 +267,8 @@ private:
 	Timer* kTimer;
 
 	int mouseX, mouseY;
+
+	const char* walkDir;
+
 
 };
