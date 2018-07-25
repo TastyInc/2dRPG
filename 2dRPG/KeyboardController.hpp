@@ -7,8 +7,11 @@ public:
 	//TransformComponent *transform;
 	//SpriteComponent *sprite;
 	//ColliderComponent *collider;
+
+
+	bool walkUp, walkDown, walkLeft, walkRight;
 	
-	void init() {//override {
+	KeyboardController() {//override {
 		//transform = &entity->getComponent<TransformComponent>();
 		//sprite = &entity->getComponent<SpriteComponent>();
 		//collider = &entity->getComponent<ColliderComponent>();
@@ -65,24 +68,16 @@ public:
 				pSprint = true;
 				break;
 			case SDLK_w:
-				walkDir = "n";
-				//walkingY = -walkSpeed;
-
-
-
+				walkUp = true;
 				break;
 			case SDLK_s:
-				walkDir = "s";
-				//walkingY = walkSpeed;
+				walkDown = true;
 				break;
 			case SDLK_a:
-				walkDir = "l";
-				//walkingX = -walkSpeed;
+				walkLeft = true;
 				break;
 			case SDLK_d:
-				walkDir = "e";
-				//walkingX = walkSpeed;
-				break;
+				walkRight = true;
 				break;
 			default:
 				break;
@@ -96,18 +91,16 @@ public:
 					pSprint = false;
 					break;
 				case SDLK_w:
+					walkUp = false;
+					break;
 				case SDLK_s:
-					walkingY = 0;
+					walkDown = false;
 					break;
 				case SDLK_a:
-					if (walkingX != walkSpeed) {
-						walkingX = 0;
-					}
+					walkLeft = false;
 					break;
 				case SDLK_d:
-					if (walkingX != -walkSpeed) {
-						walkingX = 0;
-					}
+					walkRight = false;
 					break;
 				case SDLK_ESCAPE:
 					
@@ -249,10 +242,6 @@ public:
 		return kTimer->DeltaTime();
 	}
 
-	const char* getWalkDir() {
-		return walkDir;
-	}
-
 private:
 	Vector2D playerVel;
 	float walkSpeed = 1.0f;
@@ -267,8 +256,5 @@ private:
 	Timer* kTimer;
 
 	int mouseX, mouseY;
-
-	const char* walkDir;
-
 
 };

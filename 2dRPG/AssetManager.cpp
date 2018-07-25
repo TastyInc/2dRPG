@@ -34,7 +34,7 @@ void AssetManager::createEnemy(int id, Vector2D pos, std::string name) {
 
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 80, 110, 3);
 	enemy.addComponent<SpriteComponent>(name, true);
-	enemy.addComponent<PlayerComponent>(id);
+	enemy.addComponent<EnemyComponent>();
 	enemy.addGroup(Game::groupEnemies);
 }
 

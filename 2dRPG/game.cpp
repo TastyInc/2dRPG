@@ -139,12 +139,65 @@ void Game::update() {
 	mTimer->Update();
 
 
+	//filech neui kollisions funktion
+
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
-	Vector2DInt playerPos = player.getComponent<TransformComponent>().position;
 
-	manager.refresh();
-	manager.update();
 
+	bool l, r, u, d; //left, right, up, down
+	l = keyboardController.walkLeft;
+	r = keyboardController.walkRight;
+	u = keyboardController.walkUp;
+	d = keyboardController.walkDown;
+
+	float sD, sN; //SpeedDiagonal, SpeedNormal
+	sD = player.getComponent<PlayerComponent>().getSpeed(true);
+	sN = player.getComponent<PlayerComponent>().getSpeed(false);
+
+	if (u){
+		playerCol.y -= sN;
+		player.getComponent<PlayerComponent>().moveUp();
+	} else if (d){
+		playerCol.y += sN;
+		player.getComponent<PlayerComponent>().moveDown();
+	} else {
+		player.getComponent<PlayerComponent>().noMoveY();
+	}
+
+	/*
+	if (d){
+		playerCol.y += sN;
+	} else if (u) {
+		playerCol.y -= sN;
+	} 
+
+	if (l) {
+		if (d) {
+			playerCol.x -= sD;
+			playerCol.y += sD;
+		} else if (u) {
+			playerCol.x -= sD;
+			playerCol.y -= sD;
+		} else {
+			playerCol.x -= sN;
+		}
+	}
+
+	if (r) {
+		if (d) {
+			playerCol.x += sD;
+			playerCol.y += sD;
+		}
+		else if (u) {
+			playerCol.x += sD;
+			playerCol.y -= sD;
+		}
+		else {
+			playerCol.x += sN;
+		}
+	}
+	*/
+	
 	//check player collider against map collider and resets player position if true
 	for (auto& c : colliders) {
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
@@ -215,34 +268,48 @@ void Game::update() {
 		*/
 		
 		if (Collision::AABB(cCol, playerCol) == true) {
-			//player.getComponent<TransformComponent>().position.x = playerPos.x;
-			player.getComponent<TransformComponent>().velocity.x = 0;
-		}
-		else {
-		
-			keyboardController.setVelocityX();
-			//player.getComponent<KeyboardController>().setVelocityX();
+			if (u) {
+				playerCol.y += sN;
+			}
+			if (d) {
+				playerCol.y -= sN;
+			}
+
+			player.getComponent<PlayerComponent>().noMoveY();
+
 		}
 
+	}
+
+	if (l) {
+		playerCol.x -= sN;
+		player.getComponent<PlayerComponent>().moveLeft();
+	} else if (r) {
+		playerCol.x += sN;
+		player.getComponent<PlayerComponent>().moveRight();
+	} else {
+		player.getComponent<PlayerComponent>().noMoveX();
 	}
 
 	for (auto& c : colliders) {
 		SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 
 		if (Collision::AABB(cCol, playerCol) == true) {
-			//player.getComponent<TransformComponent>().position.y = playerPos.y;
-			player.getComponent<TransformComponent>().velocity.y = 0;
-		}
-		else {
-			//player.getComponent<KeyboardController>().setVelocityY();
-			keyboardController.setVelocityY();
+			if (l) {
+				playerCol.x += sN;
+			}
+			
+			if (r) {
+				playerCol.x -= sN;
+			}
+
+			player.getComponent<PlayerComponent>().noMoveX();
 		}
 
 	}
 
-
-
-	std::cout << player.getComponent<TransformComponent>().position.x << " " << playerPos.x << std::endl;
+	manager.refresh();
+	manager.update();
 
 	//collision projectiles
 	for (auto& p : projectiles) {
@@ -252,8 +319,6 @@ void Game::update() {
 		}
 	}
 
-	//player.getComponent<PlayerComponent>().updateStamina(player.getComponent<KeyboardController>().isSprinting());
-	
 	//stamina
 	auto& hudStamina(manager.getSubGroup(Game::subHudStamina));
 	auto& hudStaminaEnd(manager.getSubGroup(Game::subHudStaminaEnd));
@@ -274,6 +339,9 @@ void Game::update() {
 
 	//umdräie. mi cha shit ga hole du huere mongoloid
 	spellHandler->updatePlayerPos(int(player.getComponent<TransformComponent>().position.x), int(player.getComponent<TransformComponent>().position.y));
+
+	Vector2DInt playerPos = player.getComponent<TransformComponent>().position;
+
 
 	if (playerPos.y + 128 <= 0 || playerPos.x + 128 <= 0 || playerPos.x >= map->getMapSize().x || playerPos.y >= map->getMapSize().y ) {
 		Game::newScreen(playerPos);
